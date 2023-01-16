@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Termometro a mano</title>
+    <link rel="shortcut icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXa1dHTF5MoCq2NSTKIzX2vy9XHltg4M_4F3IG8Mg&s">
+    
+    <link rel="stylesheet" href="../ImgThermWidget/ImgThermWidget.css">
+    <script src="todo_junto.js"></script>
+
+</head>
+
+<body>
+    <p> Ejemplo simple: </p>
+    <p> Al instanciar se crea un widget en el primer div de clase="ti_container".</p>
+    <p> Luego se usa setea la temperatura con el metodo setTemp(). </p>
+    
+    <button onclick = " widget.setTemp(45); ">
+        Presionar = 45º
+    </button>
+
+    <div class="ti_container"></div>
+    
+    <script>
+        var widget = new ImgThermWidget();
+    </script>
+    
+</body>
+
+</html>

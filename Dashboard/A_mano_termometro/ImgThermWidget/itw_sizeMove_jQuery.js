@@ -1,10 +1,3 @@
-
-class ItwResizeAndMove extends MultiEvent {
-    constructor() {
-        super({callback: ResizeAndMoveCallBack});
-    }
-}
-
 /*
  * Partiendo de un ImgThermometerWidget, se utiliza JQuery para
  * permitir redimensionarlo y desplazarlo con el mouse. 
@@ -21,7 +14,7 @@ class ItwResizeAndMove extends MultiEvent {
 function enableMoveAndResize() {
     var widgets = document.querySelectorAll("._ti_widget");
     widgets.forEach(function(widget) {
-        widget.style.position = "absolute";
+        //widget.style.position = "absolute";
         $(widget).draggable();
         $(widget).width($(widget).find('._ti_img').width());
         $(widget).resizable({

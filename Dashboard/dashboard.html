@@ -173,6 +173,8 @@
                             , { w: 4 });*/  
         //gridstack.addWidget('<div class="grid-stack-item" id="_2"><div class="grid-stack-item-content" id="__2"><div id="chart"></div></div></div>', { w: 3 , h:3});
         gridstack.addWidget({ w: 3 , h:3, content: "<div id=\"chart\"></div>"});
+        gridstack.addWidget({ w: 3 , h:3, content: "<div id=\"chart2\"></div>"});
+        gridstack.addWidget({ w: 3 , h:3, content: "<div id=\"chart3\"></div>"});
 
         var charOpts = {
                 chart: {
@@ -221,7 +223,9 @@
                 }]
         };
         var chart = Highcharts.chart('chart',charOpts); 
-        
+        var chart = Highcharts.chart('chart2',charOpts); 
+        var chart = Highcharts.chart('chart3',charOpts); 
+
         var element = $('#chart')
         var widget = element.parent().parent();
         chart.setSize(widget.width()*0.9, widget.height()*0.9);

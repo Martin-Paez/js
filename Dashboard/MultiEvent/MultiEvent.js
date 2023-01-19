@@ -1,44 +1,66 @@
+const EventEmitter = require('events');
+//import { EventEmitter } from 'events';
+
 /*
- * Llama al callback() y/o a eventMgr.notify() despues de haber sido
- * notificado "n" cantidad de veces.
+ * Emite un evento despues de haber sido notificado "n" veces para
+ * un mismo topico. Si no se usa el metodo add, no se emitiran eventos.
+ * 
+ * Modo de uso:
+ * 
+ *      const multi = new MultiEvent();
+ * 
+ *      multi.on('eventName', (...) => {    // NO se emitira nada, todavia
+ *          ...
+ *      });
+ * 
+ *      multi.add(2);               // Se emitira a la 2da notificacion 
+ * 
+ *      multi.emit('eventName');    // No emite nada
+ *      multi.emit('eventName');    // Emite un evento
+ *  
  * 
  * Es util cuando se trabaja con muchos eventos asincronicos y se 
  * necesita esperar a que todos ellos terminen.
  * 
- * Se aumenta n usando el metodo add(). Se recomienda invocar primero
- * al metodo add(), antes de cualquier pieza de codigo asincronica
- * que pueda llegar a llamar a notify().
- * 
  * Un caso, se da al cargar dinamicamente un nodo que contiene varios 
  * hijos. Entonces, por ejemplo, se espera para los multimedia el 
  * evento load, y, DOMNodeInserted para el principal (no se sabe cual
- * se cargara ultimo).
- * Otro ejemplo, seria si se quieren cargar varios nodos diferentes, 
- * ya que se esperian varios DOMNodeInserted.
+ * se cargara ultimo). 
+ * 
+ *      multi.add(2);       // Preferible agregarlos primero
+ * 
+ *      img.addEventListener("load", () => { multi.emit('load'); });
+ *      document.addEventListener("DOMNodeInserted", () => { multi.emit('load'); });
  * 
  */
-class MultiEvent {
+class MultiEvent extends EventEmitter {
 
-    constructor({callback=null, eventMgr=null}) {
+    constructor() {
         this.n = 0;
-        this.callback = callback;
-        this.eventMgr = eventMgr;
+        this.map = new Map();
     }
 
-    notify() {
-        if ( this.n === 0 )
-            return;
-        this.n -= 1;
-        if (this.n ===0) {
-            if (this.callback !== null)
-                this.callback();
-            if (this.eventMgr !== null)
-                this.eventMgr.notify();
-        }    
+    emit(eventName, ...args) {
+        var n = this.map.get(eventName) || 0;
+        this.map.set(eventName, --n);
+        if (n === 0)
+            super.emit(eventName, ...args);
     }
 
-    add(n) {
-        this.n += n;
+    /*
+     * Se agregan, es acumulativo, cantidad de notificaciones antes de 
+     * emitir un evento. 
+     * Se recomienda invocar antes de cualquier pieza de codigo 
+     * asincronica que pueda llegar a llamar a emit().
+     * 
+     */
+    add(n, eventName) {
+        var n = parseInt(n) || -1; 
+        if( n < 0 )
+            throw new Error("Se esperaba un numero positivo que representa la cantidad de eventos que se agregan al MultiEvent");
+        var curr = this.map.get(eventName);
+        (curr < 0) ? curr = n : curr += n;
+        this.map.set(eventName, curr);
     }
 
 };

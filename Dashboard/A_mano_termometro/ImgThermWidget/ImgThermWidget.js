@@ -26,9 +26,9 @@ class ImgThermWidget {
         var widget = fragment.firstChild;
         var img = widget.firstChild;
         if (multiEvent !== null) {
-            multiEvent.add(2);      // Preferible agregarlos primero
-            img.addEventListener("load", () => { multiEvent.notify(); });
-            document.addEventListener("DOMNodeInserted", () => { multiEvent.notify(); });
+           // multiEvent.add(2);      // Preferible agregarlos primero
+            img.addEventListener("load", () => { /*multiEvent.emit('load');*/ });
+            document.addEventListener("DOMNodeInserted", () => {/* multiEvent.emit('load');*/ });
         }
         tiContainer.appendChild(widget);
         this.liquid = widget.lastChild;

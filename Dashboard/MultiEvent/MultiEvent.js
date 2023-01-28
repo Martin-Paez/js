@@ -3,7 +3,7 @@ const EventEmitter = require('events');
 
 /*
  * Emite un evento despues de haber sido notificado "n" veces para
- * un mismo topico. Si no se usa el metodo add, no se emitiran eventos.
+ * un mismo topico. Si No se usa el metodo add, no se emitiran eventos.
  * 
  * Modo de uso:
  * 
@@ -23,12 +23,11 @@ const EventEmitter = require('events');
  * necesita esperar a que todos ellos terminen.
  * 
  * Un caso, se da al cargar dinamicamente un nodo que contiene varios 
- * hijos. Entonces, por ejemplo, se espera para los multimedia el 
- * evento load, y, DOMNodeInserted para el principal (no se sabe cual
- * se cargara ultimo). 
+ * hijos. Entonces, por ejemplo, se espera el evento load para los hijos
+ * multimedia, y, DOMNodeInserted, para el contenedor (no se sabe cual
+ * se cargara ultimo):
  * 
  *      multi.add(2);       // Preferible agregarlos primero
- * 
  *      img.addEventListener("load", () => { multi.emit('load'); });
  *      document.addEventListener("DOMNodeInserted", () => { multi.emit('load'); });
  * 

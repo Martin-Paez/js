@@ -77,20 +77,8 @@
 </head>
 
 <body>
-    <!-- row y col, de Bootstrap no sirven. Porque al 
-         redimensionar las posiciones quedan relacionadas -->
-
     <!-- Widgets -->
     <div style="display: none">
-        <!-- Termometro con Imagen de fondo -->
-        <div class="widget termImg thermometer">
-            <span>
-                <img src="./termometro.png" class="thermometerImg">
-                <div class="liquidBar"></div>
-                <div class="liquidCircle"></div>
-            </span>
-        </div>
-
         <!-- Grafico de barras con ejes -->
         <div class="widget tempGraph">
             <canvas class="bar tempGraph"></canvas>
@@ -105,54 +93,7 @@
 
     <div id="container" class="grid-stack"></div>
 
-    <script type="text/javascript">/*
-        options = {
-            disableOneColumnMode: false,
-            float: true,
-            removable: false,
-            disableDrag: false,
-            disableResize: false,
-            resizable: { autoHide: true, handles: 'all' },
-        }; 
-        var grid = GridStack.init(options);
-
-        var childId = grid.getGridItems().length;
-        var id = "gridWidget" + childId;
-        grid.addWidget('<div class="grid-stack-item" id="' + childId + '"><div class="grid-stack-item-content"><div class="p-2"><div class="container"  id = "' + id + '"><button id="graph' + id + '">Add Graph</button></div></div></div></div>', { w: 3 });
-
-        let widgetToClone = document.querySelector('.termImg');
-        let clonedWidget = widgetToClone.cloneNode(true);
-        grid.addWidget(clonedWidget);
-
-        widgetToClone = document.querySelector('.termImg');
-        clonedWidget = widgetToClone.cloneNode(true);
-        grid.addWidget(clonedWidget);
-        
-        var tempGraphCount = 1;
-        widgetToClone = document.querySelector('.tempGraph');
-        clonedWidget = widgetToClone.cloneNode(true);
-        clonedWidget.setAttribute("id", 'tempGraph-' + tempGraphCount);
-        grid.addWidget(clonedWidget);
-        
-        var tempBarCount = 1;
-        widgetToClone = document.querySelector('.tempBar');
-        clonedWidget = widgetToClone.cloneNode(true);
-        clonedWidget.setAttribute("id", 'tempBar-' + tempBarCount);
-        grid.addWidget(clonedWidget);
-
-        grid.addWidget("<div id=\"idtb\" class=\"widget tempBar\"><svg width=\"200\" height=\"100\" value=\"20\"></svg></div>");
-    */</script>
-
-    <div class="grid-stack">
-        <div id="_11" class="grid-stack-item">
-        <div id="__11" class="grid-stack-item-content">
-            <div id="chart-container"></div>
-        </div>
-        </div>
-    </div>
-
     <script>
-        //initialize gridstack
         options = {
             disableOneColumnMode: false,
             float: true,
@@ -162,19 +103,8 @@
             resizable: { autoHide: true, handles: 'se' },
         }; 
         var gridstack = GridStack.init(options);
-/*
-        var tempBarCount = 1;
-        widgetToClone = document.querySelector('#chart-container');
-        clonedWidget = widgetToClone.cloneNode(true);
-        clonedWidget.setAttribute("id", 'tempBar-' + tempBarCount);
-        //gridstack.addWidget(clonedWidget);
-        
-        gridstack.addWidget("<div class=\"grid-stack-item\" data-gs-x=\"0\" data-gs-y=\"0\" data-gs-width=\"4\" data-gs-height=\"2\"><div class=\"grid-stack-item-content\"><div id=\"chart-container2\"></div></div></div>"
-                            , { w: 4 });*/  
-        //gridstack.addWidget('<div class="grid-stack-item" id="_2"><div class="grid-stack-item-content" id="__2"><div id="chart"></div></div></div>', { w: 3 , h:3});
+  
         gridstack.addWidget({ w: 3 , h:3, content: "<div id=\"chart\"></div>"});
-        gridstack.addWidget({ w: 3 , h:3, content: "<div id=\"chart2\"></div>"});
-        gridstack.addWidget({ w: 3 , h:3, content: "<div id=\"chart3\"></div>"});
 
         var charOpts = {
                 chart: {
@@ -223,51 +153,19 @@
                 }]
         };
         var chart = Highcharts.chart('chart',charOpts); 
-        var chart = Highcharts.chart('chart2',charOpts); 
-        var chart = Highcharts.chart('chart3',charOpts); 
 
         var element = $('#chart')
         var widget = element.parent().parent();
         chart.setSize(widget.width()*0.9, widget.height()*0.9);
-
         widget.data('chart', chart);
         gridstack.on('resizestop', function(event) {
             let el = event.target;
-            let width = el.getAttribute('gs-w') || 0;
-            let height = el.getAttribute('gs-h') || 0;
+            let width = el.offsetWidth * 0.9;
+            let height = el.offsetHeight * 0.9;
             let chart = $(el).data('chart');
-            chart.setSize(width * 80 , height * 75);
+            chart.setSize(width, height);
         });
             
-        /*
-        'resizestop', function(event, ui) {
-            var chart = $(widget).data('chart');
-            chart.setSize($(widget).width(), $(widget).height());
-            alert("event");
-        });
-*/
-        //var container = document.getElementById("chart-container");
-        //$container.highcharts(charOpts);
-        //var chart = chart = $container.highcharts();
-        
-        //var chart = Highcharts.chart('tempBar-1',charOpts); 
-        /*var chart = Highcharts.chart('chart-container2',charOpts);
-
-        
-
-        var chart = Highcharts.chart('22',charOpts); 
-*/
-    </script>
-
-    <!-- Widht del liquido del termometro con imagen de fondo -->
-    <script>        
-        var img = document.querySelector('.thermometerImg');
-        var liquid = document.querySelector('.liquidBar');
-        liquid.style.width = (img.clientWidth * 0.068) + '%';
-
-        var liquid = document.querySelector('.liquidCircle');
-        liquid.style.width = (img.clientWidth * 0.19) + '%';
-        liquid.style.height = (img.clientHeight * 0.0175) + '%';
     </script>
 
     <!-- Widgets desplazables (SortableJs) -->

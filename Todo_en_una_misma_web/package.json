@@ -1,0 +1,26 @@
+{
+  "name": "express-template-no-views",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "SET DEBUG=express:* & SET NODE_ENV=development & nodemon ./bin/www",
+    "build": "webpack --config ./public/A_mano_termometro/ImgThermWidget/webpack.config.Itw.js",
+    "b": "webpack --config ./public/A_mano_termometro/ImgThermWidget/webpack.config.MultiEvent.js  &"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "^4.18.2",
+    "fs": "^0.0.1-security",
+    "jquery": "^3.6.3",
+    "morgan": "~1.9.1",
+    "redirect-ssl": "^3.0.0",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
+  },
+  "devDependencies": {
+    "nodemon-webpack-plugin": "^4.8.1",
+    "webpack-merge": "^5.8.0"
+  }
+}

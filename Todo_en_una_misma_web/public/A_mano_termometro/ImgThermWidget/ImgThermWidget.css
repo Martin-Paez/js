@@ -1,0 +1,24 @@
+._ti_widget {
+    display: inline-block;         /* Ancho de la img */
+    position: relative;            /* Bar y Circle son absolutos del ancestro con position */
+}
+
+._ti_img {
+    height: 100%;                   /* 100% del widget */
+}
+
+._ti_bar, ._ti_circle {
+    position: absolute;             /* Plano z != img */
+    left: 50%;
+    background-color: red;
+    transform: translateX(-50%);    /* x -= 0.5 * witdh */
+}
+
+._ti_bar {
+    bottom: 15%;
+}
+
+._ti_circle {
+    bottom: 7.5%;
+    border-radius: 50%;             /* Circulo */
+}

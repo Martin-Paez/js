@@ -24,12 +24,12 @@ const EventEmitter = require('events');
  * 
  * Un caso, se da al cargar dinamicamente un nodo que contiene varios 
  * hijos. Entonces, por ejemplo, se espera el evento load para los hijos
- * multimedia, y, DOMNodeInserted, para el contenedor (no se sabe cual
- * se cargara ultimo):
+ * multimedia individualmente (demoran mas en cargarse), y, uno mas,
+ * para el contenedor.
  * 
  *      multi.add(2);       // Preferible agregarlos primero
  *      img.addEventListener("load", () => { multi.emit('load'); });
- *      document.addEventListener("DOMNodeInserted", () => { multi.emit('load'); });
+ *      container.addEventListener("load", () => { multiEvent.emit('load'); });
  * 
  */
 class MultiEvent extends EventEmitter {

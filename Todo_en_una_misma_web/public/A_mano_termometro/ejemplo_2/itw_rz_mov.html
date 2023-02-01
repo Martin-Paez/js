@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Termometro a mano</title>
+    <link rel="shortcut icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXa1dHTF5MoCq2NSTKIzX2vy9XHltg4M_4F3IG8Mg&s">
+    
+    <!-- JQuery - desplazables y redimensionables -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+
+    <link rel="stylesheet" href="ImgThermWidget.css">
+    <script src="ImgThermWidget.mjs" type="module"></script>
+    <script src="itw_sizeMove_jQuery.mjs" type="module"></script>
+    <script src="itw_rz_mov.mjs" type="module"></script> <!-- IMPORTANTE !!! : Para que lo cargue en runtime type="module" -->
+
+</head>
+
+<body>
+    <br>
+    <h3> Ejemplo: Redimensionar y Mover por la pantalla con el mouse con JQuery </h3>
+    <p> Para realizarlo con JQuery se llama a la funcion enableMoveAndResize() luego de instanciar el widget. </p>
+    <p> Ademas, hay otros parametros opcionales, como la altura del widget o el tag html contenedor del widget. </p><br>
+
+    <!-- Si se coloca el input dentro de un form,
+         al presionar enter se recarga la pagina -->
+    <div class="ti_ej2">
+        <input value="15" style="display:block">
+    </div>
+
+</body>
+
+</html>

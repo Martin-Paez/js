@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Termometro a mano</title>
+    <link rel="shortcut icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXa1dHTF5MoCq2NSTKIzX2vy9XHltg4M_4F3IG8Mg&s">
+    
+    <!-- JQuery - desplazables y redimensionables -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+    <link rel="stylesheet" href="ImgThermWidget.css">
+    <script type="module" src="ImgThermWidget.mjs"></script>
+    <script type="module" src="itw_sizeMove_jQuery.mjs"></script>
+    <script type="module" src="itw_multi.mjs"></script>  <!-- IMPORTANTE !!! : Para que lo cargue en runtime type="module" -->
+
+</head>
+
+<body>
+    <br>
+    <h3> Ejemplo: Multiples widgets </h3>
+    <p> Mover y redimensionar uno de los widgets. La desventaja de JQuery es que los demas elementos siguen acomodandose como si no se hubiera desplazado.</p>
+    <p> Para los input se crean eventos dentro de un forEach con funciones anonimas. Prestar atension al alcance de las variables, es recomendable usar ForEach() en vez de for. </p><br>
+    <!-- Si se coloca el input dentro de un form,
+         al presionar enter se recarga la pagina -->
+    <div class="ti_1" style="display: inline-block;">
+        <input value="15" style="display: block">
+    </div>
+    
+    <div class="ti_2" style="display: inline-block;">
+        <input value="45" style="display: block">
+    </div>
+
+</body>
+
+</html>

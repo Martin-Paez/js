@@ -84,7 +84,7 @@ function loadTab(navLink) {
     });
     $.when(headRequest).done(function(headRes) {
         var head = $('head');
-        var tags = headRes.match(/<(script|link)[^>]+>/g) || [];
+        var tags = headRes.match(/(<(script|link|style)[^>]+>|<style[^>]*>(.*?)<\/style>)/gms) || [];
         var promises = [];
         tags.forEach(function(tag) {
             var elem = $(tag)[0];

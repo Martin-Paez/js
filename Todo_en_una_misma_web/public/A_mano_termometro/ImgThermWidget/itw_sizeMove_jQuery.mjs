@@ -12,20 +12,20 @@
  * comienzan a mover de un modo antinatural.
  */
 export function enableMoveAndResize() {
-    var widgets = document.querySelectorAll("._ti_widget");
+    var widgets = document.querySelectorAll("._itw_widget");
     widgets.forEach(function(widget) {
         //widget.style.position = "absolute";
         $(widget).draggable();
-        $(widget).width($(widget).find('._ti_img').width());
+        $(widget).width($(widget).find('._itw_img').width());
         $(widget).resizable({
             start: function(event, ui) {
-                $(this).find('._ti_bar').hide();
-                $(this).find('._ti_circle').hide();
+                $(this).find('._itw_bar').hide();
+                $(this).find('._itw_circle').hide();
             },
             stop: function(event, ui) {
-                $(this).width($(widget).find('._ti_img').width());
-                $(this).find('._ti_bar').show();
-                $(this).find('._ti_circle').show();
+                $(this).width($(widget).find('._itw_img').width());
+                $(this).find('._itw_bar').show();
+                $(this).find('._itw_circle').show();
             }
         });
     });

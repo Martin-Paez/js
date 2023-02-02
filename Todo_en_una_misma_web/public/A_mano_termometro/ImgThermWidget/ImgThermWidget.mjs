@@ -24,17 +24,17 @@ export class ImgThermWidget {
      * o sea, el widget; y el otro, al terminar de cargarse la imagen de fondo.  
      */
     //TODO - Modularizar
-    constructor({container = '.ti_container', value = 0, height = 600, imgPath = "./termometro.png"} = {}) {
+    constructor({container = '.itw_container', value = 0, height = 600, style = ""} = {}) {
         var self = this;
         var promise = new Promise( function(resolve, reject) {
             var tiContainer = document.querySelector(container);
             var barW = 11 + '%';
             var circleH = 8.5164 + '%';
             var circleW = 29.014 + '%';
-            var html = '<div class="_ti_widget" style="height: ' + height + 'px;">' +
-                            '<img src=' + imgPath + ' class="_ti_img">' +
-                            '<div class="_ti_circle" style="width:' + circleW + ';height:' + circleH + '"></div>' +
-                            '<div class="_ti_bar" style="width:' + barW + '"></div>' +    
+            var html = '<div class="_itw_widget" style="height: ' + height + 'px; ' + style + '">' +
+                            '<img src="./termometro.png" class="_itw_img">' +
+                            '<div class="_itw_circle" style="width:' + circleW + ';height:' + circleH + '"></div>' +
+                            '<div class="_itw_bar" style="width:' + barW + '"></div>' +    
                         '</div>'
             // NO SE PUEDE USAR innerHTML
             //      Todas las instancias apuntarian al ultimo instanciado

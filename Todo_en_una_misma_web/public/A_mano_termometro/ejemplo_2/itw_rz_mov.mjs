@@ -10,7 +10,6 @@ document.addEventListener("load", function() {
     const input = document.querySelector("input");
     
     var widget = new ImgThermWidget({
-        container: ".ti_ej2",
         value: input.value,
         height: 200,
     })

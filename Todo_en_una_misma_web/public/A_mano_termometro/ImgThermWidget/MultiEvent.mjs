@@ -1,24 +1,20 @@
-//const EventEmitter = require('events');
-//import { EventEmitter } from './node_modules/events';
-import { EventEmitter } from './node_modules/events';
-
 /*
  * Emite un evento despues de haber sido notificado "n" veces para
- * un mismo topico. Si No se usa el metodo add, no se emitiran eventos.
+ * un mismo topico.
  * 
  * Modo de uso:
  * 
  *      const multi = new MultiEvent();
  * 
- *      multi.on('eventName', (...) => {    // NO se emitira nada, todavia
+ *      multi.on('eventName', () => {    // n = 0, Se emite a la 1er notificacion
  *          ...
  *      });
  * 
- *      multi.add(2);               // Se emitira a la 2da notificacion 
+ *      multi.wait(2);               // n = 0, Se emitira a la 2da notificacion 
  * 
- *      multi.emit('eventName');    // No emite nada
- *      multi.emit('eventName');    // Emite un evento
- *  
+ *      multi.emit('eventName');    // --n = 1, No emite nada
+ *      multi.emit('eventName');    // --n = 0, Emite un evento
+ *      multi.emit('eventName');    // n = 0, Emite un evento
  * 
  * Es util cuando se trabaja con muchos eventos asincronicos y se 
  * necesita esperar a que todos ellos terminen.
@@ -33,19 +29,28 @@ import { EventEmitter } from './node_modules/events';
  *      container.addEventListener("load", () => { multiEvent.emit('load'); });
  * 
  */
-export class MultiEvent extends EventEmitter {
+export class MultiEvent {
 
     constructor() {
-        super();
-        this.n = 0;
         this.map = new Map();
     }
 
-    emit(eventName, ...args) {
-        var n = this.map.get(eventName) || 0;
-        this.map.set(eventName, --n);
-        if (n === 0)
-            super.emit(eventName, ...args);
+    emit(event) {
+        var e = this.map.get(event);
+        if ( e === null ) 
+            return;
+        if (e.n > 0 ) {
+            --e.n;
+            this.map.set(event, e);
+        }
+        if (e.n === 0)
+            e.callback.forEach(f => f());
+    }
+
+    on(event, callback) {
+        var e = this.map.get(event) || { n: 0, callback: [] };
+        e.callback.push(callback);
+        this.map.set(event, e);
     }
 
     /*
@@ -55,13 +60,13 @@ export class MultiEvent extends EventEmitter {
      * asincronica que pueda llegar a llamar a emit().
      * 
      */
-    add(n, eventName) {
+    wait(n, event) {
         var n = parseInt(n) || -1; 
         if( n < 0 )
             throw new Error("Se esperaba un numero positivo que representa la cantidad de eventos que se agregan al MultiEvent");
-        var curr = this.map.get(eventName);
-        (curr < 0) ? curr = n : curr += n;
-        this.map.set(eventName, curr);
+        var e = this.map.get(event) || { n:0 , callback: [] };
+        e.n += n;
+        this.map.set(event, e);
     }
 
 };

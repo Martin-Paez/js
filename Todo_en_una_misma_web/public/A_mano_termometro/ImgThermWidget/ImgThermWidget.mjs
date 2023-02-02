@@ -1,5 +1,5 @@
 //import { MultiEvent } from './MultiEvent.js';
-import * as me from './MultiEvent.mjs'
+import { MultiEvent } from './MultiEvent.mjs'
 
 /*
  * Es un termometro hecho con HTML, CSS y JavaScript puros (divs y una img de fondo)
@@ -24,34 +24,43 @@ export class ImgThermWidget {
      * o sea, el widget; y el otro, al terminar de cargarse la imagen de fondo.  
      */
     //TODO - Modularizar
-    constructor({container = '.itw_container', value = 0, height = 600, style = ""} = {}) {
+    constructor({container = '.itw_container', initTemp = 0, height = 600, style = ""} = {}) {
         var self = this;
         var promise = new Promise( function(resolve, reject) {
-            var tiContainer = document.querySelector(container);
-            var barW = 11 + '%';
-            var circleH = 8.5164 + '%';
-            var circleW = 29.014 + '%';
             var html = '<div class="_itw_widget" style="height: ' + height + 'px; ' + style + '">' +
                             '<img src="./termometro.png" class="_itw_img">' +
-                            '<div class="_itw_circle" style="width:' + circleW + ';height:' + circleH + '"></div>' +
-                            '<div class="_itw_bar" style="width:' + barW + '"></div>' +    
+                            '<div class="_itw_circle" style="width: 29.014%; height: 8.5164% "></div>' +
+                            '<div class="_itw_bar" style="width: 11% "></div>' +    
                         '</div>'
             // NO SE PUEDE USAR innerHTML
             //      Todas las instancias apuntarian al ultimo instanciado
-            const fragment = document.createRange().createContextualFragment(html);
-            var widget = fragment.firstChild;
+            const widget = document.createRange().createContextualFragment(html).firstChild;
             var img = widget.firstChild;
-            var  multiEvent = new me.MultiEvent();
-            multiEvent.on('load', () => {
-                resolve(self);
-            });
-            img.addEventListener("load", () => { multiEvent.emit('load'); });
-            widget.addEventListener("load", () => { multiEvent.emit('load'); });
-            multiEvent.add(2);  // Los agrego antes
-            tiContainer.appendChild(widget);
             self.liquid = widget.lastChild;
-            self.setTemp(value);
+            var  multiEvent = new MultiEvent();
+            self.waitLoad(resolve, img, widget, initTemp, multiEvent);
+            document.querySelector(container).appendChild(widget);
         });
+    }
+
+    waitLoad(resolve, img, widget, initTemp, multiEvent) {
+        multiEvent.on('load', () => { 
+            this.setTemp(initTemp);
+            resolve(this); 
+        });
+        var ld = 0;
+        if ( $(img).length === 0) {
+            img.addEventListener("load", () => { multiEvent.emit('load'); });
+            ld++;
+        }
+        if ( $(widget).length === 0) {
+            widget.addEventListener("load", () => { multiEvent.emit('load'); });
+            ld++;
+        }
+        if (ld > 0)
+            multiEvent.wait(ld, 'load');  // Los agrego antes
+        else 
+            multiEvent.emit('load');
     }
 
     /*

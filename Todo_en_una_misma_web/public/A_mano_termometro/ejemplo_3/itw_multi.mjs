@@ -17,7 +17,7 @@ document.addEventListener("load", function() {
     inputs.forEach(function(input) {
         var widget = new ImgThermWidget({
             container: ".itw_" + ++i,
-            value: input.value, 
+            initTemp: input.value, 
             height: 400,
             style: "margin: auto"
         });

@@ -14,7 +14,6 @@
 export function enableMoveAndResize() {
     var widgets = document.querySelectorAll("._itw_widget");
     widgets.forEach(function(widget) {
-        //widget.style.position = "absolute";
         $(widget).draggable();
         $(widget).width($(widget).find('._itw_img').width());
         $(widget).resizable({

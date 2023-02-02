@@ -10,7 +10,7 @@ document.addEventListener("load", function() {
     const input = document.querySelector("input");
     
     var widget = new ImgThermWidget({
-        value: input.value,
+        initTemp: input.value,
         height: 200,
     })
     enableMoveAndResize();

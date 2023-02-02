@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "start": "SET DEBUG=express:* & SET NODE_ENV=development & nodemon ./bin/www",
-    "build": "webpack --config ./public/A_mano_termometro/ImgThermWidget/webpack.config.Itw.js",
-    "b": "webpack --config ./public/A_mano_termometro/ImgThermWidget/webpack.config.MultiEvent.js  &"
+    "build": "webpack --config ./public/A_mano_termometro/ImgThermWidget/webpack.config.MultiEvent.js",
+    "b": "webpack --config ./public/A_mano_termometro/ImgThermWidget/webpack.config.Itw.js"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",

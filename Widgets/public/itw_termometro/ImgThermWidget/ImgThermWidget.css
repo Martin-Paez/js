@@ -1,24 +1,31 @@
 ._itw_widget {
     display: inline-block;         /* Ancho de la img */
     position: relative;            /* Bar y Circle son absolutos del ancestro con position */
+    margin-top: 20px;
 }
 
 ._itw_img {
     height: 100%;                   /* 100% del widget */
+    position: relative;             /* z-index del liquido div necesita img con position no static */
 }
 
 ._itw_bar, ._itw_circle {
     position: absolute;             /* Plano z != img */
     left: 50%;
     background-color: red;
-    transform: translateX(-50%);    /* x -= 0.5 * witdh */
+    z-index: -1;
 }
 
 ._itw_bar {
-    bottom: 15%;
+    bottom: 11%;
+    transform: translateX(-82%);    /* x -= 0.5 * witdh */
+    width: 15% 
 }
 
 ._itw_circle {
-    bottom: 7.5%;
+    bottom: 1%;
     border-radius: 50%;             /* Circulo */
+    transform: translateX(-62%);    /* x -= 0.5 * witdh */
+    width: 35%; 
+    height: 11%; 
 }

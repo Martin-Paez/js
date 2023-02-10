@@ -19,9 +19,9 @@ var port = normalizePort(process.env.PORT || '443');
 server.listen(port);
 
 /* Redireccion HTTP hacia HTTPS*/
-app.listen(3000);
+app.listen(80);
 app.use(redirectSsl);
-debug("Escuchando el puerto 3000 y redireccionando hacia https");
+debug("Escuchando el puerto 80 y redireccionando hacia https");
 
 
 //Imprimir por consola los eventos

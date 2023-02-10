@@ -5,7 +5,7 @@
     <title>Termometro a mano</title>
     <link rel="shortcut icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXa1dHTF5MoCq2NSTKIzX2vy9XHltg4M_4F3IG8Mg&s">
     
-    <link rel="stylesheet" href="ej.css">
+    <link rel="stylesheet" href="ejemplo_n.css">
 
     <link rel="stylesheet" href="ImgThermWidget.css">
 
@@ -28,7 +28,7 @@
          type="module", widget seria global.
          El motivo por el cual se trabaja con modulos es para poder hacer uso de los
          static imports nativos de js, evitando asi usar, por ejemplo, webpack. -->
-    <button id="set">
+    <button>
         Presionar = 45º
     </button>
 
@@ -41,10 +41,10 @@
         
         import {ImgThermWidget} from './ImgThermWidget.mjs'
         
-        var widget = new ImgThermWidget();
-
-        $('#set').on("click", function() {
-            widget.setTemp(45);
+        new ImgThermWidget().then( (widget)=>{
+            $('button').on("click", function() {
+                widget.setTemp(45);
+            });
         });
 
     </script>

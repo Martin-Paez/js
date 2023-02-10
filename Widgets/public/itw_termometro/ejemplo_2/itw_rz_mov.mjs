@@ -8,15 +8,15 @@ import {enableMoveAndResize} from './itw_sizeMove_jQuery.mjs'
 document.addEventListener("load", function() {
 
     const input = document.querySelector("input");
-    
-    var widget = new ImgThermWidget({
+
+    new ImgThermWidget({
         initTemp: input.value,
         height: 200,
-    })
-    enableMoveAndResize();
-    
-    input.addEventListener("keyup", function(event) {
-        widget.setTemp(input.value);
+    }).then( function(w) {
+        enableMoveAndResize(true);
+        input.addEventListener("keyup", function(event) {
+            w.setTemp(input.value);
+        });
     });
     
 });

@@ -6,27 +6,25 @@
  * 
  *      const multi = new MultiEvent();
  * 
- *      multi.on('eventName', () => {    // n = 0, Se emite a la 1er notificacion
+ *      multi.on('eventName', () => { // n = 0, Se emite a la 1er notificacion
  *          ...
  *      });
  * 
- *      multi.wait(2);               // n = 0, Se emitira a la 2da notificacion 
+ *      multi.wait(2);                // n = 0, Se emitira a la 2da notificacion 
  * 
- *      multi.emit('eventName');    // --n = 1, No emite nada
- *      multi.emit('eventName');    // --n = 0, Emite un evento
- *      multi.emit('eventName');    // n = 0, Emite un evento
+ *      multi.emit('eventName');      // --n = 1, No emite nada
+ *      multi.emit('eventName');      // --n = 0, Emite un evento
+ *      multi.emit('eventName');      // n = 0, Emite un evento
  * 
  * Es util cuando se trabaja con muchos eventos asincronicos y se 
  * necesita esperar a que todos ellos terminen.
  * 
  * Un caso, se da al cargar dinamicamente un nodo que contiene varios 
- * hijos. Entonces, por ejemplo, se espera el evento load para los hijos
- * multimedia individualmente (demoran mas en cargarse), y, uno mas,
- * para el contenedor.
+ * hijos multimedia:
  * 
- *      multi.add(2);       // Preferible agregarlos primero
+ *      multi.add(2, 'load');         // Preferible agregarlos primero
  *      img.addEventListener("load", () => { multi.emit('load'); });
- *      container.addEventListener("load", () => { multiEvent.emit('load'); });
+ *      img.addEventListener("load", () => { multiEvent.emit('load'); });
  * 
  */
 export class MultiEvent {

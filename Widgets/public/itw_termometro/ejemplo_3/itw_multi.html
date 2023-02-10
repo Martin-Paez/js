@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 
-    <link rel="stylesheet" href="ej.css">
+    <link rel="stylesheet" href="ejemplo_n.css">
 
     <link rel="stylesheet" href="ImgThermWidget.css">
     <script type="module" src="ImgThermWidget.mjs"></script>
@@ -23,8 +23,9 @@
 <body>
     
     <br><h3> Multiples widgets </h3><br>
-    <p> Mover y redimensionar uno de los widgets. La desventaja de JQuery es que los demas elementos siguen acomodandose como si no se hubiera desplazado.</p>
-    <p> Para los input se crean eventos dentro de un forEach con funciones anonimas. Prestar atension al alcance de las variables, es recomendable usar ForEach() en vez de for. </p><br>
+    <p> Este ejemplo usa JQuery para redimensionar y desplazar los widgets.</p> 
+    <p> Por defecto, se setea el widget en position absolute. Esto se debe a que, por como funciona JQuery, si se desplaza el widget, los demas objetos no se enteran del cambio, siguen comportandose como si siguiera habiendo un widget en el lugar original. Luego, al redimensionarlo, los otros elementos de la pagina se acomodan de una manera poco intuitiva para el usuario, "creen" ser empujados. En otras palabras, al mover el widget con el mouse usando JQuery, el widget se dibuja en un plano por encima del resto de los elementos. Pero, para que los demas componentes del sitio se enteren de ello, es necesario "avisarles" colocando position absolute al widget.</p>
+    <p> Para los input, se crean eventos usando el metodo forEach. Prestar atension al alcance de las variables, es recomendable usar ForEach() en vez de for. </p><br>
     
     <!-- Si se coloca el input dentro de un form,
          al presionar enter se recarga la pagina -->

@@ -11,9 +11,13 @@
  * es que cambiando la dimension del widget las demas cosas se 
  * comienzan a mover de un modo antinatural.
  */
-export function enableMoveAndResize() {
+export function enableMoveAndResize(floating = true) {
     var widgets = document.querySelectorAll("._itw_widget");
     widgets.forEach(function(widget) {
+        if ( floating ) {
+            widget.style.position = 'absolute';
+            widget.style.transform = 'translateX(-50%)';
+        }
         $(widget).draggable();
         $(widget).width($(widget).find('._itw_img').width());
         $(widget).resizable({

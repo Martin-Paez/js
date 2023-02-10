@@ -26,41 +26,34 @@ export class ImgThermWidget {
     //TODO - Modularizar
     constructor({container = '.itw_container', initTemp = 0, height = 600, style = ""} = {}) {
         var self = this;
-        var promise = new Promise( function(resolve, reject) {
-            var html = '<div class="_itw_widget" style="height: ' + height + 'px; ' + style + '">' +
-                            '<img src="./termometro.png" class="_itw_img">' +
-                            '<div class="_itw_circle" style="width: 29.014%; height: 8.5164% "></div>' +
-                            '<div class="_itw_bar" style="width: 11% "></div>' +    
-                        '</div>'
-            // NO SE PUEDE USAR innerHTML
-            //      Todas las instancias apuntarian al ultimo instanciado
-            const widget = document.createRange().createContextualFragment(html).firstChild;
-            var img = widget.firstChild;
-            self.liquid = widget.lastChild;
-            var  multiEvent = new MultiEvent();
-            self.waitLoad(resolve, img, widget, initTemp, multiEvent);
+        return new Promise( function(resolve, reject) {
+            var html = self.widget(height, style);
+            // NO SE PUEDE USAR innerHTML - Todas las instancias apuntarian al ultimo instanciado
+            const parent = document.createRange().createContextualFragment(html); 
+            const widget = parent.firstChild;
+            var img = widget.lastChild;
+            self.liquid = widget.firstChild;
+            self.waitLoad(resolve, img, initTemp);
             document.querySelector(container).appendChild(widget);
         });
     }
 
-    waitLoad(resolve, img, widget, initTemp, multiEvent) {
+    widget(height, style) {
+        return '<div class="_itw_widget" style="height: ' + height + 'px; ' + style + '">' +
+            '<div class="_itw_bar"></div>' +    
+            '<div class="_itw_circle"></div>' +
+            '<img src="./termometro.png" class="_itw_img">' +
+        '</div>';
+    }
+
+    waitLoad(resolve, img, initTemp) {
+        var  multiEvent = new MultiEvent();
         multiEvent.on('load', () => { 
             this.setTemp(initTemp);
             resolve(this); 
         });
-        var ld = 0;
-        if ( $(img).length === 0) {
-            img.addEventListener("load", () => { multiEvent.emit('load'); });
-            ld++;
-        }
-        if ( $(widget).length === 0) {
-            widget.addEventListener("load", () => { multiEvent.emit('load'); });
-            ld++;
-        }
-        if (ld > 0)
-            multiEvent.wait(ld, 'load');  // Los agrego antes
-        else 
-            multiEvent.emit('load');
+        $(img).on("load", () => { multiEvent.emit('load'); });
+        multiEvent.wait(1, 'load');  // Los agrego antes
     }
 
     /*
@@ -90,7 +83,7 @@ export class ImgThermWidget {
         var value = parseInt(value) + 25;
         if ( value > 80.5 )
             value = 80.5;
-        this.liquid.style.height = (value * 49 / 55 + 2.5 ) + "%";
+        this.liquid.style.height = (value * 55.5 / 55 + 2.5 ) + "%";
     };
 
 }

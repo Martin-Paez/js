@@ -1,6 +1,3 @@
-//import { MultiEvent } from './MultiEvent.js';
-import { MultiEvent } from './MultiEvent.mjs'
-
 /*
  * Es un termometro hecho con HTML, CSS y JavaScript puros (divs y una img de fondo)
  * 
@@ -33,7 +30,10 @@ export class ImgThermWidget {
             const widget = parent.firstChild;
             var img = widget.lastChild;
             self.liquid = widget.firstChild;
-            self.waitLoad(resolve, img, initTemp);
+            $(img).on('load', () => { 
+                self.setTemp(initTemp);
+                resolve(self); 
+            });
             document.querySelector(container).appendChild(widget);
         });
     }
@@ -44,16 +44,6 @@ export class ImgThermWidget {
             '<div class="_itw_circle"></div>' +
             '<img src="./termometro.png" class="_itw_img">' +
         '</div>';
-    }
-
-    waitLoad(resolve, img, initTemp) {
-        var  multiEvent = new MultiEvent();
-        multiEvent.on('load', () => { 
-            this.setTemp(initTemp);
-            resolve(this); 
-        });
-        $(img).on("load", () => { multiEvent.emit('load'); });
-        multiEvent.wait(1, 'load');  // Los agrego antes
     }
 
     /*

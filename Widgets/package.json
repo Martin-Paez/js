@@ -13,6 +13,8 @@
     "debug": "~2.6.9",
     "express": "^4.18.2",
     "fs": "^0.0.1-security",
+    "gridstack": "^7.2.3",
+    "highcharts": "^10.3.3",
     "jquery": "^3.6.3",
     "morgan": "~1.9.1",
     "redirect-ssl": "^3.0.0",

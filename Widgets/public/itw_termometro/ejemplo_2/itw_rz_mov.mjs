@@ -2,8 +2,9 @@ import {ImgThermWidget} from './ImgThermWidget.mjs'
 import {enableMoveAndResize} from './itw_sizeMove_jQuery.mjs'
 
 /*
- * El evento DOMContentLoaded se da despues de cargar todo el HTML.
- * De lo contrario no va a poder encontrar los tag que necesita el script.
+ * Uso load porque hay una imagen, de lo contrario la imagen puede no
+ * llegar a cargar. Si no hubiera ningun elemento que genere el evento
+ * load usaria DOMContentLoaded.
  */
 document.addEventListener("load", function() {
 

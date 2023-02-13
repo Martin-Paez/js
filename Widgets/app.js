@@ -12,6 +12,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.set('root',__dirname);
+app.set('index', 'vert_icon_menu.html');
+
 app.use('/', indexRouter);
 
 module.exports = app;

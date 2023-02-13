@@ -1,0 +1,52 @@
+/* Vertical Icon Menu ((VIM)*/
+.VIMenu {
+    /*min-width: 4.5rem;*/
+    height: 100vh;
+}
+
+/* Item del menu */
+.VIMenu .nav-pills .nav-item {
+    border-bottom: 1px solid #dee2e6;
+    border-radius: 0;
+}
+
+/* Menu vertical derecho (RVIM)*/
+#RVIMenu {
+    margin-left: auto;  /* Ubicado a la derecha */
+}
+
+/* Botones */
+.VIMenu .nav-pills .nav-item.toggle-VIM a.nav-link, 
+.show-btn-VIM /* Boton fuera de VIM */ {
+    padding:0 6px 0 6px;
+}
+
+/* VIM expandido (clase big) y boton para mostrar si se oculta el LVIM */
+.big-LIVM,
+.show-btn-VIM {
+    display: none;
+}
+
+/* Boton para mostrar si se oculta el LVIM, esta fuera de VIM */
+.show-btn-VIM {
+    position: absolute;
+}
+
+ /* Iconos (svg) */
+.VIMenu .nav-pills .nav-item .nav-link svg,
+.show-btn-VIM svg {
+    fill: currentColor;
+    width: 24px;
+    height: 40px;
+}
+
+/* Iconos para expandir y contraer */
+.VIMenu .nav-pills .nav-item.toggle-VIM a.nav-link svg,
+.show-btn-VIM svg {
+    width: 15px;
+}
+
+/* Iconos para contraer */
+.VIMenu .nav-pills .nav-item.toggle-VIM a.nav-link:nth-child(odd) {
+    transform:scaleX(-1);
+}

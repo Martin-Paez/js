@@ -1,0 +1,302 @@
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+
+    <title>Sidebars · Bootstrap v5.3</title>
+    <link rel="shortcut icon" href="https://help.healthycities.org/hc/en-us/article_attachments/209783487/gauge-type1-90-500px.png"> 
+
+    <!---- Bootstrap ------>
+
+    <link   href="https://getbootstrap.com/docs/5.3/examples/sidebars/" 
+            rel="canonical">
+
+    <link   href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" 
+            rel="stylesheet" 
+            integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" 
+            crossorigin="anonymous">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" 
+            integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" 
+            crossorigin="anonymous"></script> 
+           
+    <!-- JQuery - desplazables y redimensionables -->
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+
+    <!---------- Vertical Icon Menu (VIM) ----------->
+
+        <link   href=" vert_icon_menu.css" rel="stylesheet">
+
+        <!---- Iconos SVG del menu ---->
+        <html-import src="icons.html"></html-import>
+
+        <!---- Para importar tags <html-import> ----> 
+        <script src="html_importer.js"></script>
+
+        <!-- Animaciones del menu -->
+        <script src="vert_icon_menu.js"></script> 
+
+
+</head>
+<!------------------------------------ BODY ------------------------------------>
+<body class="d-flex">
+
+
+<!------------- Menu desplegable (se oculta cuando no se usa) ------------------>
+
+    <nav>
+            <!-- data-bs-scroll permite scrollar la web con el menu abierto -->
+            <!-- El id es para vincularlo al boton -->
+        <div class="offcanvas offcanvas-start" data-bs-scroll="true" id="offcanvasMenu">
+
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title">Dispositivos</h5>
+            </div>
+
+            <div class="offcanvas-body">
+                <p>Try scrolling the rest of the page to see this option in action.</p>
+            </div>
+
+        </div>
+    </nav>
+
+
+<!---------------------- Left Vertical Icon Menu (LVIM) ------------------------->
+
+
+    <!-- Boton para mostrar lvimenu (cuando esta completamente oculto) -->
+
+    <a  id="show-LVIM" class="nav-link show-btn-VIM"
+        onclick="toggleDisplay(`#${this.id}`, '#LVIMenu')">
+
+        <svg> <use xlink:href="#bigger-than"></use> </svg>
+        
+    </a>
+
+    <!-- LVIM -->
+        <!-- bg-light le pone fondo gris -->
+    <nav id="LVIMenu" class="VIMenu bg-light">       
+
+        <!-- Lista de botones -->
+
+            <!-- nav : quita los puntos de la lista (lu) 
+                 nav-pill : trabaja con nav-link, permite usar 'active'
+                 flex-column : iconos en vertical -->                                                   
+        <ul class="nav nav-pills flex-column">
+
+            <!-- Botones para ocultar y expandir LVIM -->
+
+            <li class="nav-item toggle-VIM d-flex flex-row" style="justify-content: center"> 
+
+                <!-- Boton que oculta LVIM-->
+
+                    <!-- nav-link : trabaja con nav-pills, permite usar 'active' -->
+                <a  id="hide-LVIM" class="nav-link" href="#"
+                    onclick="toggleDisplay('#LVIMenu', '#show-LVIM')">
+                     
+                    <svg> <use xlink:href="#bigger-than"></use> </svg>
+                
+                </a>
+                
+                <!-- Boton para expandir el VIM cuando solo se ven los iconos -->
+                
+                <a  id="expand-LVIM" class="nav-link" href="#"
+                    onclick="toggleDisplay('#expand-LVIM', '.big-LIVM')" >
+                    
+                    <svg> <use xlink:href="#bigger-than"></use> </svg>
+                
+                </a>
+                
+                <!-- Boton para ocultar el menu expandido -->
+
+                <a  class="big-LIVM nav-link" href="#"
+                    onclick="toggleDisplay('.big-LIVM', '#expand-LVIM')">
+                    
+                    <svg> <use xlink:href="#bigger-than"></use> </svg>
+                
+                </a>
+            
+            </li>
+
+            <!-- Boton que abre el menu desplegable OffCanvas -->
+
+                <!-- Para abrir el offcanvas se necesito data-bs-toggle, role y href -->
+            <li class="nav-item"> 
+                <a  class="nav-link" href="#offcanvasMenu" 
+                    data-bs-toggle="offcanvas" role="button">
+                    
+                    <svg> <use xlink:href="#cpu-fill"></use>  </svg>
+                
+                </a>
+            </li>
+
+            <!-- Boton que muestra el dashboard de gridstack con highcharts -->
+
+            <li class="nav-item d-flex">
+
+                <!-- Boton del Gauge -->
+
+                <div> 
+                    <a  class="nav-link active rounded-0" href="#"
+                        onclick="loadVIMPage('ej_grid.html', this, 'LVIMenu');">
+                        
+                        <svg> <use xlink:href="#speedometer2"></use> </svg>
+                    
+                    </a>
+                </div>
+
+                <!-- Extension del menu -->
+
+                <div class="big-LIVM">
+
+                    <!-- Titulo y boton para mostrar/ocultar el texto -->
+
+                    <a  class="big-btn-VIM btn rounded-0" href="#collapseGauge"
+                        data-bs-toggle="collapse" role="button"
+                        style="background-color:#0d6efd; width: 20vw; height: 56px; display: flex; align-items: center; justify-content: center;" >
+
+                        Gauge (Indicadores)
+                    
+                    </a>
+
+                    <!-- Textp que se oculta o muestra -->
+
+                    <div id="collapseGauge" class="collapse" 
+                        style="width: 20vw;" >
+                        
+                        <div class="card card-body" >
+                            Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
+                        </div>
+                    
+                    </div>
+
+                </div>
+
+            </li>
+
+            <!-- Boton que muestras los ejemplos de ItwThermometer -->
+
+            <li class="nav-item  d-flex">
+
+                <!-- Boton del termometro -->
+                <div> 
+                    <a  class="nav-link" href="#" 
+                        onclick="loadVIMPage('itw_ej_tabs.html', this, 'LVIMenu');">
+                        
+                        <svg> <use xlink:href="#thermometer"></use> </svg>
+
+                    </a>
+                </div>
+
+                <!-- Extension del menu -->
+
+                <div class="big-LIVM">
+
+                    <!-- Titulo y boton para mostrar/ocultar el texto -->
+
+                    <a class="big-btn-VIM btn  rounded-0"  href="#collapseTherm" 
+                        data-bs-toggle="collapse"role="button"
+                        style="width: 20vw; height: 56px; display: flex; align-items: center; justify-content: center;" >
+                        
+                        Termometro
+
+                    </a>
+
+                    <!-- Textp que se oculta o muestra -->
+
+                    <div class="collapse" style="width: 20vw;" id="collapseTherm">
+                        <div class="card card-body" >
+                        Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
+                        </div>
+                    </div>
+
+                </div>
+
+            </li>   
+
+        </ul>
+    </nav>
+
+
+
+<!---------------------------- Contenido de la pagina -------------------------->
+
+
+    <!-- Esto importa la pagina completa con head y body, pero el resto de la web no puede
+         acceder a su informacion. Se su pone es de menor rendimiendo. -->
+    <object id="webpage_content" data="ej_grid.html" style="width: 100%;"></object> 
+ 
+
+
+<!----------------------- Right Vertical Icon Menu (RVIMenu) ------------------->
+
+
+    <nav id="RVIMenu" class="vimenu d-flex flex-column bg-light">
+
+        <!-- Menu desplegable sup izq, foto del usuario -->
+
+            <!-- mb-auto es lo que permite que el menu se muestre al final de la pagina, nav es 100hv -->
+        <div class="dropdown mb-auto">
+
+            <!-- Flechita negra -->
+            <a  class="dropdown-toggle d-flex p-3 link-dark align-items-center" href="#"
+                data-bs-toggle="dropdown">
+            
+                <!-- Foto de perfil -->
+                <img class="rounded-circle" width="24" height="24" src="https://github.com/mdo.png" >
+            
+            </a>    
+            
+            <!-- Opciones del menu -->
+            <ul class="dropdown-menu text-small shadow">
+                <li><a class="dropdown-item" href="#">New project...</a></li>
+                <li><a class="dropdown-item" href="#">Settings</a></li>
+                <li><a class="dropdown-item" href="#">Profile</a></li>
+                <hr class="dropdown-divider"> <!-- Division horizontal del menu -->
+                <li><a class="dropdown-item" href="#">Sign out</a></li>
+            </ul>
+
+        </div>
+
+        <!-- Iconos del menu derecho-->
+
+            <!-- Se muestra al final (bottom) porque el div anterior uso mb-auto y el nav es 100hv -->
+        <ul class="nav nav-pills nav-flush flex-column text-center">
+            <li class="nav-item"> 
+                <a href="#" class="nav-link">
+                    <svg> <use xlink:href="#gear-fill"></use> </svg>
+                </a>
+            </li>
+            <li class="nav-item"> 
+                <a href="#" class="nav-link">
+                    <svg> <use xlink:href="#speedometer"></use> </svg>
+                </a>
+            </li>
+            <li class="nav-item"> 
+                <a href="#" class="nav-link">
+                    <svg> <use xlink:href="#toggles2"></use> </svg>
+                </a>
+            </li>
+            <li class="nav-item"> 
+                <a href="#" class="nav-link">
+                    <svg> <use xlink:href="#tools"></use> </svg>
+                </a>
+            </li>  
+            <li class="nav-item"> 
+                <a href="#" class="nav-link">
+                    <svg> <use xlink:href="#geo-fill"></use> </svg>
+                </a>
+            </li>
+        </ul>
+
+    </nav>
+
+</body>
+</html>

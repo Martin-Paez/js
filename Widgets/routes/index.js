@@ -38,7 +38,7 @@ function recurSearch(dir, fileName) {
 // Sirve index.html por default
 router.get('/', function(req, res, next) {
   const folder = path.join(req.app.settings.root, 'public');
-  const file = recurSearch(folder, 'index.html');
+  const file = recurSearch(folder, req.app.settings.index);
   res.sendFile(file);
 });
 
@@ -89,10 +89,8 @@ router.get('/*/:tag(body|head)', function(req, res, next) {
 router.get('/*', function(req, res, next) {
   var reqPath = req.path.replace(/\/[^\/]+$/, ""); // le saco lo que hay despues de la ultima "\" (inclusive)
   var dirs = req.path.split("/");
-  if (dirs[1] !== "node_modules")
+  if (dirs[1] !== "node_modules") 
     reqPath = 'public' + reqPath;
-  else
-    dirs[dirs.length-1] += '.js';
   console.log("*****************************************");
   console.log(req.path + '\n' + reqPath + '\n' + dirs[dirs.length-1]);
   console.log("*****************************************");

@@ -8,7 +8,6 @@ var https = require('https');
 const redirectSsl = require('redirect-ssl');
 const fs = require('fs');
 
-
 /* Servidor HTTPS */
 const options = {
   key: fs.readFileSync('ssl/private.key'),
@@ -16,7 +15,7 @@ const options = {
 };
 var server = https.createServer(options, app);
 var port = normalizePort(process.env.PORT || '443');
-server.listen(port);
+server.listen(443);
 
 /* Redireccion HTTP hacia HTTPS*/
 app.listen(80);

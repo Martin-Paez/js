@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Dashboard</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="shortcut icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXa1dHTF5MoCq2NSTKIzX2vy9XHltg4M_4F3IG8Mg&s">
+
+    <!-- JQuery -  desplazables y redimensionables -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+    <!-- Gridstack.js - Widgets desplazables y redimensionables -->
+    <!--script src="https://code.highcharts.com/... -->
+
+    <link href="node_modules/gridstack/dist/gridstack.min.css" rel="stylesheet"/>
+    <script src="node_modules/gridstack/dist/gridstack-all.js"></script>
+      
+    <!-- Highcharts -->
+    <script src="node_modules/highcharts/highcharts.js"></script>
+    <script src="node_modules/highcharts/modules/exporting.js"></script>
+
+    <!-- gauge - Highcharts -->
+    <script src="./node_modules/highcharts/highcharts-more.js"></script>
+
+    <script src="node_modules/highcharts/modules/exporting.js"></script>
+    <script src="node_modules/highcharts/modules/export-data.js"></script>
+    <script src="node_modules/highcharts/modules/accessibility.js"></script>
+
+    <!-- heatmap -->
+    <script src="node_modules/highcharts/modules/heatmap.js"></script>
+
+    <script src="node_modules/highcharts/modules/treemap.js"></script>
+
+    <script src="node_modules/highcharts/modules/funnel.js"></script>
+    
+    <script src="node_modules/highcharts/modules/solid-gauge.js"></script>
+
+    <script src="node_modules/highcharts/modules/histogram-bellcurve.js"></script>
+
+    <!--script src="node_modules/highcharts/modules/parallel-coordinates.js"></script-->
+
+    <!--script src="node_modules/highcharts/modules/sankey.js"></script-->
+
+    <script src="node_modules/highcharts/modules/sunburst.js"></script>
+
+    <!--script src="node_modules/highcharts/modules/variwide.js"></script-->
+
+    <!--script src="node_modules/highcharts/modules/vector.js"></script-->
+
+    <script src="node_modules/highcharts/modules/windbarb.js"></script>
+
+    <script src="node_modules/highcharts/modules/wordcloud.js"></script>
+
+    <!--script src="node_modules/highcharts/modules/networkgraph.js"></script-->
+
+    <script src="node_modules/highcharts/modules/timeline.js"></script>
+
+    <!--script src="node_modules/highcharts/modules/xrange.js"></script-->
+
+    <!--script src="node_modules/highcharts/modules/xrange.js"></script-->
+
+    <script src="ej_grid.mjs" type="module"></script>
+
+    <style>
+        /* Items del menu exporting de highcharts*/
+        .highcharts-menu-item { 
+            /* Responsive typography:
+             *      400px : ancho de la pantalla minimo con Chrome.
+             *      14px : font size minimo.
+             *      100vw : 100% del view width, ancho de la pantalla
+             *      100vw - 500px : aumento del view width respecto del minimo.
+             *      1 y 400 : 1px de font size por cada 400px de view width.
+             *
+             * Si 100vw = 400 px , a los 14px no se le suma nada. A medida que
+             * aumenta 100vw se suman mas pixeles. Cuando la diferencia es de
+             * 400px se suma 1px. Al ser lineal se respeta esa proporcion, o sea
+             * +1px de fontsize por cada +400px de view width.
+             */ 
+            font-size: calc(14px + 0.2 * ((100vw - 400px) / 400)) !important;
+        }
+
+        div.grid-stack-item-content,
+        div.highcharts-container {
+            overflow: visible !important;
+        }
+
+        body {
+            padding: 0% 0.5% 0% 0.5%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="grid-stack"></div>
+</body>
+
+</html>

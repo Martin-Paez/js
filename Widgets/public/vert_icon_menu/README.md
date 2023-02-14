@@ -14,5 +14,5 @@ Este es un modo simple y eficiente de manejar botons que ocultan y muestran.Pe
 
 **Example**  
 ```js
-<pre><codigo>Ejemplo de uso :     <button id="show" onclick="switchDsp('#show, .sc','#hide') > Mostrar </button>     <buttom id="hide" onclick="switchDsp(this, '#show, .sc') > Mostrar </button>     <div class="sc">          Contenido      </div>     Quedaria aun mas compacto usando .sc en vez de #showEjemplo de uso:     let show = document.getElementById("#show");     let hide = document.getElementById("#hide");     switchDsp(show, hide);     Con objetos es valido, ya que se usa JQuery: $(show) = $('#showId')</codigo></pre>
+Ejemplo de uso :     <button id="show" onclick="switchDsp('#show, .sc','#hide') > Mostrar </button>     <buttom id="hide" onclick="switchDsp(this, '#show, .sc') > Mostrar </button>     <div class="sc">          Contenido      </div>     Quedaria aun mas compacto usando .sc en vez de #showEjemplo de uso:     let show = document.getElementById("#show");     let hide = document.getElementById("#hide");     switchDsp(show, hide);     Con objetos es valido, ya que se usa JQuery: $(show) = $('#showId')
 ```

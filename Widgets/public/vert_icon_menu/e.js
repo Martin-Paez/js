@@ -11,7 +11,6 @@
  * Es versatil, la sintaxis css permite listar varios elementos.
  * 
  * @example
- * <pre><codigo>
  * Ejemplo de uso :
  * 
  *      <button id="show" onclick="switchDsp('#show, .sc','#hide') > Mostrar </button>
@@ -33,7 +32,6 @@
  *      switchDsp(show, hide);
  * 
  *      Con objetos es valido, ya que se usa JQuery: $(show) = $('#showId')
- * </codigo></pre>
  * @end
  * 
  * @param { hide } Selector css de elementos que se van a ocultar

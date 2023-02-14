@@ -19,5 +19,5 @@ Este es un modo simple y eficiente de manejar botons que ocultan y muestran.Pe
 ```
 **Example**  
 ```js
-let show = document.getElementById("#show");let hide = document.getElementById("#hide");switchDsp(show, hide);Con objetos es valido, ya que se usa JQuery: $(show) = $('#showId')
+let show = document.getElementById("#show");let hide = document.getElementById("#hide");switchDsp(show, hide);Enviar objetos es valido, ya que se usa JQuery: $(show) = $('#showId')
 ```

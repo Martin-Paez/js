@@ -31,7 +31,7 @@
  * let hide = document.getElementById("#hide");
  * switchDsp(show, hide);
  * 
- * Con objetos es valido, ya que se usa JQuery: $(show) = $('#showId')
+ * Enviar objetos es valido, ya que se usa JQuery: $(show) = $('#showId')
  * 
  * @end
  * 

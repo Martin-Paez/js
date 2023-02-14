@@ -11,8 +11,6 @@
  * Es versatil, la sintaxis css permite listar varios elementos.
  * 
  * @example
- * Ejemplo de uso :
- * 
  *      <button id="show" onclick="switchDsp('#show, .sc','#hide') > Mostrar </button>
  * 
  *      <buttom id="hide" onclick="switchDsp(this, '#show, .sc') > Mostrar </button>
@@ -25,8 +23,7 @@
  *      Quedaria aun mas compacto usando .sc en vez de #show
  * @end
  * 
- * @example Ejemplo de uso:
- * 
+ * @example
  *      let show = document.getElementById("#show");
  *      let hide = document.getElementById("#hide");
  *      switchDsp(show, hide);

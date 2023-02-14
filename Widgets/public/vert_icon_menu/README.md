@@ -23,7 +23,7 @@ Es versatil, la sintaxis css permite listar varios elementos.
 | del | <code>dsp</code> | atributo Display de css para los elementos de show |
 
 **Example**  
-```js
+```html
 <button id="show" onclick="switchDsp('#show, .sc','#hide') > Mostrar </button>
 
 <buttom id="hide" onclick="switchDsp(this, '#show, .sc') > Mostrar </button>
@@ -33,7 +33,7 @@ Es versatil, la sintaxis css permite listar varios elementos.
 </div>
 
 
- Quedaria aun mas compacto usando .sc en vez de #show
+Quedaria aun mas compacto usando .sc en vez de #show
 ```
 **Example**  
 ```js
@@ -41,5 +41,5 @@ let show = document.getElementById("#show");
 let hide = document.getElementById("#hide");
 switchDsp(show, hide);
 
- Enviar objetos es valido, ya que se usa JQuery: $(show) = $('#showId')
+Enviar objetos es valido, ya que se usa JQuery: $(show) = $('#showId')
 ```

@@ -10,6 +10,16 @@
  *
  * Es versatil, la sintaxis css permite listar varios elementos.
  * 
+ * @example 
+ * Ejemplo de uso:
+ * 
+ *      let show = document.getElementById("#show");
+ *      let hide = document.getElementById("#hide");
+ *      switchDsp(show, hide);
+ * 
+ *      Con objetos es valido, ya que se usa JQuery: $(show) = $('#showId')
+ * @end
+ * 
  * @example
  * Ejemplo de uso :
  * 
@@ -23,16 +33,6 @@
  * 
  * 
  *      Quedaria aun mas compacto usando .sc en vez de #show
- * @end
- * 
- * @example 
- * Ejemplo de uso:
- * 
- *      let show = document.getElementById("#show");
- *      let hide = document.getElementById("#hide");
- *      switchDsp(show, hide);
- * 
- *      Con objetos es valido, ya que se usa JQuery: $(show) = $('#showId')
  * @end
  * 
  * @param { hide } Selector css de elementos que se van a ocultar

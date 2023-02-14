@@ -48,6 +48,15 @@
 <!------------------------------------ BODY ------------------------------------>
 <body class="d-flex">
 
+    <script type="module">
+       // import {VIMenu} from './vert_icon_menu.mjs';
+
+        var lmenu;
+        document.addEventListener('DOMContentLoaded', function(){
+            lmenu = new VIMenu('LVIMenu', 'show-LVIM', 'hide-LVIM', 'expand-LVIM', 'contract-LVIN', 'big-LIVM');
+        });
+
+    </script>
 
 <!------------- Menu desplegable (se oculta cuando no se usa) ------------------>
 
@@ -73,9 +82,7 @@
 
     <!-- Boton para mostrar lvimenu (cuando esta completamente oculto) -->
 
-    <a  id="show-LVIM" class="nav-link show-btn-VIM"
-        onclick="toggleDisplay(`#${this.id}`, '#LVIMenu')">
-
+    <a  id="show-LVIM" class="show-VIM nav-link show-btn-VIM" target-VIM="LVIMenu">
         <svg> <use xlink:href="#bigger-than"></use> </svg>
         
     </a>
@@ -98,17 +105,15 @@
                 <!-- Boton que oculta LVIM-->
 
                     <!-- nav-link : trabaja con nav-pills, permite usar 'active' -->
-                <a  id="hide-LVIM" class="nav-link" href="#"
-                    onclick="toggleDisplay('#LVIMenu', '#show-LVIM')">
-                     
+                <a  id="hide-LVIM" class="hide-VIM nav-link" href="#">
+                    
                     <svg> <use xlink:href="#bigger-than"></use> </svg>
                 
                 </a>
                 
                 <!-- Boton para expandir el VIM cuando solo se ven los iconos -->
                 
-                <a  id="expand-LVIM" class="nav-link" href="#"
-                    onclick="toggleDisplay('#expand-LVIM', '.big-LIVM')" >
+                <a  id="expand-LVIM" class="nav-link" href="#">
                     
                     <svg> <use xlink:href="#bigger-than"></use> </svg>
                 
@@ -116,9 +121,7 @@
                 
                 <!-- Boton para ocultar el menu expandido -->
 
-                <a  class="big-LIVM nav-link" href="#"
-                    onclick="toggleDisplay('.big-LIVM', '#expand-LVIM')">
-                    
+                <a  id="contract-LVIN" class="big-LIVM nav-link" href="#">
                     <svg> <use xlink:href="#bigger-than"></use> </svg>
                 
                 </a>
@@ -144,8 +147,7 @@
                 <!-- Boton del Gauge -->
 
                 <div> 
-                    <a  class="nav-link active rounded-0" href="#"
-                        onclick="loadVIMPage('ej_grid.html', this, 'LVIMenu');">
+                    <a  class="nav-link active rounded-0" href="#" load-VIM="ej_grid.html">
                         
                         <svg> <use xlink:href="#speedometer2"></use> </svg>
                     
@@ -159,8 +161,7 @@
                     <!-- Titulo y boton para mostrar/ocultar el texto -->
 
                     <a  class="big-btn-VIM btn rounded-0" href="#collapseGauge"
-                        data-bs-toggle="collapse" role="button"
-                        style="background-color:#0d6efd; width: 20vw; height: 56px; display: flex; align-items: center; justify-content: center;" >
+                        data-bs-toggle="collapse" role="button">
 
                         Gauge (Indicadores)
                     
@@ -187,8 +188,7 @@
 
                 <!-- Boton del termometro -->
                 <div> 
-                    <a  class="nav-link" href="#" 
-                        onclick="loadVIMPage('itw_ej_tabs.html', this, 'LVIMenu');">
+                    <a  class="nav-link" href="#" load-VIM="itw_ej_tabs.html">
                         
                         <svg> <use xlink:href="#thermometer"></use> </svg>
 
@@ -201,7 +201,7 @@
 
                     <!-- Titulo y boton para mostrar/ocultar el texto -->
 
-                    <a class="big-btn-VIM btn  rounded-0"  href="#collapseTherm" 
+                    <a class="big-btn-VIM btn"  href="#collapseTherm" 
                         data-bs-toggle="collapse"role="button"
                         style="width: 20vw; height: 56px; display: flex; align-items: center; justify-content: center;" >
                         

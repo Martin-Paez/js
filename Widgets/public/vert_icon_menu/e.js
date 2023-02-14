@@ -23,9 +23,9 @@
  * 
  * 
  *      Quedaria aun mas compacto usando .sc en vez de #show
+ * @end
  * 
- * 
- * Ejemplo de uso:
+ *  @example Ejemplo de uso:
  * 
  *      let show = document.getElementById("#show");
  *      let hide = document.getElementById("#hide");

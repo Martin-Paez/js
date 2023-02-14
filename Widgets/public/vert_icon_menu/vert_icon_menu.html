@@ -113,7 +113,7 @@
                 
                 <!-- Boton para expandir el VIM cuando solo se ven los iconos -->
                 
-                <a  id="expand-LVIM" class="nav-link" href="#">
+                <a  id="expand-LVIM" class="expand-VIM nav-link" href="#">
                     
                     <svg> <use xlink:href="#bigger-than"></use> </svg>
                 
@@ -121,7 +121,7 @@
                 
                 <!-- Boton para ocultar el menu expandido -->
 
-                <a  id="contract-LVIN" class="big-LIVM nav-link" href="#">
+                <a  id="contract-LVIN" class="contract-VIM nav-link" href="#">
                     <svg> <use xlink:href="#bigger-than"></use> </svg>
                 
                 </a>
@@ -147,7 +147,7 @@
                 <!-- Boton del Gauge -->
 
                 <div> 
-                    <a  class="nav-link active rounded-0" href="#" load-VIM="ej_grid.html">
+                    <a  class="nav-link active rounded-0" href="#" load-url-VIM="ej_grid.html">
                         
                         <svg> <use xlink:href="#speedometer2"></use> </svg>
                     
@@ -156,11 +156,11 @@
 
                 <!-- Extension del menu -->
 
-                <div class="big-LIVM">
+                <div class="big-content-IVM">
 
                     <!-- Titulo y boton para mostrar/ocultar el texto -->
 
-                    <a  class="big-btn-VIM btn rounded-0" href="#collapseGauge"
+                    <a  class="big-sub-cntnt-VIM btn rounded-0" href="#collapseGauge"
                         data-bs-toggle="collapse" role="button">
 
                         Gauge (Indicadores)
@@ -187,8 +187,12 @@
             <li class="nav-item  d-flex">
 
                 <!-- Boton del termometro -->
+
+                    <!--Este div es para que no se dibuje en azul la 'columna' debajo del
+                        siguiene link <a> (que es azul cuando esta activo) al expandirse 
+                        .big-LVIM. Lo que se expande es el div, no el tag <a>.-->
                 <div> 
-                    <a  class="nav-link" href="#" load-VIM="itw_ej_tabs.html">
+                    <a  class="nav-link" href="#" load-url-VIM="itw_ej_tabs.html">
                         
                         <svg> <use xlink:href="#thermometer"></use> </svg>
 
@@ -197,11 +201,11 @@
 
                 <!-- Extension del menu -->
 
-                <div class="big-LIVM">
+                <div class="big-content-IVM">
 
                     <!-- Titulo y boton para mostrar/ocultar el texto -->
 
-                    <a class="big-btn-VIM btn"  href="#collapseTherm" 
+                    <a class="big-sub-cntnt-VIM btn"  href="#collapseTherm" 
                         data-bs-toggle="collapse"role="button"
                         style="width: 20vw; height: 56px; display: flex; align-items: center; justify-content: center;" >
                         

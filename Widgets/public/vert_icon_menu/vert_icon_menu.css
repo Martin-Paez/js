@@ -34,7 +34,7 @@
 /* clase big (boton y texto colapsable) 
    boton (<a>) para mostrar si esta oculto el VIM */
 
-.big-LIVM,
+.big-content-IVM,
 .show-btn-VIM {
     display: block;
 }
@@ -65,7 +65,7 @@
  /* Iconos (svg) */
 
  .VIMenu .nav-pills .nav-item .nav-link svg,
-.show-btn-VIM svg {
+.big-sub-cntnt-VIM svg {
     fill: currentColor;
     width: 24px;
     height: 40px;
@@ -75,14 +75,14 @@
 /* Iconos (svg) para expandir y contraer */
 
 .VIMenu .nav-pills .nav-item.toggle-VIM a.nav-link svg,
-.show-btn-VIM svg {
+.big-sub-cntnt-VIM svg {
     width: 15px;                                /* Los botones de expandir/ocultar son mas chicos, van dos juntos */
 }
 
 
 /* Boton colapsable del menu expandido */
 
-.big-btn-VIM {
+.big-sub-cntnt-VIM {
     width: 20vw;                                /* Se setea el ancho del menu */
     height: 56px;                               /* Los iconos son de tamano fijo , asi quedan alineados */
 }
@@ -93,7 +93,7 @@
  * big-btn-VIM otros tag  
  */
 
-a.big-btn-VIM {
+a.big-sub-cntnt-VIM {
     display: flex;                              /* Estas tres permiten centrar el texto de un <a>*/
     align-items: center;
     justify-content: center;

@@ -22,67 +22,79 @@
 }
 
 
-/* Botones (<a>) para expandir y contraer*/
+/* Botones (<a>) para visualizar menu*/
 
-.VIMenu .nav-pills .nav-item.toggle-VIM a.nav-link, 
-.show-btn-VIM /* Boton fuera de VIM */ {
+.contract-VIM, 
+.expand-VIM,
+.hide-VIM, 
+.show-VIM {
     padding:0 6px 0 6px;
     margin-right: auto;                         /* Centrados */
 }
 
 
-/* clase big (boton y texto colapsable) 
-   boton (<a>) para mostrar si esta oculto el VIM */
+/* Contenido del menu expandido
+   Boton para mostrar si estao culto el VIM 
+   Boton para contraer si esta expandido el VIM */
 
-.big-content-IVM,
-.show-btn-VIM {
-    display: block;
+.expanded-content-VIM,
+.show-VIM, 
+.contract-VIM {
+    display: none;
 }
 
 
-/* Boton (<a>) para mostrar si se oculta el LVIM, esta fuera de VIM */
+/* Boton (<a>) para mostrar si se oculta el VIM, esta fuera de VIM */
 
-.show-btn-VIM {
+.show-VIM {
     position: absolute;                         /* Libera el espacio para la pagina al ocultarse el menu */
 }
 
 
-/* Boton (<a>) para contraer */
-
-.VIMenu .nav-pills .nav-item.toggle-VIM a.nav-link:nth-child(odd) {
+/* Boton (<a>) para esconder */
+.contract-VIM,
+.hide-VIM {
     transform:scaleX(-1);                       /* Se invierte la flecha */
 }
 
 
 /* Boton (<a>) para contraer */
 
-.VIMenu .nav-pills .nav-item.toggle-VIM a.nav-link:last-child {
+.contract-VIM {
     margin-left: auto;                          /* se tira a la izquierda al estar expandido el menu */
     margin-right: unset;                        /* estaba setead por ser parr (odd) */
 }
 
+/* Iconos (svg) para expandir y contraer */
+
+.hide-VIM svg, 
+.show-VIM svg,
+.expand-VIM svg, 
+.contract-VIM svg {
+    width: 15px !important;                                /* Los botones de expandir/ocultar son mas chicos, van dos juntos */
+}
 
  /* Iconos (svg) */
 
- .VIMenu .nav-pills .nav-item .nav-link svg,
-.big-sub-cntnt-VIM svg {
-    fill: currentColor;
+.VIMenu .nav-pills .nav-item .nav-link svg,
+.expanded-sub-btn-VIM svg,
+.show-VIM svg {
+    display: inline-block;    
     width: 24px;
     height: 40px;
 }
 
-
-/* Iconos (svg) para expandir y contraer */
-
-.VIMenu .nav-pills .nav-item.toggle-VIM a.nav-link svg,
-.big-sub-cntnt-VIM svg {
-    width: 15px;                                /* Los botones de expandir/ocultar son mas chicos, van dos juntos */
+.VIMenu .nav-pills .nav-item .nav-link svg {
+    fill: currentColor;
 }
 
+.show-VIM {
+    fill: #0d6efd !important;                         /* Libera el espacio para la pagina al ocultarse el menu */
+}
 
 /* Boton colapsable del menu expandido */
 
-.big-sub-cntnt-VIM {
+.expanded-sub-btn-VIM {
     width: 20vw;                                /* Se setea el ancho del menu */
     height: 56px;                               /* Los iconos son de tamano fijo , asi quedan alineados */
 }
@@ -93,7 +105,7 @@
  * big-btn-VIM otros tag  
  */
 
-a.big-sub-cntnt-VIM {
+a.expanded-sub-btn-VIM {
     display: flex;                              /* Estas tres permiten centrar el texto de un <a>*/
     align-items: center;
     justify-content: center;

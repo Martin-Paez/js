@@ -21,7 +21,7 @@ export class ImgThermWidget {
      * o sea, el widget; y el otro, al terminar de cargarse la imagen de fondo.  
      */
     //TODO - Modularizar
-    constructor({container = '.itw_container', initTemp = 0, height = 600, style = ""} = {}) {
+    constructor({container = '.itw_container', initTemp = 0, height = 450, style = ""} = {}) {
         var self = this;
         return new Promise( function(resolve, reject) {
             var html = self.widget(height, style);

@@ -23,7 +23,7 @@ document.addEventListener("load", function() {
         new ImgThermWidget({
             container: ".itw_" + ++i,
             initTemp: input.value, 
-            height: 400
+            height: 300
         }).then( function(w) {
             widget = w;
             multi.emit('itw_load');

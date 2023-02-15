@@ -1,4 +1,3 @@
-
 /**
  * Este es un modo simple y eficiente de manejar botons que ocultan y muestran.
  * 
@@ -12,32 +11,33 @@
  * Es versatil, la sintaxis css permite listar varios elementos.
  * 
  * @example
- * Ejemplo de uso :
+ *      
+ * <button id="show" onclick="switchDsp('#show, .sc','#hide') > Mostrar </button>
  * 
- *      <button id="show" onclick="switchDsp('#show, .sc','#hide') > Mostrar </button>
+ * <buttom id="hide" onclick="switchDsp(this, '#show, .sc') > Mostrar </button>
  * 
- *      <buttom id="hide" onclick="switchDsp(this, '#show, .sc') > Mostrar </button>
- * 
- *      <div class="sc"> 
- *          Contenido 
- *      </div>
- * 
- * 
- *      Quedaria aun mas compacto usando .sc en vez de #show
+ * <div class="sc"> 
+ *      Contenido 
+ * </div>
  * 
  * 
- * Ejemplo de uso:
+ *  Quedaria aun mas compacto usando .sc en vez de #show
  * 
- *      let show = document.getElementById("#show");
- *      let hide = document.getElementById("#hide");
- *      switchDsp(show, hide);
- * 
- *      Con objetos es valido, ya que se usa JQuery: $(show) = $('#showId')
  * @end
  * 
- * @param {* Selector css de elementos que se van a ocultar } hide 
- * @param {* Selector css de elementos que se van mostrar } show 
- * @param {* Valor del atributo Display de css para los elementos de show } dsp 
+ * @example
+ *      
+ * let show = document.getElementById("#show");
+ * let hide = document.getElementById("#hide");
+ * switchDsp(show, hide);
+ * 
+ * Enviar objetos es valido, ya que se usa JQuery: $(show) = $('#showId')
+ * 
+ * @end
+ * 
+ * @param { JQuerySelector }  hide Elementos que se van a ocultar
+ * @param { JQuerySelector }  show Elementos que se van mostrar
+ * @param { DisplayAttr }  dsp Display de css para los elementos de show
  */
 function switchDsp(hide, show, dsp = 'block') {
     $(hide).css('display', 'none');
@@ -45,44 +45,50 @@ function switchDsp(hide, show, dsp = 'block') {
 }
 
 /**
+ * Es una version de switchDsp mas simple para un subconjunto de los problemas.
+ * 
  * El elemento que se clickea debe ser hijo de aquel que se oculta. 
+ *  
+ * @example
+ * <button id="undoBtn" onclick="undoHide('#menu')" > Mostrar </button>
  * 
- * Es una version de turnDsp mas simple para un subconjunto de los problemas.
- * 
- * Ejemplo de uso :
- * 
- *      <button id="undoBtn" onclick="undoHide('#menu')" > Mostrar </button>
- * 
- *      <div id="menu"> 
- * 
- *          <buttom id="hide" onclick="hdieParent('#undoBtn') > 
+ * <div id="menu"> 
+ *      <buttom id="hide" onclick="hdieParent('#undoBtn') > 
  *              Mostrar 
- *          </button>
+ *      </button>
+ *      Contenido 
+ * </div>
+ * @end
  * 
- *          Contenido 
- * 
- *      </div>
- * 
- * 
- *      Mas compacto, se podria asignar .sc en vez de #show
+ * Mas compacto, se podria asignar .sc en vez de #show
  *
- * @param {* Elementos que se van a mostrar. Si se desea, luego, se puede configurar un boton usando undoHide(). } undoBtn 
- * @param {* Valor del atributo Display de css para los elementos de show } dsp 
+ * @param { JQuerySelector } undoBtn Elementos que se van a mostrar. Si se desea, luego,
+ *                                   se puede configurar un boton usando undoHide().
+ * @param { DisplayAttr } dsp Valor del atributo Display de css para los elementos de show
  */
 function hideParent(undoBtn, dsp = 'block') {
     switchDsp(this.parentNode, undoBtn, dsp);
 }
 
 /**
+ * Pensada para usarse en conjunto con hudeParent. 
  * 
- * @param {* Elementos que se van a mostrar} show 
- * @param {*} dsp 
+ * La idea es ocultar el boton que llamo a la funcion y mostrar los elementos sow
+ * 
+ * @param {JQuerySelector} show Elementos que se van a mostrar
+ * @param {DisplayAttr} dsp Valor del atributo Display de css para los elementos show
  */
 function undoHide(show, dsp = 'block') {
     switchDsp(this, show, dsp);
 }
 
-// Otra version para cuando ambos usan el mismo valor de display distinto de block
+/**
+ * Otra version de switchDsp para cuando ambos usan el mismo valor de display
+ * distinto de block. Se intercambia el valor de Display css entre hide y show
+ * 
+ * @param {JQuerySelector} hide Elementos que se van a ocultar
+ * @param {DisplayAttr} show Elementos que se van mostrar
+ */
 function swapDsp(hide, show) {
     hide = $(hide);
     let dsp = hide.attr('display');
@@ -100,12 +106,13 @@ const _DEBUG_VIM = true;
 
 var _vimenu         =   '.VIMenu';
 var _list           =   '.nav-pills';
-var _item           =   '.nav-item';
-var _activeBtn      =   '.nav-link';  
+var _item           =   '.item-VIM';
 
-var _bigContent     =   '.big-content-IVM';
-var _bigSubCnt      =   '.big-sub-cntnt-VIM';
-var _contractBtn    =   '.contract-VIM'
+var _iconBtn        =   '.link-VIM';  
+var _activeBtn      =   `${_iconBtn}.active`;
+var _expandedContent=   '.expanded-content-VIM';
+var _expSubBtn      =   '.expanded-sub-btn-VIM';
+var _contractBtns   =   '.contract-VIM'
 var _expandBtns     =   '.expand-VIM';
 var _hideBtn        =   '.hide-VIM';
 var _showBtn        =   '.show-VIM';
@@ -119,22 +126,26 @@ var urlAttr         =   'load-url-VIM';
 
 class VIMenu {
  
-    defaultAction = {   zero    :   ()  => {return []; } ,
-                        many    :   (x) => {return  x; } ,
-                        one     :   (x) => {return  x; } ,
-                        f       :   (x) => {}            };
+    defaultAction = {   
+                        f        :  (x)     => {}            ,
+                        many     :  (x)     => {return  x; } ,
+                        one      :  (x)     => {return  x; } ,
+                        zero     :  ( )     => {return []; } ,
+                        warnMany :  (n,e)   => {console.warn(`Hay ${n} ${e}`);  } ,
+                        warnZero :  (e)     => {console.warn(`No existe ${e}`); } 
+                    }
 
     constructor() {
 
         let m       =   {};
         let self    =   this;
+        this.menus  =   {}
         let menues  =   $(_vimenu);
 
         menues.each(function(i, menu) {
             menu = $(menu)[0];
             self.initMenus(menu);
             self.initNavBtns(menu.id);
-            self.initLinkBtns()
         })
 
         $(`[${urlAttr}]`).each(function(i, e) {
@@ -146,17 +157,22 @@ class VIMenu {
 
     initMenus(menu) {
 
-        let activeBtn   =   self._initActiveBtn     (menu,               );
-        let bigContent  =   self._initBigContent    (menu,  activeBtn    );
-        let contractBtn =   self.initDescendantBtns (menu,  bigContent   );
-        let showBtns    =   self.initTargetAttrBtns (menu, _showBtn      );
-        let hideBtns    =   self.initTargetIdBtns   (menu, _hideBtn      );
-        let expandBtns  =   self.initTargetIdBtns   (menu, _expandBtns   );
+        let action      =   this.defaultAction;
+        action.warnMany =   (n,e) => {};
+        let expContent  =   this.initTargetIdBtns   (menu,  _expandedContent, action);
 
-        this.menus                          =   {};
+        let hideBtns    =   this.initTargetIdBtns   (menu,  _hideBtn        );
+        let expandBtns  =   this.initTargetIdBtns   (menu,  _expandBtns     );
+        let contractBtns=   this.initTargetIdBtns   (menu,  _contractBtns   );
+        let showBtns    =   this.initTargetAttrBtns (menu,  _showBtn        );
+        let activeBtn   =   this._initActiveBtn     (menu                   );
+        let expSubBtn   =   this._setActiveExpSubBtn(menu, activeBtn        );
+
+        this.menus[menu.id]                 =   {}
+        this.menus[menu.id]['menu']         =   menu;
         this.menus[menu.id]['active']       =   activeBtn;
-        this.menus[menu.id]['bigContent']   =   bigContent;
-        this.menus[menu.id]['contractBtn']  =   contractBtn;
+        this.menus[menu.id]['expContent']   =   expContent;
+        this.menus[menu.id]['contractBtns'] =   contractBtns;
         this.menus[menu.id]['showBtns']     =   showBtns;
         this.menus[menu.id]['hideBtns']     =   hideBtns;
         this.menus[menu.id]['expandBtns']   =   expandBtns;
@@ -165,22 +181,20 @@ class VIMenu {
 
     initNavBtns(menuId) {
 
-        let m = this.menues[menuId];
+        let m           =   this.menus[menuId];
+        let expContent  =   $(m.expContent).add($(m.contractBtns));
 
-        m.showBtns.each(function(i, e) {
-            e.onclick = function() { turnDsp(m.showBtns, m.menu) };
+        $(m.showBtns).each(function(i, e) {
+            e.onclick = function() { switchDsp(m.showBtns, m.menu) };
         });
-        m.hideBtns.each(function(i, e) {
-            e.onclick = function() { turnDsp(m.menu, m.showBtns) };
+        $(m.hideBtns).each(function(i, e) {
+            e.onclick = function() { switchDsp(m.menu, m.showBtns) };
         });
-        m.expandBtns.each(function(i, e) {
-            e.onclick = function() { turnDsp(m.expandBtns, m.bigContent) };
+        $(m.expandBtns).each(function(i, e) {
+            e.onclick = function() { switchDsp(m.expandBtns, expContent) };
         });
-        m.expandBtns.each(function(i, e) {
-            e.onclick = function() { turnDsp(m.expandBtns, m.bigContent) };
-        });
-        m.contractBtn.each(function(i, e) {
-            e.onclick = function() { turnDsp(m.bigContent, m.expandBtns); };
+        $(m.contractBtns).each(function(i, e) {
+            e.onclick = function() { switchDsp(expContent, m.expandBtns) };
         });
 
     }
@@ -192,7 +206,9 @@ class VIMenu {
         return    { zero    : () => { return null; }    , 
                     many    : many                      ,
                     one     : many                      ,
-                    f       : (x) => {}                 };
+                    f       : (x) => {}                 ,
+                    warnMany: (n,e)   => {console.warn(`Hay ${n} ${e}`);  } ,
+                    warnZero: (e)     => {console.warn(`No existe ${e}`); } };
     }
 
     _initActiveBtn(menu) {
@@ -202,62 +218,60 @@ class VIMenu {
                                     return x[0];                        };
         actions.f       = (x) => {  $(x).addClass('active rounded-0');  };
 
-        return this.initTargetIdBtns(menu, `${_activeBtn}.active`, actions);
+        return this.initTargetIdBtns(menu, _activeBtn, actions);
 
     }
 
-    _initBigContent(menu, btn) {
+    _setActiveExpSubBtn(menu, activeBtn) {
 
-        if(btn === null)
-            return this.menus[menu.id][key] = null;
-            
-        let menuItem = $(btn.closest(_item));
-        if(menuItem.length === 0) {
-            console.warn(`${btn} no es hijo de un ${_item}`);
-            return this.menus[menu.id][key] = null;
+        if(activeBtn === null) {
+            console.warn(`No hay ${_activeBtn} en ${menu.id} `);
+            return null;
         }
 
-        let bigContent  = this.tagJob(menuItem.find(_bigContent));
-        let action      = this.singleMode();
-        action.many     = (x) => { x.css('background-color', '#f8f9fa')   ;
-                                 return x[0];                           };
-        action.f        = (x) => { $(x).css('background-color', '#0d6efd')};
-        this.tagJob(bigContent.find(_bigSubCnt), action);
+        let menuItem = $(activeBtn.closest(_item));
+        if(menuItem.length === 0) {
+            console.warn(`${activeBtn} no es hijo de un ${_item}`);
+            return null;
+        }
 
-        return bigContent;
+        let action  =   this.defaultAction;
+        action.f    =   (x) => { $(x).addClass('active rounded-0')  };
+
+        return this.tagJob(menuItem.find(_expSubBtn), action);
     }
 
-    initDescendantBtns(ancestor, type, { zero, many, one, f } = this.defaultAction ) {
+    initDescendantBtns(ancestor, type, { f, many, one, zero, warnMany, warnZero } = this.defaultAction ) {
 
-        return this.tagJob(`#${ancestor} ${type}`, {zero, many, one, f});
+        type = $(ancestor).find($(type));
+        return this.tagJob(type, { f, many, one, zero, warnMany, warnZero });
 
     }
 
     // TODO `#${target.id}` === `target` ???
-    initTargetIdBtns(target, type, { zero, many, one, f } = this.defaultAction ) {
+    initTargetIdBtns(target, type, { f, many, one, zero, warnMany, warnZero } = this.defaultAction ) {
 
-        return this.tagJob(`#${target.id} ${type}`, {zero, many, one, f});
+        return this.tagJob(`#${target.id} ${type}`, { f, many, one, zero, warnMany, warnZero });
 
     }
 
-    initTargetAttrBtns(target, type, { zero, many, one, f } = this.defaultAction ) {
+    initTargetAttrBtns(target, type, { f, many, one, zero, warnMany, warnZero } = this.defaultAction ) {
 
-        return this.tagJob(`${type}[${_target} = ${target.id}]`, {zero, many, one, f});
+        return this.tagJob(`${type}[${_target} = ${target.id}]`, { f, many, one, zero, warnMany, warnZero });
         
     }
 
-    tagJob(type, { zero, many, one, f } = this.defaultAction) {
+    tagJob( type,  { f,  many, one, zero, warnMany, warnZero } = this.defaultAction) {
 
         let b = $(type);
 
         if (b.length == 0) {
-            console.warn(`No existe ${type}`);
+            warnZero(b);
             b = zero();
 
         } else if (b.length > 1) {
-            console.warn(`Hay ${btns.length} ${type}`);
+            warnMany(b.length,b);
             b = many(b);
-
         } else
             b = one(b);
 
@@ -275,17 +289,26 @@ class VIMenu {
     }
 
     setActiveBtn(button){
-        if(this.activeBtn !== null)
-            this.activeBtn.classList.remove('active', 'rounded-0');
-        if(this.activeBigBtn !== null)
-            this.activeBigBtn.style.backgroundColor = '#f8f9fa';
-        button.classList.add('rounded-0', 'active');
-        this.activeBtn = button;
-        let bigBtn = button.parentNode.parentNode.querySelector('.big-btn-VIM');
-        if(bigBtn !== null) {
-            bigBtn.style.backgroundColor = '#0d6efd';
-            this.activeBigBtn = bigBtn;
-        };
+        let menu = $(button.closest(_vimenu))[0];
+        if(this.menus[menu.id].active !== null)
+            this.menus[menu.id].active.classList.remove('active', 'rounded-0');
+        if(this.menus[menu.id].expContent.length > 0) {
+            let expSubBtn = this.menus[menu.id].expContent.find(_expSubBtn);
+            expSubBtn.removeClass('active rounded-0');
+        }
+        button.classList.add('active', 'rounded-0');
+        this.menus[menu.id].active = button;
+
+        let menuItem = $(button.closest(_item));
+        if(menuItem.length === 0) {
+            console.warn(`${btn} no es hijo de un ${_item}`);
+            return;
+        }
+        let expContent  = this.tagJob(menuItem.find(_expandedContent));
+        this.menus[menu.id].expContent = expContent;
+        let bigBtn = $(expContent).find(_expSubBtn);
+        if(bigBtn.length > 0)
+            $(bigBtn).addClass('active rounded-0');
     }
 }
 

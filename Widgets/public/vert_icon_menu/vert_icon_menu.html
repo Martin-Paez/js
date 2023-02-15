@@ -131,8 +131,8 @@
             <!-- Boton que abre el menu desplegable OffCanvas -->
 
                 <!-- Para abrir el offcanvas se necesito data-bs-toggle, role y href -->
-            <li class="nav-item"> 
-                <a  class="nav-link" href="#offcanvasMenu" 
+            <li class="nav-item item-VIM"> 
+                <a  class="nav-link link-VIM" href="#offcanvasMenu" 
                     data-bs-toggle="offcanvas" role="button">
                     
                     <svg> <use xlink:href="#cpu-fill"></use>  </svg>
@@ -140,34 +140,34 @@
                 </a>
             </li>
 
-            <!-- Boton que muestra el dashboard de gridstack con highcharts -->
+            <!-- Item del menu para el gauge -->
 
-            <li class="nav-item d-flex">
+            <li class="nav-item item-VIM d-flex">
 
                 <!-- Boton del Gauge -->
 
                 <div> 
-                    <a  class="nav-link active rounded-0" href="#" load-url-VIM="ej_grid.html">
+                    <a  class="nav-link link-VIM active rounded-0 " href="#" load-url-VIM="ej_grid.html">
                         
                         <svg> <use xlink:href="#speedometer2"></use> </svg>
                     
                     </a>
                 </div>
 
-                <!-- Extension del menu -->
+                <!-- Contenido del menu extendido para el Gauge -->
 
-                <div class="big-content-IVM">
+                <div class="expanded-content-VIM">
 
-                    <!-- Titulo y boton para mostrar/ocultar el texto -->
+                    <!-- Boton para mostrar/ocultar el texto dentro del menu extendido para el gauge-->
 
-                    <a  class="big-sub-cntnt-VIM btn rounded-0" href="#collapseGauge"
+                    <a  class="expanded-sub-btn-VIM btn nav-link active rounded-0" href="#collapseGauge"
                         data-bs-toggle="collapse" role="button">
 
                         Gauge (Indicadores)
                     
                     </a>
 
-                    <!-- Textp que se oculta o muestra -->
+                    <!-- Textp que se oculta o muestra dentro del menu extendido para el gauge -->
 
                     <div id="collapseGauge" class="collapse" 
                         style="width: 20vw;" >
@@ -182,9 +182,9 @@
 
             </li>
 
-            <!-- Boton que muestras los ejemplos de ItwThermometer -->
+            <!-- Item del menu para el ItwThermometer -->
 
-            <li class="nav-item  d-flex">
+            <li class="nav-item item-VIM d-flex">
 
                 <!-- Boton del termometro -->
 
@@ -192,20 +192,20 @@
                         siguiene link <a> (que es azul cuando esta activo) al expandirse 
                         .big-LVIM. Lo que se expande es el div, no el tag <a>.-->
                 <div> 
-                    <a  class="nav-link" href="#" load-url-VIM="itw_ej_tabs.html">
+                    <a  class="nav-link link-VIM" href="#" load-url-VIM="itw_ej_tabs.html">
                         
                         <svg> <use xlink:href="#thermometer"></use> </svg>
 
                     </a>
                 </div>
 
-                <!-- Extension del menu -->
+                <!-- Contenido del menu extendido para el termometro -->
 
-                <div class="big-content-IVM">
+                <div class="expanded-content-VIM">
 
-                    <!-- Titulo y boton para mostrar/ocultar el texto -->
+                    <!-- Boton para mostrar/ocultar el texto del menu extendido para el termometro -->
 
-                    <a class="big-sub-cntnt-VIM btn"  href="#collapseTherm" 
+                    <a class="expanded-sub-btn-VIM btn nav-link"  href="#collapseTherm" 
                         data-bs-toggle="collapse"role="button"
                         style="width: 20vw; height: 56px; display: flex; align-items: center; justify-content: center;" >
                         
@@ -213,7 +213,7 @@
 
                     </a>
 
-                    <!-- Textp que se oculta o muestra -->
+                    <!-- Texto que se oculta o muestra dentro del menu extendido para el termometro -->
 
                     <div class="collapse" style="width: 20vw;" id="collapseTherm">
                         <div class="card card-body" >

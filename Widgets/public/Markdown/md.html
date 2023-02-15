@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Mostrar Markdown</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/styles/default.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/highlight.min.js"></script>      
+    </head>
+    <body>
+        <div id="markdown"></div>
+        <script>
+            hljs.initHighlightingOnLoad();
+            var markdownText = "```javascript\nconsole.log('Hola, mundo!');\n```";
+            var markdownHTML = marked(markdownText);
+            document.getElementById("markdown").innerHTML = markdownHTML;
+        </script>
+    </body>
+</html>

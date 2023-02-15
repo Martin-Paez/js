@@ -19,8 +19,17 @@ permite usar el archivo como modulo js. Sin embargo, es un muy simple eh intuiti
 
 <a name="switchDsp"></a>
 
-## switchDsp(hide, show, dsp)
-Este es un modo simple y eficiente de manejar botons que ocultan y muestran. Pensado para el evento onclick en los tag html. Implica colocar js embebido y nopermite usar el archivo como modulo js. Sin embargo, es un muy simple eh intuitivo.Ademas, se puede usar desde js, sin embeber codigo.Es la eficiente, no es necesario recorrer el DOM.Es versatil, la sintaxis css permite listar varios elementos.
+## switchDsp(Selector, Selector, del)
+Este es un modo simple y eficiente de manejar botons que ocultan y muestran.
+
+Pensado para el evento onclick en los tag html. Implica colocar js embebido y no
+permite usar el archivo como modulo js. Sin embargo, es un muy simple eh intuitivo.
+
+Ademas, se puede usar desde js, sin embeber codigo.
+
+Es la eficiente, no es necesario recorrer el DOM.
+
+Es versatil, la sintaxis css permite listar varios elementos.
 
 **Kind**: global function  
 **End**:   
@@ -33,17 +42,32 @@ Este es un modo simple y eficiente de manejar botons que ocultan y muestran. P
 | dsp | <code>DisplayAttr</code> | <code>block</code> | Display de css para los elementos de show |
 
 **Example**  
-```js
-<button id="show" onclick="switchDsp('#show, .sc','#hide') > Mostrar </button><buttom id="hide" onclick="switchDsp(this, '#show, .sc') > Mostrar </button><div class="sc">      Contenido </div> Quedaria aun mas compacto usando .sc en vez de #show
+```html
+<button id="show" onclick="switchDsp('#show, .sc','#hide') > Mostrar </button>
+
+<buttom id="hide" onclick="switchDsp(this, '#show, .sc') > Mostrar </button>
+
+<div class="sc"> 
+     Contenido 
+</div>
+
+
+Quedaria aun mas compacto usando .sc en vez de #show
 ```
 **Example**  
 ```js
-let show = document.getElementById("#show");let hide = document.getElementById("#hide");switchDsp(show, hide);Enviar objetos es valido, ya que se usa JQuery: $(show) = $('#showId')
+let show = document.getElementById("#show");
+let hide = document.getElementById("#hide");
+switchDsp(show, hide);
+
+Enviar objetos es valido, ya que se usa JQuery: $(show) = $('#showId')
 ```
 <a name="hideParent"></a>
 
 ## hideParent(undoBtn, dsp)
-El elemento que se clickea debe ser hijo de aquel que se oculta. Es una version de turnDsp mas simple para un subconjunto de los problemas.
+El elemento que se clickea debe ser hijo de aquel que se oculta. 
+
+Es una version de turnDsp mas simple para un subconjunto de los problemas.
 
 **Kind**: global function  
 **End**: Mas compacto, se podria asignar .sc en vez de #show  
@@ -55,7 +79,14 @@ El elemento que se clickea debe ser hijo de aquel que se oculta. Es una versio
 
 **Example**  
 ```js
-<button id="undoBtn" onclick="undoHide('#menu')" > Mostrar </button><div id="menu">      <buttom id="hide" onclick="hdieParent('#undoBtn') >              Mostrar      </button>     Contenido </div>
+<button id="undoBtn" onclick="undoHide('#menu')" > Mostrar </button>
+
+<div id="menu"> 
+     <buttom id="hide" onclick="hdieParent('#undoBtn') > 
+             Mostrar 
+     </button>
+     Contenido 
+</div>
 ```
 <a name="undoHide"></a>
 

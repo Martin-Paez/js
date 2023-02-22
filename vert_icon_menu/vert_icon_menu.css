@@ -3,17 +3,20 @@
 
 .VIMenu {
     /*min-width: 4.5rem;*/
+    max-width: 30vh;                            /* Se setea el ancho del menu */
     height: 100vh;                              /* El menu es justo el alto de la ventana */
 }                                               /* Al cargarse el contenido con <object> el menu queda fijo */
-
 
 /* Item del menu */
 
 .VIMenu .nav-pills .nav-item {
     border-bottom: 1px solid #dee2e6;          /* Divisor entre iconos */
-    border-radius: 0;                            /* Quito las puntas redondeadas de bootstrap */
+    border-radius: 0 !important;                 /* Quito las puntas redondeadas de bootstrap */
 }
 
+.nav-link {
+    border-radius: 0 !important; 
+}
 
 /* Menu vertical derecho (RVIM)*/
 
@@ -21,11 +24,18 @@
     margin-left: auto;                           /* Ubicado a la derecha */
 }
 
+.contract-VIM:hover, 
+.extend-VIM:hover,
+.hide-VIM:hover, 
+.show-VIM:hover,
+.link-VIM:hover {
+    background-color: rgb(228, 236, 244);
+}
 
 /* Botones (<a>) para visualizar menu*/
 
 .contract-VIM, 
-.expand-VIM,
+.extend-VIM,
 .hide-VIM, 
 .show-VIM {
     padding:0 6px 0 6px;
@@ -69,7 +79,7 @@
 
 .hide-VIM svg, 
 .show-VIM svg,
-.expand-VIM svg, 
+.extend-VIM svg, 
 .contract-VIM svg {
     width: 15px !important;                                /* Los botones de expandir/ocultar son mas chicos, van dos juntos */
 }
@@ -77,7 +87,7 @@
  /* Iconos (svg) */
 
 .VIMenu .nav-pills .nav-item .nav-link svg,
-.expanded-sub-btn-VIM svg,
+.expanded-title-VIM svg,
 .show-VIM svg {
     display: inline-block;    
     width: 24px;
@@ -94,9 +104,8 @@
 
 /* Boton colapsable del menu expandido */
 
-.expanded-sub-btn-VIM {
-    width: 20vw;                                /* Se setea el ancho del menu */
-    height: 56px;                               /* Los iconos son de tamano fijo , asi quedan alineados */
+.expanded-title-VIM {
+     height: 56px;                               /* Los iconos son de tamano fijo , asi quedan alineados */
 }
 
 
@@ -105,7 +114,7 @@
  * big-btn-VIM otros tag  
  */
 
-a.expanded-sub-btn-VIM {
+a.expanded-title-VIM {
     display: flex;                              /* Estas tres permiten centrar el texto de un <a>*/
     align-items: center;
     justify-content: center;

@@ -1,13 +1,14 @@
-import { IAction } from "./IAction.mjs";
+import { Action } from "./Action.mjs";
 
-export class ToggleClass extends IAction
+export class ToggleClass extends Action
 {
-    constructor($target, className) {
-        this.$target = $target;
+    constructor(targetQuery, className) {
+        super();
+        this.$target = $(targetQuery);
         this.class = className;
     }
 
     do() {
-        this.$target.ToggleClass(this.class);
+        this.$target.toggleClass(this.class);
     }
 }

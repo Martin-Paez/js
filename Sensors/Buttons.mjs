@@ -1,6 +1,6 @@
-import {Sensor} from './Sensor.mjs';
+import {Sensors} from './Sensors.mjs';
 
-export class Button extends Sensor 
+export class Buttons extends Sensors
 {
     constructor(query, action) 
     {

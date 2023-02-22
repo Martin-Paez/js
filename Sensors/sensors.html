@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .blue-theme {
+            background-color: rgb(33, 99, 240);
+            color: white;
+            border-color: rgb(33, 99, 240);
+        }
+    </style>
+</head>
+<body>
+    <button class="a" href="#">Alert</button>
+    <button class="b" href="#">Change Theme</button>
+    <script type="module">
+        import {OnHover}    from './OnHover.mjs'
+        import {Buttons}    from './Buttons.mjs';
+        import {EffectBtns} from './EffectBtns.mjs';
+        import {Sensors}    from './Sensors.mjs';
+        import {ToggleClass}from './ToggleClass.mjs';
+        import {Action}     from './Action.mjs';
+
+        let popupMsg    = new Action( () => {alert('a')} );
+        let btnA        = new Buttons('.a', popupMsg);
+
+        let $b          = $('.b');
+
+        let toggleTheme = new ToggleClass('button', 'blue-theme');
+        let hoverB      = new OnHover($b, toggleTheme);
+        
+        let hoverOff = new Action( ()=>{
+                        hoverB.off();   
+                        let hoverOn = new Action( ()=>{hoverB.on()} );
+                        let outB    = new Sensors('mouseout', $b, hoverOn, false);
+                        outB.one(); 
+                    });
+        let btnB = new Buttons($b, hoverOff);
+
+    </script>
+</body>
+</html>

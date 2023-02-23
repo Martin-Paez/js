@@ -16,9 +16,9 @@ export class Sensors
         return this;
     }
 
-    on(eventList = this.events) {
+    on(eventList=this.events, action=this.action) {
         eventList.forEach(e => {
-            this.sel.on(e, this.action);
+            this.sel.on(e, action);
         });
         return this;
     }
@@ -58,7 +58,8 @@ export class Sensors
     }
 
     addEventList(eventList) {
-        this.events.concat(eventList);
+        this.events = this.events.concat(eventList);
+        this.events = [...new Set(this.events)];
         this.on(eventList);
     }
 

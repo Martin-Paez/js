@@ -1,0 +1,75 @@
+.folding-links > *:hover {    
+    margin-right: 0 rem;
+    color: black;
+    background-color: lightgray;
+    box-shadow: 0 0 0.5rem 0.5rem lightgray;
+}
+
+.fold-btn i:hover {
+    color: white;
+}
+
+.show-btn:hover {
+    background-color: rgb(77, 77, 77) !important; 
+    font-size: 2rem !important;
+    box-shadow: 0 0 0.1rem 0.1rem rgb(98, 96, 96);
+    color: lightgray;
+    border: 0.1rem solid rgb(212, 210, 210);
+}
+
+.visibleSpan {
+    overflow: visible !important;
+}
+
+/* .expand-btn y .narrow */
+
+.folding-menu.narrow { 
+    width: 4rem;
+    box-shadow: 0 0 0.3rem 0.3rem;
+}
+
+.folding-menu.narrow a {  
+    background-color: #202123;
+    box-shadow: 0 0 0 0; 
+    display: flex;
+    padding: 0 0 0 0.25rem;
+}
+
+.folding-menu.narrow .expand-btn:hover {
+    overflow: hidden;
+    color: white;
+}
+
+.folding-menu.narrow .folding-links a:hover i { 
+    color: #a09c9c;
+}
+
+.folding-menu.narrow .folding-links i {
+    font-size: 2.5rem; 
+    padding-left: 0.5rem;
+}
+
+.folding-menu.narrow .expand-btn i {
+    transform: scaleX(-1);
+}
+
+.folding-menu.narrow span {
+    overflow: hidden;
+}
+
+/* .hide-btn  y .hidden */
+/* .show-btn y .enable  */
+
+.folding-menu.hidden {
+    transform: translateX(-110%);
+}
+
+.folding-menu.hidden .hide-btn i {
+    transform: scaleX(-1);
+}
+
+.show-btn.enable {
+    opacity: 50%;
+    transform: translateX(0rem);
+    transition: transform 1s ease-in-out;
+}

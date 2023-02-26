@@ -21,8 +21,9 @@
 .closing,
 .opening {
     animation-name: open;
-    animation-duration: 1s;
+    animation-duration: 0.5s;
     animation-fill-mode: forwards;
+    animation-timing-function: ease-out;
 }
 
 .closing {

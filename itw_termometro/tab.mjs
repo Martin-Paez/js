@@ -24,8 +24,9 @@ document.addEventListener("DOMContentLoaded", function() {
          * esto ayuda a la hora de analizar el codigo para comprender cada ejemplo.
          * 
          */
+        let tabPanes = $('.tab-pane'); 
         $('.tab-pane').each( function(n) {
-            $('.tab-pane')[n].innerHTML = "";
+            tabPanes[n].innerHTML = "";
         });
         $('head [tabContent="true"]').remove();
         loadTab_serverSolution($(this));

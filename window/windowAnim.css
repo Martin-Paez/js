@@ -1,0 +1,30 @@
+.pop-window {
+    transform: translateX(-100vw);
+}
+
+@keyframes open {
+    0% {
+        transform: translateX(0vw);
+        opacity: 0%;
+    }
+    100% {
+        transform: translateX(0vw);
+        opacity: 80%;
+    }
+}
+
+.open {
+    transform: translateX(0vw);
+    opacity: 80%;
+}
+
+.closing,
+.opening {
+    animation-name: open;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+}
+
+.closing {
+    animation-direction: reverse;
+}

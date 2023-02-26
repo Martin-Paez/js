@@ -1,7 +1,3 @@
-import {HoverStyleMgr} from './HoverStyleMgr.mjs';
-import {ToggleList} from './ToggleList.mjs';
-import {ToggledAlwaysVisibleBtns} from './ToggledAlwaysVisibleBtns.mjs';
-
 document.addEventListener('DOMContentLoaded', ()=>
 {   
     let menus = $('.folding-menu');

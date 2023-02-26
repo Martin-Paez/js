@@ -1,6 +1,6 @@
-import * as hco from './HighChartOpts.mjs';
-import {WidgetsGrid} from './WidgetsGrid.mjs'
-
+import { genericChart, speedometer, defaultOpts} from './HighChartOpts.mjs';
+import { WidgetsGrid } from './WidgetsGrid.mjs'
+import { IotMenu } from './IotMenu.mjs';
 /*
  * NO uso load porque no hay ningun elemento (como una imagen) en el html
  * que genere ese evento. Si lo hubiera deberia usar load, porque 
@@ -10,20 +10,22 @@ document.addEventListener("DOMContentLoaded", function() {
     let sx = [ '9/2/2023 10:05:00', '9/2/2023 10:10:00', '9/2/2023 10:15:00' ];
     let sy = [{ name: 'Temperatura', data: [49, 55, 106.4] }];
 
-    let  grid = new WidgetsGrid(window.innerHeight * (1/8));
+    let rowHeight = window.innerHeight * (1/8);
+    let  grid = new WidgetsGrid(rowHeight);
     
-    let buttons = hco.chartsButtonList();
-    buttons.push(hco.menuSeparatorLine());
-    buttons.push(hco.showTableBtn(grid));
-    buttons.push(hco.closeBtn(grid));
-    let opts = { yTitle:'[ºC]', /*rotation: -45,*/ colorsLabel: false,
-                 buttons: buttons };
+    let opts = defaultOpts();
+    opts.menu = new IotMenu(grid).literalObj();
+    
+    let chart = genericChart('line', sx, sy, 'Humedad', '[%]', opts);
+    grid.addHighChart(chart, {x:8, y:0, w:4, h:4}, 'Humedad');
 
-    grid.addHighChart2('line', /*x*/8, /*y*/0, /*w*/4, /*h*/4, sx, sy, 'Humedad', opts);
-    grid.addHighChart2('column', 8, 4, 4, 4, sx, sy, 'Luminancia', opts);
+    chart = speedometer(50, 'Luminancia', '[Lux]', opts);
+    grid.addHighChart(chart, {x:8, y:4, w:4, h:4}, 'Lux');
 
+    
+    
     let column = JSON.parse(JSON.stringify(sy[0]));  // Deep copy
-    // Variacion aletarea, de a multiplos de 10
+    // Variacion aleatorea de a multiplos de 10
     column.data = column.data.map(x => x + (Math.random() - 0.5) * 100); 
     column.type = 'column';
     sy.unshift(column);           // unshift() y no push(), se muestran por detras 
@@ -40,14 +42,16 @@ document.addEventListener("DOMContentLoaded", function() {
                 {name:'Dht22'   , y: 50, color: '#800080'} ] ,
         // Uso % para que sea responsivo
         center: ['15%', '15%'], 
-        size: '20%',            
-        innerSize: '70%',
+        size: '25%',            
+        innerSize: '60%',
         showInLegend: false,
         dataLabels: { enabled: true },
     };
     sy.unshift(pie);
 
-    grid.addHighChart2('line', 0, 0, 8, 8, sx, sy, 'Temperatura', opts);
+    chart = genericChart('line', sx, sy, 'Temperatura', '[ºC]', opts);
+    grid.addHighChart(chart, {x:0, y:0, w:8, h:8}, 'Temp');
+
     
 });
 

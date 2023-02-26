@@ -1,0 +1,83 @@
+html {
+    font-size: 62.5%;
+}
+
+body {
+    font-size: 1.6rem;
+}
+
+.pop-window {
+    height: 80vh;
+    width: 70vw;
+    background-color: rgb(148, 170, 217);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    display: none;
+    opacity: 0%;
+    border-radius: 1rem;
+    transition: opacity 1s ease-out ;
+}
+        
+.pop-window.init-open {
+    display: block;
+    opacity: 0%;
+}
+
+.pop-window.opening {
+    opacity: 80%;
+}
+
+.pop-window.open {
+    display: block;
+    opacity: 80%;
+}
+
+.pop-window.init-close {
+    display: block;
+    opacity: 80%;
+}
+
+.pop-window.closing {
+    opacity: 0%;
+}
+
+.pop-window.close {
+    display: none;
+    opacity: 0%;
+}
+
+.hrz-menu {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 95% 5%;
+}
+
+.nav-tab {
+    width: 100%;
+}
+
+.close-pop-window {
+    background-color: rgba(176, 19, 19, 0.823);
+    color: rgb(240, 216, 216);
+    height: 100%;
+    width: 100%;
+    border-bottom: 0.01rem solid rgb(236, 218, 218);
+    border-radius: 0 1rem 0 0;
+    font-size: 2rem;
+    text-align: center;
+    text-decoration: none;
+}
+.close-pop-window:hover {
+    background-color: rgba(188, 75, 75, 0.823);
+    color: rgb(241, 228, 228);
+    box-sizing : border-box;
+    padding: 0.1rem;
+}
+.close-pop-window:active {
+    background-color: rgba(109, 12, 12, 0.823);
+    color: rgb(231, 178, 178);
+}

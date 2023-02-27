@@ -36,10 +36,9 @@
  * como hijos del div, no como nietos.
  * 
  */
-export function loadTab_clientSolution(navLink) {
+export function loadTab_clientSolution(url, containerQ) {
     // if (navLink.attr('loaded') !== undefined) return;    
     // navLink.attr('loaded', true);    // Cargar por unica vez el contenido de los tab
-    var url = navLink.data('url');
     var request = $.ajax({
         url: url,
         async: true
@@ -48,8 +47,7 @@ export function loadTab_clientSolution(navLink) {
         var headContent = response.match(/<head>([\s\S]*?)<\/head>/)[1];
         var bodyContent = response.match(/<body>([\s\S]*?)<\/body>/)[1];
         appendHeadTags(headContent, "tabContent", "true").then( () => { 
-            var tabContainer = navLink.data('bs-target');
-            $(tabContainer).html(bodyContent);
+            $(containerQ).html(bodyContent);
         });
     });
 }
@@ -64,7 +62,7 @@ export function loadTab_clientSolution(navLink) {
  * Se solicita, por separado y mediante de ajax, el contenido del head y del body.
  * 
  */
-export function loadTab_serverSolution(navLink) {
+export function loadTab_serverSolution(url, containerQ) {
     // if (navLink.attr('loaded') !== undefined) return;    
     // navLink.attr('loaded', true);    // Cargar por unica vez el contenido de los tab
     var url = navLink.data('url');
@@ -74,7 +72,7 @@ export function loadTab_serverSolution(navLink) {
     });
     $.when(headRequest).done(function(headRes) {
         appendHeadTags(headRes, "tabContent", "true").then( () => { 
-            loadBody(url, navLink.data('bs-target'));
+            loadBody(url, containerQ);
         });
     });
 }

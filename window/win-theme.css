@@ -6,7 +6,6 @@
 .close-pop-window {
     background-color: rgba(176, 19, 19, 0.823);
     color: rgb(240, 216, 216);
-    border-bottom: 0.01rem solid rgb(236, 218, 218);
     border-radius: 0 1rem 0 0;
     font-size: 2rem;
 }

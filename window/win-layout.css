@@ -17,21 +17,13 @@ body {
     margin: auto;
 }
 
-.hrz-menu {
-    width: 100%;
-    display: grid;
-    grid-template-columns: 95% 5%;
-}
-
-.nav-tab {
-    width: 100%;
-}
-
 .close-pop-window {
-    height: 100%;
-    width: 100%;
+    display: block;
+    height: 3rem;
+    width: 3rem;
     text-align: center;
     text-decoration: none;
+    margin-left: auto;
 }
 
 .close-pop-window:hover {

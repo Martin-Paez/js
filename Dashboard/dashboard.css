@@ -1,0 +1,16 @@
+@import url("window.css");
+@import url("dboard-window.css");
+
+body {
+    background-image: url(https://t4.ftcdn.net/jpg/05/29/56/89/360_F_529568918_w7lm41Pb5yTvNTq3IOFOce4KIHHUWnEa.jpg);
+    margin:0;
+    background-size: cover;
+    background-position: center;
+}
+body {
+    margin:0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

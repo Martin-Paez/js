@@ -10,8 +10,12 @@ import {loadTab_serverSolution} from '/html_importers/hb_importer.mjs'
  *  
  */
 document.addEventListener("DOMContentLoaded", function() {
+    
+    let navLink     = $('.nav-link:first');
+    let containerQ  = navLink.data('bs-target')
+    var url         = navLink.data('url');
 
-    loadTab_serverSolution($('.nav-link:first'));
+    loadTab_serverSolution(url, containerQ);
 
     $('.nav-link').on('click', function() {
         /* Cada ejemplo, o sea, el contenido de los tab, deber ser un proyecto independiente. Por
@@ -29,7 +33,11 @@ document.addEventListener("DOMContentLoaded", function() {
             tabPanes[n].innerHTML = "";
         });
         $('head [tabContent="true"]').remove();
-        loadTab_serverSolution($(this));
+        
+        let navLink     = $(this);
+        let containerQ  = navLink.data('bs-target')
+        var url         = navLink.data('url');
+        loadTab_serverSolution(url, containerQ);
     });
 
 });

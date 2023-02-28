@@ -1,12 +1,128 @@
-export function defaultOpts()
+export class Source 
 {
-    return { 
-        xTitle      :   "",
-        rotation    :   0,
-        tooltip     :   true,
-        menuBtns    :   null,
-        colorsLabel :   false
-    };
+    constructor(size, x, series, client, credentials, query)
+    {
+        this._creds  = credentials;
+        this._client = client;
+        this._query  = query;
+        this._series = series;
+        this._x      = x;
+    }
+
+    x(n) {
+        return this._x.slice(-n);
+    }
+
+    y(n) {
+        
+    }
+
+    subscribe() {
+        if (! client.connected) {
+            client.connect(options, function(error) {
+            if (error) {
+                console.log("Error al conectarse:", error);
+            } else {
+                console.log("Conexión exitosa!");
+            }
+            });
+        }
+          
+        this._client.subscribe(query, ()=>{
+            alert(`No fue posible subscribirse a ${query}`);
+        });
+        this._client.on('message', this.callback.bind(this));
+    }
+
+    desubscribe() {
+        alert("Falta implementar Source.desubscribe");
+    }
+
+    callback(topic, message) {
+        this._series[topico].data.concat(message.payload.values);
+    }
+
+}
+
+export class Gauge 
+{
+    constructor(source, title="", opts = Graph.defaultOpts())
+    {
+        this._source = source;
+        this._title  = title;
+        this._opts   = opts; 
+    }
+
+    static defaultOpts()
+    {
+        return { 
+            menu : {enabled: false},
+        };
+    }
+
+    source() {
+        return this._source;
+    }
+
+    title() {
+        return this._title;
+    }
+
+    menu() {
+        return this._opts.menu;
+    }
+}
+
+export class Graph extends Gauge
+{
+    constructor(source, n, title="", yUnits, opts = Graph.defaultOpts())
+    {
+        super(source, title, opts);
+        this.yUnits = yUnits;
+        this.n = n;
+    }
+
+    static defaultOpts()
+    {
+        let opts = super.defaultOpts();
+        let adds = { 
+            xTitle      :   "",
+            tooltip     :   true,
+            rotation    :   0,
+            colorsRef   :   false
+        };
+        return Highcharts.merge(opts, adds);
+    }
+
+    yUnits() {
+        return this._yUnits;
+    }
+
+    n() {
+        return this._n;
+    }
+
+    xTitle() {
+        return this._opts.xTitle;
+    }
+
+    tooltip() {
+        return this._opts.tooltip;
+    }
+
+    rotation() {
+        return this._opts.rotation;
+    }
+
+    colorRef() {
+        return this._opts.colorRef;
+    }
+}
+
+export function chartStruct(type, graph) 
+{
+    let g = graph;
+    return genericChart(type, g.n(), g.x(), g.y(), )
 }
 
 /*
@@ -20,42 +136,40 @@ export function defaultOpts()
  * 
  * Para crear el menu se puede usar HChartMenu o sus hijos.
  */
-export function genericChart(type, x, y, title="", yUnits, {xTitle, menu ,tooltip ,
+export function genericChart(type, n, x, y, title="", yUnits, {xTitle, menu ,tooltip ,
                                         rotation , colorsLabel } = defaultOpts())
 {
     let graph = {
-            chart:    { type:               type        },   // Tipo de grafico
+            chart:    { type:               g.type()    },   // Tipo de grafico
             credits:  { enabled:            false       },   // Quita hightcharts.com label 
             tooltip:  { enabled:            false       },   // Cartel con info de cada punto
-            title:    { text:               title       },   // Titulo del grafico
-            legend:   { enabled:            colorsLabel },   // Quita el Label de "Colores del Eje Y"
-            yAxis:    { title:{ text:       yUnits       ,   // Unidades, label Ehe Y
+            exporting:                      g.menu()     ,   // Menu del grafico
+            title:    { text:               g.title()   },   // Titulo del grafico
+            legend:   { enabled:            g.colorRef()},   // Quita el Label de "Colores del Eje Y"
+            yAxis:    { title:{ text:       g.yUnits()   ,   // Unidades, label Ehe Y
                                 style:
                                 {   fontSize:  '14px'    , 
                                     fontWeight: 'bold'  },
                                 offset:     10           ,   // Mover label horizontal
                                 rotation:   0            ,   // Lo volteo, queda horizontal
                                 align:      'high'       ,   // Poner arriba el label
-                                y:          -30          ,}},// Subir un poco mas el label
+                                y:          -30       ,}},// Subir un poco mas el label
             series:/*[{ name:               'Variable',      
-            yAxis       data:*/             y   /*}]*/   ,    // Datos del Eje Y [name: 'var', data:[1,2] ]
-            xAxis:    { categories:         x            ,    // Datos del Eje X [1,2,3]
+            yAxis       data:*/             g.y(0,n)/*}]*/,    // Datos del Eje Y [name: 'var', data:[1,2] ]
+            xAxis:    { categories:         g.x(0,n)     ,    // Datos del Eje X [1,2,3]
                             labels:{ 
-                                rotation:   rotation   },   // Rotar labels del Eje X
+                                rotation:   g.rotation() },   // Rotar labels del Eje X
                             title: { 
-                                text:       xTitle      ,    // Unidades, label Ehe X
+                                text:       g.xTitle()    ,    // Unidades, label Ehe X
                                 style:
-                                {   fontSize:  '14px'   , 
-                                    fontWeight: 'bold'} ,
-                                offset:     10          ,     // Mover label horizontal
-                                align:      'high'      ,     // Llevar el label al extremo derecho
-                                x:          -20         ,     // Desplazar el label horizontalmente
-                                y:          20          }}    // Bajar un poco el label
+                                {   fontSize:  '14px'     , 
+                                    fontWeight: 'bold'}   ,
+                                offset:     10            ,     // Mover label horizontal
+                                align:      'high'        ,     // Llevar el label al extremo derecho
+                                x:          -20           ,     // Desplazar el label horizontalmente
+                                y:          20            }}    // Bajar un poco el label
             //plotOptions:{ line:    { /* Style del grafico de linea */ },
     };
-
-    if (menu !== null)  // Menu del grafico
-        graph.exporting = menu;
 
     if (tooltip)        // click para Mostrar/Ocultar los valores al pasar el mouse  
         Highcharts.addEvent(Highcharts.Point, 'click', function () {
@@ -82,6 +196,9 @@ export function genericChart(type, x, y, title="", yUnits, {xTitle, menu ,toolti
 
 export function speedometer(val, title, units, opts = defaultOpts()) 
 {
+    if (opts.menu === null)  
+        opts.menu = {enabled: false};
+
     return  {
             chart:    { type:               'gauge'         },
             exporting:                      opts.menu       ,

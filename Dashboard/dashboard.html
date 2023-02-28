@@ -12,18 +12,71 @@
     <script src="dashboard.js" type="module"></script>
     <link href="dashboard.css" rel="stylesheet">
 
+    <!-- Highcharts -->
+    <script src="node_modules/highcharts/highcharts.js"></script>
+    <script src="node_modules/highcharts/modules/exporting.js"></script>
+
+    <!-- gauge - Highcharts -->
+    <script src="./node_modules/highcharts/highcharts-more.js"></script>
+
+    <script src="node_modules/highcharts/modules/exporting.js"></script>
+    <script src="node_modules/highcharts/modules/export-data.js"></script>
+    <script src="node_modules/highcharts/modules/accessibility.js"></script>
+
+    <!-- heatmap -->
+    <script src="node_modules/highcharts/modules/heatmap.js"></script>
+
+    <script src="node_modules/highcharts/modules/treemap.js"></script>
+
+    <script src="node_modules/highcharts/modules/funnel.js"></script>
+    
+    <script src="node_modules/highcharts/modules/solid-gauge.js"></script>
+
+    <script src="node_modules/highcharts/modules/histogram-bellcurve.js"></script>
+
+    <!--script src="node_modules/highcharts/modules/parallel-coordinates.js"></script-->
+
+    <!--script src="node_modules/highcharts/modules/sankey.js"></script-->
+
+    <script src="node_modules/highcharts/modules/sunburst.js"></script>
+
+    <!--script src="node_modules/highcharts/modules/variwide.js"></script-->
+
+    <!--script src="node_modules/highcharts/modules/vector.js"></script-->
+
+    <script src="node_modules/highcharts/modules/windbarb.js"></script>
+
+    <script src="node_modules/highcharts/modules/wordcloud.js"></script>
+
+    <!--script src="node_modules/highcharts/modules/networkgraph.js"></script-->
+
+    <script src="node_modules/highcharts/modules/timeline.js"></script>
+
+    <!--script src="node_modules/highcharts/modules/xrange.js"></script-->
+
+    <!--script src="node_modules/highcharts/modules/xrange.js"></script-->
+
+    <link href="node_modules/gridstack/dist/gridstack.min.css" rel="stylesheet"/>
+    <script src="node_modules/gridstack/dist/gridstack-all.js"></script>
+
 </head>
 <body>
+    <div class="grid-stack"></div>
     <div class="pop-window">
         <div class="dbw-menu">
             <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <a class="nav-link active" data-bs-toggle="tab" data-bs-target="#uno" href="#">
+                    <a class="nav-link active" data-bs-toggle="tab" data-bs-target="#dbw_hist" href="#">
                         Widgets
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="tab" data-bs-target="#dos" href="#">
+                    <a class="nav-link" data-bs-toggle="tab" data-bs-target="#dbw_met" href="#">
+                        Widgets
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" data-bs-target="#dbw_comp" href="#">
                         Widgets
                     </a>
                 </li>
@@ -31,10 +84,12 @@
             <a class="close-pop-window"s href="#">X</a>
         </div>
         <div class="tab-content">
-            <div class="tab-pane fade show active" id="uno"></div>
-            <div class="tab-pane fade show active" id="dos"></div>
+            <div class="tab-pane fade show active" id="dbw_hist"></div>
+            <div class="tab-pane fade show " id="dbw_met"></div>
+            <div class="tab-pane fade show " id="dbw_comp"></div>
         </div>
     </div>
     <button id="open">Abrir</button>
+
 </body>
 </html>

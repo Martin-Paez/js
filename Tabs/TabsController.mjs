@@ -14,7 +14,7 @@ export class TabsController {
      *  Contenedor de los tab-pane ('.nav-content').
      * 
      * @param {js object} modelList 
-     *  Es un objetos js cuyos nombres de atributo deben coincidir con cada 
+     *  Es un objeto js cuyos nombres de atributo deben coincidir con cada 
      *  data-bs-target de los nav-link (se ignora el primer caracter, porque 
      *  suele ser un #). Cada uno de dichos atributos debe guardar un TabModel.
      */
@@ -43,10 +43,10 @@ export class TabsController {
     initEvents() 
     {
         self = this;
-        this._$links.on('click', function () {
-            self._prev.forEach( (f)=>{f($(this));} );
-            self._load($(this));
-            self._next.forEach( (f)=>{f($(this));} );
+        this._$links.on('click', (e) => {
+            this._prev.forEach( (f)=>{f($(e.target));} );
+            this._load($(e.target));
+            this._next.forEach( (f)=>{f($(e.target));} );
         });
     }
 

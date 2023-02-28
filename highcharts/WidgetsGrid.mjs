@@ -1,5 +1,6 @@
 import {defaultOpts} from './HighChartOpts.mjs'
 
+
 /*
  * Crea un grid de widgets, los cuales pueden reminensionarse y reacomodarse con el 
  * mouse. El grid se coloca dentro del primer tag html con class="grid-stack".
@@ -10,8 +11,11 @@ export class WidgetsGrid {
 
     constructor (rowHeight) 
     {
-        this.gridstack   = GridStack.init({cellHeight: rowHeight});
-        this.widgets     = [];
+        this.widgets   = [];
+        this.gridstack = GridStack.init({
+            cellHeight: 70,
+            acceptWidgets: true,
+        });
 
         $(window).on('resize', ()=>{
             this.refresh();
@@ -30,21 +34,20 @@ export class WidgetsGrid {
         
         let chart = Highcharts.chart(id, chartOpts); 
         
-        let menu = chart.exportContextMenu.menuItems;
-        menu.splice(menu.length - 1, 0, { text: 'Tabla de valores', onclick: function() {    
-            chart.exporting.update({
-                showTable: true
-             });
-        }});
-        ! chart.menu.options.showTable
-        
-        let widgets = this.gridstack.getGridItems();
-        let widget  = widgets[widgets.length-1];
-        this.initChartMenu(widget);  
-
-        this.initWidget(chart, widget, id);
+        this.initLastAdded(chart, id);
 
         return chart;
+    }
+
+    initLastAdded(chart, id) {
+        let widget = this.lastAdded();
+        this.initChartMenu(widget); 
+        this.initWidget(chart, widget, id);
+    }
+    
+    lastAdded() {
+        let widgets = this.gridstack.getGridItems();
+        return widgets[widgets.length-1];
     }
 
     initChartMenu(widget)

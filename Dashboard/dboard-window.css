@@ -4,13 +4,22 @@
     grid-template-columns: 95% 5%;
 }
 
-.nav-tab {
-    width: 100%;
-}
-
 .close-pop-window {
     border-bottom: 0.01rem solid rgb(236, 218, 218);
     display: inline;
     height: 100%;
     width: 100%;
+ }
+
+ .tab-content {
+    overflow-y: auto;
+ }
+
+ .tab-content > .tab-pane {
+    text-align: center;
+ }
+
+ .tab-pane > div {
+    margin: 1rem;
+    display: inline-block;
  }

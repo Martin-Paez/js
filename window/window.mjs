@@ -1,17 +1,12 @@
 export class WinController {
-    constructor(namespace = "") 
+    constructor(windowQ, closeBtnQ) 
     {
-        if(namespace !== "")
-            this._namespace = '.' + namespace;
-        else
-            this._namespace = "";
+       this._$window = $(windowQ);
+       this._$closeBtn  = $(closeBtnQ);
     }
 
     addOpenBtn(btnQ) {
-        let closeBtn = `.close-pop-window${this._namespace}`;
-        let window   = `.pop-window${this._namespace}`;
-
-        initPopUp(btnQ, closeBtn, window, 1000);
+        initPopUp(btnQ, this._$closeBtn, this._$window, 1000);
     }
 }
 

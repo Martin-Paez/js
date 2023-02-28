@@ -1,38 +1,43 @@
 import { WinController } from "./window.mjs";
 import { TabsController } from "./TabsController.mjs";
 
+/**
+ * Modelo para una ventana cuyo contenido son pestanas de bootstrap.
+ * 
+ * Clases HTML:
+ * 
+ *  .pop-window  :   ventana en si misma, contenedor de los elementos.
+ * 
+ *  Descendientes de .pop-window:
+ *      .close-pop-window : Boton que cierra la ventana.
+ *      .nav-tab          : Contenedor bootstrap de las pestanas.
+ *      .tab-content      : Contenedor bootstrap del contenido de las pesanas.
+ */
 export class TabWinController {
-    constructor(models, namespace = "") 
+    constructor(paneModels, namespace = "") 
     {
-        let window = `.pop-window`;
         if (namespace !== "")
-            window += '.' + namespace;
-        let tabs = window + ` .nav-tabs`;
-        let panes = window + ` .tab-content`;
+            namespace += '.' + namespace;
+        
+        let window = `.pop-window${namespace}`;
+        let close  = `${window} .close-pop-window${namespace}`;
+        let panes  = window + ` .tab-content`;
+        let tabs   = window + ` .nav-tabs`;
 
-        this._tabs   = new TabsController(tabs, panes, models);
-        this._window = new WinController(namespace);
+        this._window = new WinController(window, close);
+        this._tabs   = new TabsController(tabs, panes, paneModels);
 
-        this._openBtns = [];
     }
 
+    /**
+     * Agrega los handlers a un boton que abre la ventana.
+     * 
+     * @param {query} btnQ
+     *      Selector css del boton.
+     */
     addOpenBtn(btnQ) 
     {
-        let $open = $(btnQ);
-
-        this._window.addOpenBtn($open);
-        if (this._tabs.isNotLoaded())
-            $open.on('click', this.offLoadEvent.bind(this)); 
-
-        this._openBtns.push($open);
-    }
-
-    offLoadEvent() 
-    {
-        this._tabs.load()
-        this._openBtns.forEach(btn => {
-            btn.off('click', this.offLoadEvent.bind(this));
-        });
+        this._window.addOpenBtn($(btnQ));
     }
 
 }

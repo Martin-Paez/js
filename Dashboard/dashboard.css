@@ -11,3 +11,7 @@ body {
     margin:0;
     height: 100vh;
 }
+
+.gridstack {
+    height: 90vh;
+}

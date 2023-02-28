@@ -1,12 +1,14 @@
 /**
  * Sirve para cargar el contenido de las pestanas de boostrap.
  * 
- * Para un nav-tab y nav-content de bootstrap particulares. Carga el contenido
- * de cada tab-pane. 
+ * Carga el contenido de cada tab-pane dados un nav-tab y nav-content de bootstrap.
  * 
  */
 export class TabsController {
     /**
+     * Si hay alguna pestana .active se carga el tab-pane al instanciar la clase. Si
+     * hay varias solo queda activa la primera.
+     * 
      * @param {query} navTabsQ 
      *  Contenedor de los tab-item ('.nav-tab').
      * 
@@ -16,53 +18,58 @@ export class TabsController {
      * @param {js object} modelList 
      *  Es un objeto js cuyos nombres de atributo deben coincidir con cada 
      *  data-bs-target de los nav-link (se ignora el primer caracter, porque 
-     *  suele ser un #). Cada uno de dichos atributos debe guardar un TabModel.
+     *  suele ser un #). Cada uno de dichos atributos debe guardar un IModel
+     *  que tiene el contenido del pane target.
      */
-    constructor(navTabsQ, tabContentQ, models, prevCalls = [], nextCalls = []) 
+    constructor(navTabsQ, tabContentQ, paneModels, prevCalls = [], nextCalls = []) 
     {
-        this._models = models;
+        this._models = paneModels;
         this._prev   = prevCalls;
         this._next   = nextCalls;
         this._$links = $(navTabsQ).find('.nav-link');
         this._$panes = $(tabContentQ);
 
+        this._load(this._findActive());
         this.initEvents();
     }
 
-    isNotLoaded() 
-    {
-        return this._active === undefined;
-    }
-    
-    load() 
-    {
-        this._load(this._findActive());
-    }
-
-    // Ante un click pide al modelo que cargue los datos en el tab-pane adecuado.
+    // Setea onclick a cada pestana cargar los tab-pane bajo demanda por UNICA vez.
     initEvents() 
     {
-        self = this;
-        this._$links.on('click', (e) => {
-            this._prev.forEach( (f)=>{f($(e.target));} );
+        this._$links.one('click', (e) => {
             this._load($(e.target));
-            this._next.forEach( (f)=>{f($(e.target));} );
         });
     }
 
+    /**
+     * Carga el pane de una pestana.
+     * 
+     * @param {jQuery} $tab 
+     *  Pestana cuyo contenido ah de ser cargado.
+     */
     _load($tab) 
     {
+        this._prev.forEach( (f)=>{f($(e.target));} );
         this._active = $tab;
         let paneId = this._active.data('bs-target').slice(1);
         let model = this._models[paneId];
         let $pane = this._$panes.find(`[id=${paneId}]`);
         model.load($pane, $tab);
+        this._next.forEach( (f)=>{f($(e.target));} );
     }
 
+    // Encuentra la pestana activa. Si hay varias solo deja activa la primera.
     _findActive() 
     {
-        return this._$links.filter(function () {
+        let active = this._$links.filter(function () {
             return $(this).hasClass('active');
         });
+        
+        if(active.lenght > 1) {
+            active.removeClass('active');
+            active = $(active[0]);
+        }
+
+        return active;
     }
 }

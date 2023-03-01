@@ -1,5 +1,9 @@
-.pop-window {
+.closeByDefault {
     transform: translateX(-100vw);
+}
+
+:root {
+    --final-opacity: 100%;
 }
 
 @keyframes open {
@@ -9,13 +13,13 @@
     }
     100% {
         transform: translateX(0vw);
-        opacity: 80%;
+        opacity: var(--final-opacity);
     }
 }
 
 .open {
     transform: translateX(0vw);
-    opacity: 80%;
+    opacity: var(--final-opacity);
 }
 
 .closing,
@@ -29,3 +33,4 @@
 .closing {
     animation-direction: reverse;
 }
+

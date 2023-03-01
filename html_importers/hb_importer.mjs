@@ -65,8 +65,7 @@ export function loadTab_clientSolution(url, containerQ) {
 export function loadTab_serverSolution(url, containerQ) {
     // if (navLink.attr('loaded') !== undefined) return;    
     // navLink.attr('loaded', true);    // Cargar por unica vez el contenido de los tab
-    var url = navLink.data('url');
-    let headRequest = $.ajax({
+   let headRequest = $.ajax({
         url: url+'/head',
         async: true
     });

@@ -7,7 +7,7 @@ export class IModel {
         if (new.target === IModel)
             throw new TypeError('TabModel es abstracta, no se puede instanciar. ');
 
-        this.model = model;
+        this._model = model;
     }
 
     /**

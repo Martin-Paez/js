@@ -7,8 +7,7 @@
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+    
     <script src="dashboard.js" type="module"></script>
     <link href="dashboard.css" rel="stylesheet">
 
@@ -59,31 +58,45 @@
     <link href="node_modules/gridstack/dist/gridstack.min.css" rel="stylesheet"/>
     <script src="node_modules/gridstack/dist/gridstack-all.js"></script>
 
+    <!-- Importante cargar primero -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Draggable -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <!-- Resizable -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <!-- Iconos -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    
 </head>
 <body>
-    <button id="open">Abrir</button>
-    <div class="grid-stack"></div>
-
-    <div class="pop-window">
-        <div class="dbw-menu">
+    <div class="open-widget closeByDefault open">
+        <a href="#" id="open"><i class="bi-speedometer2"></i></a>
+        <a href="#" class="move-open-widget"><i class="bi-arrows-move"></i></a>
+    </div>
+    <div class="pop-window closeByDefault">
+        <div class="btns-pop-window">
+            <div class="btns-pop-window">
+                <a class="close-pop-window" href="#"><i class="bi-dash"></i></a>
+                <a class="move-pop-window" href="#"><i class="bi-arrows-move"></i></a>
+            </div>
             <ul class="nav nav-tabs">
                 <li class="nav-item">
                     <a class="nav-link active" data-bs-toggle="tab" data-bs-target="#dbw_hist" href="#">
-                        Widgets
+                        Historico
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="tab" data-bs-target="#dbw_met" href="#">
-                        Widgets
+                        Indicadores
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="tab" data-bs-target="#dbw_comp" href="#">
-                        Widgets
+                        Comparacion
                     </a>
                 </li>
             </ul>
-            <a class="close-pop-window"s href="#">X</a>
         </div>
         <div class="tab-content">
             <div class="tab-pane fade show active" id="dbw_hist"></div>
@@ -91,5 +104,6 @@
             <div class="tab-pane fade show " id="dbw_comp"></div>
         </div>
     </div>
+    <div class="grid-stack"></div>
 </body>
 </html>

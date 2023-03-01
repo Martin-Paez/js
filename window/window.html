@@ -9,6 +9,15 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+    <!-- Importante cargar primero -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Draggable -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <!-- Resizable -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <!-- Iconos -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+
     <link href="window.css" rel="stylesheet">
     <style>
         body {
@@ -28,18 +37,23 @@
 </head>
 <body>
 
-    <div class="pop-window">
-        <a class="close-pop-window"s href="#">X</a>
+    <div class="pop-window closeByDefault open">
+        <div class="btns-pop-window">
+            <a class="close-pop-window"s href="#"><i class="bi-x-lg"></i></a>
+            <a class="move-pop-window" href="#"><i class="bi-arrows-move"></i></a>
+        </div>
     </div>
 
     <button id="open">Abrir</button>
 
     <script type="module">
-        import {addWindowOpenBtn} from './window.mjs';
+        import {WinController} from './window.mjs';
 
         document.addEventListener("DOMContentLoaded", function() {
             
-            addWindowOpenBtn('#open');
+            let window = new WinController('.pop-window', '.close-pop-window', '.btns-pop-window');
+
+            window.addOpenBtn("#open");
 
         });
     </script>

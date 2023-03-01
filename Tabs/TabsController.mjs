@@ -15,11 +15,17 @@ export class TabsController {
      * @param {query} tabContentQ 
      *  Contenedor de los tab-pane ('.nav-content').
      * 
-     * @param {js object} modelList 
+     * @param {js object} paneModels 
      *  Es un objeto js cuyos nombres de atributo deben coincidir con cada 
      *  data-bs-target de los nav-link (se ignora el primer caracter, porque 
      *  suele ser un #). Cada uno de dichos atributos debe guardar un IModel
      *  que tiene el contenido del pane target.
+     * 
+     * @param {list} prevCalls
+     *  Lista de callbacks llamados antes de cargar datos en el pane 
+     * 
+     * @param {list} nextCalls
+     *  Lista de callbacks llamados despues de cargar datos en el pane 
      */
     constructor(navTabsQ, tabContentQ, paneModels, prevCalls = [], nextCalls = []) 
     {
@@ -29,8 +35,8 @@ export class TabsController {
         this._$links = $(navTabsQ).find('.nav-link');
         this._$panes = $(tabContentQ);
 
-        this._load(this._findActive());
         this.initEvents();
+        this._findActive().trigger('click');
     }
 
     // Setea onclick a cada pestana cargar los tab-pane bajo demanda por UNICA vez.
@@ -41,21 +47,38 @@ export class TabsController {
         });
     }
 
+    _load($tab) 
+    {
+        this._prev.forEach( (f)=>{f($(e.target));} );
+            
+        let job = (model, $pane, $tab) => {  
+            model.load($pane, $tab); 
+        };
+        this._paneJob($tab, job); 
+
+        this._next.forEach( (f)=>{f($(e.target));} );
+    }
+
+    reload() {
+        let job = (model, $pane, $tab) => {  
+            model.animateCatalog(); 
+        };
+        this._paneJob(this._active, job);
+    }
+
     /**
      * Carga el pane de una pestana.
      * 
      * @param {jQuery} $tab 
      *  Pestana cuyo contenido ah de ser cargado.
      */
-    _load($tab) 
+    _paneJob($tab, job) 
     {
-        this._prev.forEach( (f)=>{f($(e.target));} );
         this._active = $tab;
         let paneId = this._active.data('bs-target').slice(1);
         let model = this._models[paneId];
         let $pane = this._$panes.find(`[id=${paneId}]`);
-        model.load($pane, $tab);
-        this._next.forEach( (f)=>{f($(e.target));} );
+        job(model, $pane, $tab);
     }
 
     // Encuentra la pestana activa. Si hay varias solo deja activa la primera.

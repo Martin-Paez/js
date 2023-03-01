@@ -16,7 +16,7 @@ export class Source
     y(n) {
         
     }
-
+    
     subscribe() {
         if (! client.connected) {
             client.connect(options, function(error) {
@@ -46,8 +46,9 @@ export class Source
 
 export class Gauge 
 {
-    constructor(source, title="", opts = Graph.defaultOpts())
-    {
+    constructor(source, title="", units, opts = Gauge.defaultOpts())
+    {   
+        this._units = units;
         this._source = source;
         this._title  = title;
         this._opts   = opts; 
@@ -56,7 +57,8 @@ export class Gauge
     static defaultOpts()
     {
         return { 
-            menu : {enabled: false},
+            menu    : {enabled: false},
+            tooltip : {enabled: true},
         };
     }
 
@@ -68,46 +70,48 @@ export class Gauge
         return this._title;
     }
 
+    setTitle(title){
+        this._title = title;
+    }
+    
+    units() {
+        return this._units;
+    }
+    
     menu() {
         return this._opts.menu;
+    }
+
+    tooltip() {
+        return this._opts.tooltip;
     }
 }
 
 export class Graph extends Gauge
 {
-    constructor(source, n, title="", yUnits, opts = Graph.defaultOpts())
+    constructor(source, n, title="", units, opts = Graph.defaultOpts())
     {
-        super(source, title, opts);
-        this.yUnits = yUnits;
-        this.n = n;
+        super(source, title, units, opts);
+        this._n = n;
     }
 
     static defaultOpts()
     {
         let opts = super.defaultOpts();
         let adds = { 
-            xTitle      :   "",
-            tooltip     :   true,
+            colorRef    :   false,
             rotation    :   0,
-            colorsRef   :   false
+            timeUnits   :   "", 
         };
         return Highcharts.merge(opts, adds);
-    }
-
-    yUnits() {
-        return this._yUnits;
     }
 
     n() {
         return this._n;
     }
 
-    xTitle() {
-        return this._opts.xTitle;
-    }
-
-    tooltip() {
-        return this._opts.tooltip;
+    timeUnits() {
+        return this._opts.timeUnits;
     }
 
     rotation() {
@@ -117,92 +121,104 @@ export class Graph extends Gauge
     colorRef() {
         return this._opts.colorRef;
     }
+
+    x(i, n) {
+        return this._source.x(i, n);
+    }
+
+    y(i, n) {
+        return this._source.y(i, n);
+    }
 }
 
-export function chartStruct(type, graph) 
-{
-    let g = graph;
-    return genericChart(type, g.n(), g.x(), g.y(), )
-}
 
-/*
- * Retorna un objeto de configuracion para crear un graico con HighCharts.
- *
- * y de be ser una lista de objetos con la siguiente estructura:
- *      y = [
- *              { name : "Variable 1", data : [ ... ] },
- *              { name : "Variable N", data : [ ... ] }
- *          ]
+/**
+ * Retorna un objeto de configuracion para crear un HighCharts.
  * 
  * Para crear el menu se puede usar HChartMenu o sus hijos.
+ * 
+ * @param {string} type
+ *  Tipo de grafico : 'line', 'column', 'pie', etc.
+ * 
+ * @param {Graph} graph
+ *  Instancia de Graph con los valores para configurar el grafico.
  */
-export function genericChart(type, n, x, y, title="", yUnits, {xTitle, menu ,tooltip ,
-                                        rotation , colorsLabel } = defaultOpts())
+export function genericChart(type, graph)
 {
-    let graph = {
-            chart:    { type:               g.type()    },   // Tipo de grafico
+    let g = graph;
+    let chart = {
+            chart:    { type:               type , backgroundColor: 'rgba(255, 255, 255, 0.9)'       },   // Tipo de grafico
             credits:  { enabled:            false       },   // Quita hightcharts.com label 
-            tooltip:  { enabled:            false       },   // Cartel con info de cada punto
+            tooltip:                        g.tooltip()  ,   // Cartel con info de cada punto
             exporting:                      g.menu()     ,   // Menu del grafico
             title:    { text:               g.title()   },   // Titulo del grafico
             legend:   { enabled:            g.colorRef()},   // Quita el Label de "Colores del Eje Y"
-            yAxis:    { title:{ text:       g.yUnits()   ,   // Unidades, label Ehe Y
+            yAxis:    { title:{ text:       g.units()    ,   // Unidades, label Ehe Y
                                 style:
                                 {   fontSize:  '14px'    , 
                                     fontWeight: 'bold'  },
                                 offset:     10           ,   // Mover label horizontal
                                 rotation:   0            ,   // Lo volteo, queda horizontal
                                 align:      'high'       ,   // Poner arriba el label
-                                y:          -30       ,}},// Subir un poco mas el label
+                                y:          -30       ,}},   // Subir un poco mas el label
             series:/*[{ name:               'Variable',      
-            yAxis       data:*/             g.y(0,n)/*}]*/,    // Datos del Eje Y [name: 'var', data:[1,2] ]
-            xAxis:    { categories:         g.x(0,n)     ,    // Datos del Eje X [1,2,3]
+            yAxis       data:*/             g.y(0,g.n)/*}]*/,    // Datos del Eje Y [name: 'var', data:[1,2] ]
+            xAxis:    { categories:         g.x(0,g.n)     ,    // Datos del Eje X [1,2,3]
                             labels:{ 
                                 rotation:   g.rotation() },   // Rotar labels del Eje X
                             title: { 
-                                text:       g.xTitle()    ,    // Unidades, label Ehe X
+                                text:       g.timeUnits() ,    // Unidades, label Eje X
                                 style:
                                 {   fontSize:  '14px'     , 
                                     fontWeight: 'bold'}   ,
                                 offset:     10            ,     // Mover label horizontal
                                 align:      'high'        ,     // Llevar el label al extremo derecho
                                 x:          -20           ,     // Desplazar el label horizontalmente
-                                y:          20            }}    // Bajar un poco el label
-            //plotOptions:{ line:    { /* Style del grafico de linea */ },
+                                y:          20            }},    // Bajar un poco el label
+            plotOptions: {
+                histogram: {
+                    borderWidth: 10,
+                    borderColor: 'white'
+                }
+            }
     };
 
-    if (tooltip)        // click para Mostrar/Ocultar los valores al pasar el mouse  
-        Highcharts.addEvent(Highcharts.Point, 'click', function () {
-            var point = this,
-            chart = point.series.chart,
-            tooltip = chart.tooltip,
-            xPos = point.plotX + chart.plotLeft,
-            yPos = point.plotY + chart.plotTop;
+    if (chart.tooltip.enabled) {
+        tooltipOnClick(g.units());
+        chart.tooltip.enabled = false;
+    }
 
-            tooltip.options.enabled = true;
-            tooltip.options.positioner = function() {
-                return { x: xPos, y: yPos };
-            };
-            tooltip.options.pointFormat = '{point.y:.2f}';
-            tooltip.options.formatter = function() {
-                return Highcharts.numberFormat(this.y, 2);
-            };
-            tooltip.refresh(point);
-            
-            tooltip.options.enabled = false;
-        });
-    return graph;
+    return chart;
+}
+
+function tooltipOnClick(units) {
+    Highcharts.addEvent(Highcharts.Point, 'click', function () {
+        var point = this,
+        chart = point.series.chart,
+        tooltip = chart.tooltip,
+        xPos = point.plotX + chart.plotLeft,
+        yPos = point.plotY + chart.plotTop;
+
+        tooltip.options.enabled = true;
+        tooltip.options.positioner = function() {
+            return { x: xPos, y: yPos };
+        };
+        tooltip.options.pointFormat = `{point.y:.2f}`;
+        tooltip.options.formatter = function() {
+            return Highcharts.numberFormat(this.y, 2);
+        };
+        
+        tooltip.refresh(point);
+        
+        tooltip.options.enabled = false;
+    });
 }
 
 export function speedometer(val, title, units, opts = defaultOpts()) 
 {
-    if (opts.menu === null)  
-        opts.menu = {enabled: false};
-
-    return  {
+    return {
             chart:    { type:               'gauge'         },
             exporting:                      opts.menu       ,
-            tooltip:  { enabled:            false           },
             title:    { text:               title           },
             credits:  { enabled:            false           },
             pane:     { startAngle:         -90             ,

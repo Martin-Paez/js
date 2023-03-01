@@ -3,51 +3,66 @@ import { IModel } from "./IModel.mjs";
 
 export class GraphCatalog extends IModel 
 {
-    constructor(id, types, grid, model={title , units, opts, source}) 
+    constructor(id, chartTypes, grid, graph={title , units, opts, source}) 
     {
-        super(model);
+        super(graph);
 
         this._id     = id;
-        this._types  = types;
+        this._types  = chartTypes;
         this._grid   = grid;
         this._charts = {};
         this._count  = 0;
     }
 
-    load($pane, $tab) 
+    animateCatalog() 
     {
-        this._types.forEach(type => {
-            this._createWidget($pane, type[0]);
-        });
-        this._grid.getGridstack().on('added', () => {
-            this._setUpWidget();
-        });
+        for (let chart in this._charts) { 
+            chart = this._charts[chart];
+            let serie = this._model.source().y(0,this._model.n);
+            chart.series[0].setData(serie[0].data, false);
+            chart.redraw(true);
+        }
     }
 
-    _createWidget($pane, type) 
+    load($pane) 
     {
-        let id    = this._id + "_" + type + "_" + ++this._count;
-        let item  = this._getGridItem(id, type);
-        let chart = genericChart(type, this._model);  
+        this._types.forEach(chartType => {
+            this._createWidget($pane, chartType);
+        });
+        this._grid.getGridstack().on('added', () => {
+            this._setUpGridChart($pane);
+        });
+        this.load = this._animateGraphs;
+    }
 
+    _createWidget($pane, chartType) 
+    {
+        let id    = this._id + "-" + chartType[0] + "-" + ++this._count;
+        let item  = this._getHtmlWidget(id, chartType);        
+        let chart = genericChart(chartType[0], this._model);  
+        chart.title.text = chartType[1];
+        
         $pane.append(item);
-        this._setUpWindowGraph(chart);
+        this._setUpWindowChart(chart);
         this._charts[id] = Highcharts.chart(id, chart);
         setTimeout(()=> {
             GridStack.setupDragIn('.newWidget');
         }, 500); // Para que los reemplazos sean dragables sin cerrar la ventana 
     }
 
-    _setUpWidget() {
+    _setUpGridChart($pane) {
         let widget = $(this._grid.lastAdded())
         let $item  = widget.find('.dynamicLoad');
-        let type   = $item.data('type');
         let id     = $item.attr('id');
         let chart  = this._charts[id];
+        let type   = [];
         
+        type.push($item.data('type'));
+        type.push($item.data('label'));
         chart.update({ 
-            xAxis: { visible : true },
-            yAxis: { visible : true } 
+            xAxis: { visible : true  },
+            yAxis: { visible : true  },
+            title: { text    : this._model.title() },
         });
         this._grid.initLastAdded(chart, id);
         //this._gris.update();  evita escondidos al soltar en el grid sin sombra
@@ -55,18 +70,18 @@ export class GraphCatalog extends IModel
         this._createWidget($pane, type); //Reemplazo en window
     }
 
-    _setUpWindowGraph(chart) {
+    _setUpWindowChart(chart) {
         chart.chart.width = 300;
         chart.chart.height = 200;
         chart.xAxis.visible = false;
         chart.yAxis.visible = false;
     }
 
-    _getGridItem(id, item) 
+    _getHtmlWidget(id, type) 
     {
         return `<div class="newWidget grid-stack-item"> 
                     <div class="grid-stack-item-content">
-                        <div class="dynamicLoad" id="${id} data-type="${type}">
+                        <div class="dynamicLoad" id="${id}" data-type="${type[0]}" data-label="${type[1]}">
                         </div>
                     </div>
                 </div>`;

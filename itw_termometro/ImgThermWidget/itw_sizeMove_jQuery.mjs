@@ -18,7 +18,8 @@ export function enableMoveAndResize(floating = true) {
             widget.style.position = 'absolute';
             widget.style.transform = 'translateX(-50%)';
         }
-        $(widget).draggable();
+        let w = $(widget); 
+        w.draggable();
         $(widget).width($(widget).find('._itw_img').width());
         $(widget).resizable({
             start: function(event, ui) {

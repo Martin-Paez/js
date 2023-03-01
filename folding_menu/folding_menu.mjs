@@ -22,6 +22,16 @@ function setHideHandler(menu)
     });
 }
 
+export function setUpFloatOpenBtn($target, $close, $open) {
+    let btns = $close.add($open);
+
+    btns.on('click', ()=>
+    {
+        $target.toggleClass('hidden');
+        $open.toggleClass('enable');
+    });
+}
+
 function setExpandHandler(menu)
 {
     let $expandLink = menu.find('.expand-btn');

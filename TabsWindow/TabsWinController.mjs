@@ -21,10 +21,11 @@ export class TabWinController {
         
         let window = `.pop-window${namespace}`;
         let close  = `${window} .close-pop-window${namespace}`;
+        let move  = `${window} .btns-pop-window${namespace}`;
         let panes  = window + ` .tab-content`;
         let tabs   = window + ` .nav-tabs`;
 
-        this._window = new WinController(window, close);
+        this._window = new WinController(window, close, move);
         this._tabs   = new TabsController(tabs, panes, paneModels);
 
     }
@@ -37,7 +38,13 @@ export class TabWinController {
      */
     addOpenBtn(btnQ) 
     {
-        this._window.addOpenBtn($(btnQ));
+        let $btn = $(btnQ);
+        this._window.addOpenWidget($btn);
+        $(btnQ).on('click', () => {
+            setTimeout( () => {
+                this._tabs.reload();
+            }, 1100);
+        });
     }
 
 }

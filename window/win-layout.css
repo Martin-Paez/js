@@ -8,25 +8,36 @@ body {
 
 .pop-window {
     height: 80vh;
-    width: 70vw;
+    width: 66vw;
+    max-width: 99vw;
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
     z-index: 9999;
     display: flex;
     flex-direction: column;
 }
 
+/* Ah sido importante al usar con gridstack */
+.pop-window.ui-resizable {
+    position: absolute ;
+}
+
+.btns-pop-window {
+    width: 100%;
+}
+
+.pop-window-btns {
+    display: grid;
+    grid-template-columns: 50% 50%;
+ }
+
+.move-pop-window,
 .close-pop-window {
-    display: block;
     height: 3rem;
     width: 3rem;
     text-align: center;
     text-decoration: none;
     margin-left: auto;
+    float: right;
 }
 
 .close-pop-window:hover {

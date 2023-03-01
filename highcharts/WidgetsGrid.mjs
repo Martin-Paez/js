@@ -1,6 +1,3 @@
-import {defaultOpts} from './HighChartOpts.mjs'
-
-
 /*
  * Crea un grid de widgets, los cuales pueden reminensionarse y reacomodarse con el 
  * mouse. El grid se coloca dentro del primer tag html con class="grid-stack".
@@ -9,12 +6,15 @@ import {defaultOpts} from './HighChartOpts.mjs'
  */
 export class WidgetsGrid {
 
-    constructor (rowHeight) 
+    constructor (rowHeight, colWidth) 
     {
         this.widgets   = [];
         this.gridstack = GridStack.init({
-            cellHeight: 70,
+            cellHeight: rowHeight,
             acceptWidgets: true,
+            resizable: {
+                handles: 'all'
+            },
         });
 
         $(window).on('resize', ()=>{
@@ -22,7 +22,7 @@ export class WidgetsGrid {
         });
     }
 
-    getGridStack() 
+    getGridstack() 
     {
         return this.gridstack;
     }
@@ -106,8 +106,8 @@ export class WidgetsGrid {
      */
     setDim (widget, content) 
     {
-        let width = widget.offsetWidth;
-        let height = widget.parentNode.offsetHeight * 0.95;
+        let width = widget.offsetWidth * 1;
+        let height = widget.parentNode.offsetHeight * 1;
         content.setSize(width, height);
     }
 

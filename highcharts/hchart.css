@@ -1,0 +1,4 @@
+div.grid-stack-item-content,
+div.highcharts-container {
+    overflow: visible !important;
+}

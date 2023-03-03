@@ -108,7 +108,7 @@ export class HChartMenu {
                 ['histogram', 'Histograma'],
                 ['waterfall', 'Cascada'], 
                 ['spline', 'Curva'], 
-                ['areaspline', 'Area curva']];
+                ['areaspline', 'Area Curva']];
     }
 
     metrics() 

@@ -1,0 +1,14 @@
+new chart con min screen > set cols = N max
+
+toggle menu > sacar autoscroll hacia arriba
+
+theme black
+
++opts para widget window
+
+scrollbar lindo	
+
+notepad active at first
+
+
+

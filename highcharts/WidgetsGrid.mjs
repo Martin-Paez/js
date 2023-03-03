@@ -12,6 +12,8 @@ export class WidgetsGrid {
         this.gridstack = GridStack.init({
             cellHeight: rowHeight,
             acceptWidgets: true,
+            float: true,
+            minRow: 10,
             resizable: {
                 handles: 'all'
             },
@@ -39,10 +41,16 @@ export class WidgetsGrid {
         return chart;
     }
 
-    initLastAdded(chart, id) {
-        let widget = this.lastAdded();
-        this.initChartMenu(widget); 
-        this.initWidget(chart, widget, id);
+    initLastAdded(chart, id, cols=4, rows=4) {    
+        let w = this.lastAdded();
+        if ($(this.gridstack.el).hasClass('grid-stack-1'))
+        {
+            $(window).one('resize', () => {
+                this.gridstack.update(w.el, { w: 12 });
+            })
+        }
+        this.initChartMenu(w); 
+        this.initWidget(chart, w, id, cols, rows);
     }
     
     lastAdded() {
@@ -73,8 +81,9 @@ export class WidgetsGrid {
      *      content  : objeto con metodo setDim(height, width). Por ejemplo, un
      *                 Highchart. 
      */
-    initWidget(content, gridItem, widgetId) 
-    {        
+    initWidget(content, gridItem, widgetId, cols=4, rows=4) 
+    {   
+        this.gridstack.update(gridItem, { w: cols, h: rows })
         var gridContainer = gridItem.querySelector(`#${widgetId}`);
         gridContainer.dataset['widget_index'] = this.widgets.length;
         this.widgets.push(content);
@@ -111,7 +120,7 @@ export class WidgetsGrid {
         content.setSize(width, height);
     }
 
-    /* Redimenciona todos los widgets al tamano del contenedor
+    /* Redimenciona todos los contenidos al tamano del widget
      */
     refresh() 
     {

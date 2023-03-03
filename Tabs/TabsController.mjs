@@ -43,14 +43,14 @@ export class TabsController {
     initEvents() 
     {
         this._$links.one('click', (e) => {
-            this._load($(e.target));
+            this._load($(e.currentTarget));
         });
     }
 
     _load($tab) 
     {
         this._prev.forEach( (f)=>{f($(e.target));} );
-            
+        
         let job = (model, $pane, $tab) => {  
             model.load($pane, $tab); 
         };
@@ -78,7 +78,8 @@ export class TabsController {
         let paneId = this._active.data('bs-target').slice(1);
         let model = this._models[paneId];
         let $pane = this._$panes.find(`[id=${paneId}]`);
-        job(model, $pane, $tab);
+        if(model !== undefined)
+            job(model, $pane, $tab);
     }
 
     // Encuentra la pestana activa. Si hay varias solo deja activa la primera.

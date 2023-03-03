@@ -44,22 +44,32 @@ export class Source
 
 }
 
-export class Gauge 
+export class GraphFactory 
 {
-    constructor(source, title="", units, opts = Gauge.defaultOpts())
-    {   
-        this._units = units;
+    constructor(source, n, title="", units, opts = GraphFactory.defaultOpts())
+    {
         this._source = source;
+        this._n      = n;
         this._title  = title;
+        this._units  = units;
         this._opts   = opts; 
     }
 
     static defaultOpts()
     {
         return { 
-            menu    : {enabled: false},
-            tooltip : {enabled: true},
+            menu        : {enabled: false},
+            tooltip     : {enabled: true} ,
+            colorRef    : false,
+            rotation    : 0    ,
+            timeUnits   : ""   , 
+            gridCols    : 3    ,
+            gridRows    : 4    , 
         };
+    }
+
+    createChart(type) {
+        return genericChart(type, this);
     }
 
     source() {
@@ -85,26 +95,6 @@ export class Gauge
     tooltip() {
         return this._opts.tooltip;
     }
-}
-
-export class Graph extends Gauge
-{
-    constructor(source, n, title="", units, opts = Graph.defaultOpts())
-    {
-        super(source, title, units, opts);
-        this._n = n;
-    }
-
-    static defaultOpts()
-    {
-        let opts = super.defaultOpts();
-        let adds = { 
-            colorRef    :   false,
-            rotation    :   0,
-            timeUnits   :   "", 
-        };
-        return Highcharts.merge(opts, adds);
-    }
 
     n() {
         return this._n;
@@ -122,15 +112,51 @@ export class Graph extends Gauge
         return this._opts.colorRef;
     }
 
-    x(i, n) {
-        return this._source.x(i, n);
+    x(n) {
+        return this._source.x(n);
     }
 
     y(i, n) {
         return this._source.y(i, n);
     }
+
+    gridCols() {
+        return this._opts.gridCols;
+    }
+    
+    gridRows() {
+        return this._opts.gridRows;
+    }
 }
 
+export class GaugeFactory extends GraphFactory
+{
+    constructor(source, title="", units, opts = GaugeFactory.defaultOpts())
+    {   
+        super(source, 1, title, units, opts);
+    }
+    
+    static defaultOpts()
+    {
+        let opts = GraphFactory.defaultOpts();
+        opts.gridCols = 2;
+        return opts;
+    }
+
+    createChart(type) {
+        let chart = genericChart(type, this);
+        chart.yAxis = { visible : false};
+        return chart;
+    }
+
+    x() {
+        return this._source.x(1);
+    }
+
+    y(i) {
+        return this._source.y(i, 1);
+    }
+}
 
 /**
  * Retorna un objeto de configuracion para crear un HighCharts.
@@ -145,13 +171,20 @@ export class Graph extends Gauge
  */
 export function genericChart(type, graph)
 {
-    let g = graph;
+    let g       = graph;
+    let opacity = 'rgba(255, 255, 255, 0.9)';
+
     let chart = {
-            chart:    { type:               type , backgroundColor: 'rgba(255, 255, 255, 0.9)'       },   // Tipo de grafico
+            chart:    { type:               type         ,   // Line, Column, etc
+                        margin:             40           ,   // Entre grafico y canvas       
+                        backgroundColor:    opacity     },   // Cavas color
             credits:  { enabled:            false       },   // Quita hightcharts.com label 
             tooltip:                        g.tooltip()  ,   // Cartel con info de cada punto
             exporting:                      g.menu()     ,   // Menu del grafico
-            title:    { text:               g.title()   },   // Titulo del grafico
+            title:    { text:               g.title()    ,   // Titulo del grafico
+                        style:{
+                            whiteSpace:     'nowrap'     ,   // Siempre en una linea
+                            fontSize:       '1.5rem'   }},   // Texto responsivo
             legend:   { enabled:            g.colorRef()},   // Quita el Label de "Colores del Eje Y"
             yAxis:    { title:{ text:       g.units()    ,   // Unidades, label Ehe Y
                                 style:

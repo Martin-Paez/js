@@ -43,12 +43,20 @@ export class GraphCatalog extends IModel
         chart.title.text = chartType[1];
         
         $pane.append(item);
+
         this._setUpWindowChart(chart);
         this._charts[id] = Highcharts.chart(id, chart);
 
         setTimeout(()=> {
             GridStack.setupDragIn('.newWidget');
         }, 500); // Para que los reemplazos sean dragables sin cerrar la ventana 
+
+        let $item = $pane.children().last(); 
+        $item.on('mousedown', () => 
+        { 
+            $item.trigger('catalog-item-selected');
+        });
+        
     }
 
     _setUpGridChart($pane) {
@@ -66,6 +74,7 @@ export class GraphCatalog extends IModel
             xAxis: { visible  : true },
             yAxis: { visible  : true },
             title: { text     : this._model.title() },
+            exporting: { enabled : true},
         });
         this._grid.initLastAdded(chart, id, this._model.gridCols(), this._model.gridRows());
     
@@ -77,6 +86,7 @@ export class GraphCatalog extends IModel
         chart.chart.marginTop = 30;
         chart.yAxis.visible   = false;
         chart.xAxis.visible   = false;
+        chart.exporting.enabled = false;
     }
 
     _getHtmlWidget(id, type) 

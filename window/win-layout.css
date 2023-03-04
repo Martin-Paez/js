@@ -30,8 +30,7 @@ body {
     justify-content: center;
 }
   
-.btns-pop-window .title-txt-pop-window {
-    padding-left: 1rem;   
+.btns-pop-window .title-txt-pop-window { 
     height: 100%;
     width: auto;
     margin: 0;
@@ -40,7 +39,11 @@ body {
     align-items: center;
     justify-content: start;
 }
- 
+
+.btns-pop-window .title-txt-pop-window .title-label-pop-window { 
+    padding-left: 2rem;  
+}
+
 .empty-title-pop-window {
     width: 100%;
 }
@@ -74,7 +77,6 @@ body {
 .close-pop-window {
     text-decoration: none;
     padding-right: 1rem;
-    padding-left: 1rem;
     /*margin-left: auto;*/
     /*float: right;*/
 }

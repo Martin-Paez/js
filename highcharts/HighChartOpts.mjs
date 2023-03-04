@@ -55,10 +55,13 @@ export class GraphFactory
         this._opts   = opts; 
     }
 
-    static defaultOpts()
+    static defaultOpts(closeCallback = () => {})
     {
+        let close   = { text: 'X', symbol: null, onclick: closeCallback };
+        let menu    = { buttons: { contextButton: close } };
+        
         return { 
-            menu        : {enabled: false},
+            menu        : menu,
             tooltip     : {enabled: true} ,
             colorRef    : false,
             rotation    : 0    ,

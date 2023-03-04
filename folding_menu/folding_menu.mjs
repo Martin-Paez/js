@@ -1,3 +1,5 @@
+import {toggleKin} from './toggleFamily.mjs';
+
 document.addEventListener('DOMContentLoaded', ()=>
 {   
     let menus = $('.folding-menu');
@@ -52,39 +54,4 @@ function tooltips(menu)
         links.on('mouseover.foldtip mouseout.foldtip', toggleSpan);
     else
         links.off('.foldtip');
-}
-
-
-function toggleKin($innerBtn, $externalBtn, callback, ...args) 
-{
-    let clicks  = 0;
-    $innerBtn.one('click', ()=>
-    {
-        callback(...args);
-        $externalBtn.on('click.ext-btns', ()=>
-        {   
-            if(++clicks > 1) {
-                callback(...args);
-                toggleKin($innerBtn, $externalBtn, callback, ...args);
-                $externalBtn.off('.ext-btns');
-            }
-        });
-    });
-}
-
-function toggleKinInv($externalBtn, $innerBtn, callback, ...args) 
-{
-    let clicks  = 0;
-    $externalBtn.one('click', ()=>
-    {
-        callback(...args);
-        $innerBtn.one('click.ext-btns', ()=>
-        {   
-            callback(...args);
-            $externalBtn.one('click', ()=>
-            {   // Filtro, esto se ejectura por ser ancestro de inner, pero el recursivo no.
-                toggleKinInv($externalBtn, $innerBtn, callback, ...args);
-            });
-        });
-    });
 }

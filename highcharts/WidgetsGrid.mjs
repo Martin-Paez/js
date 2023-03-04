@@ -43,6 +43,7 @@ export class WidgetsGrid {
 
     initLastAdded(chart, id, cols=4, rows=4) {    
         let w = this.lastAdded();
+
         if ($(this.gridstack.el).hasClass('grid-stack-1'))
         {
             $(window).one('resize', () => {
@@ -51,6 +52,8 @@ export class WidgetsGrid {
         }
         this.initChartMenu(w); 
         this.initWidget(chart, w, id, cols, rows);
+
+        $(this.gridstack.el).trigger('widget-added');
     }
     
     lastAdded() {
@@ -58,21 +61,7 @@ export class WidgetsGrid {
         return widgets[widgets.length-1];
     }
 
-    initChartMenu(widget)
-    {/*
-        let wnode = widget.ddElement.el; 
-        let q = 'g.highcharts-no-tooltip.highcharts-button.highcharts-contextbutton';
-        let menuBtn = wnode.querySelector(q);
-
-        menuBtn.addEventListener('click', function (event) {
-            // highcharts-contextmenu aparece al apretar por primer vez
-            // let menu = wnode.querySelector('div.highcharts-contextmenu');
-            widget.childNodes[0].style.zIndex = '2000';
-        });*/
-    }
-
     // TODO Quitar data(...)
-
     /* Dimensiona y setea el evento resizetop de un widget.
      *
      * Recibe informacion del widget:
@@ -133,4 +122,18 @@ export class WidgetsGrid {
         }, 500);
     }
 
+    
+
+    initChartMenu(widget)
+    {/*
+        let wnode = widget.ddElement.el; 
+        let q = 'g.highcharts-no-tooltip.highcharts-button.highcharts-contextbutton';
+        let menuBtn = wnode.querySelector(q);
+
+        menuBtn.addEventListener('click', function (event) {
+            // highcharts-contextmenu aparece al apretar por primer vez
+            // let menu = wnode.querySelector('div.highcharts-contextmenu');
+            widget.childNodes[0].style.zIndex = '2000';
+        });*/
+    }
 }

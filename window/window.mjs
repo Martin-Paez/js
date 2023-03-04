@@ -1,10 +1,10 @@
-export class WinController {
+export class WinController 
+{
     constructor(windowQ, closeBtnQ, moveBtnQ, timer=1000) 
     {
-        this._alert = $('#msg');
-        this._alert2 = $('#msg-dos');
-        this._$window = $(windowQ);
-        this._$closeBtn  = $(closeBtnQ);
+        this._$window   = $(windowQ);
+        this._$closeBtn = $(closeBtnQ);
+
         this._initResizable();
         this._LimitedDrag($(moveBtnQ), this._$window);
         this._setUpResponsive(this._$window);
@@ -15,10 +15,8 @@ export class WinController {
             handles: "all",
             stop: (e) => {
                 let $target = $(e.target);
-                let max     = $(window).width();
-                let width   = $target.width()  / max * 100;
-                max         = $(window).height();
-                let height  = $target.height() / max * 100;
+                let width   = $target.width()  / $(window).width()  * 100;
+                let height  = $target.height() / $(window).height() * 100;
                 
                 $target.css('width', `${width}%`);
                 $target.css('height', `${height}%`);
@@ -28,66 +26,74 @@ export class WinController {
 
     // $target solo tiene drag presionando $btn y drop dentro de window 
     _LimitedDrag($btn, $target) 
-    {   
+    {
         $btn.one('mousedown', (e) => 
         {
             $target.draggable({
-                drag: function(e, ui) {
+                start: (e, ui) => {
                     
+                    $('textarea').html(`${$('textarea').html()}\nhola`);
+
                 },
                 stop: (e) => 
                 { 
-                    let max  = $(window).width();
-                    let left = $target.position().left / max * 100;
+                    this._pxToPercent($target);
                     
-                    $target.css('left', `${left}%`);
-                    this._bringBack($target);
-                    $target.draggable("destroy");
+                    if($target.hasClass('pop-window'))
+                        this._checkPinedWindow(e.pageX, e.pageY, $btn);
+                    else
+                        this._bringBack($target);
+
+                    $target.draggable('destroy');
                     this._LimitedDrag($btn, $target);
-
-                    if(! $(e.target).hasClass('pop-window'))
-                        return;
-
-                    var mouseX = e.pageX;
-                    var mouseY = e.pageY;
-                    var windowWidth = $(window).width();
-                    var threshold = 2; // Umbral en píxeles para el borde de la ventana
-                    if (mouseX < threshold) {            
-                        this.pinMenu('left-pop-window');
-                    }
-                    if (mouseX > windowWidth - threshold) {
-                        this.pinMenu('right-pop-window');
-                    }
-                    if (mouseY < threshold) {
-                        this.pinMenu('top-pop-window');
-                    }
                 }
             });
         });
     }
 
-    pinMenu(menuClass)
+    _pxToPercent($target) {
+        let max  = $(window).width();
+        let left = $target.position().left / max * 100;
+        
+        $target.css('left', `${left}%`);
+    }
+
+    _checkPinedWindow(mouseX, mouseY, $btn) {
+        var err = 2;
+
+        if (mouseX < err)
+            this.pinMenu('left-pop-window', $btn);
+        else if (mouseY < err)
+            this.pinMenu('top-pop-window', $btn);
+        else
+            this._bringBack(this._$window);
+    }
+
+    pinMenu(menuClass, $btn)
     {
         this._$window.addClass(menuClass);
         let $pin = this._$window.find('.move-pop-window'); 
-        let $icon = $pin.find('i.bi-arrows-move'); 
-        $icon.removeClass('bi-arrows-move');
+        let $icon = $pin.find('i'); 
         $icon.addClass('bi-pin-angle');
         this._$window.resizable('disable');
-        $pin.on('mousedown', () => 
+        $icon.on('mousedown', () => 
         {
             $icon.removeClass('bi-pin-angle');
-            $icon.addClass('bi-arrows-move');
             this._$window.removeClass(menuClass);
             this._$window.resizable('enable');
+            this._$window.trigger(menuClass);
+            this._bringBack(this._$window);
         });
         this._$window.trigger(menuClass);
     }
 
     _setUpResponsive($target) {
         $(window).on('resize', (e)=> {
-            if (e.target === window)
-                this._bringBack($target);
+            if (e.target === window) {
+                setTimeout(() => {
+                    this._bringBack($target);
+                }, 500);
+            }
         });
     }
 
@@ -109,7 +115,15 @@ export class WinController {
             let max   = $(window).width();
 
             if(pos.left + width > max)
-                $moved.css('left', max-width);
+                $moved.css('left', `${(max-width)/max * 100 }%`);
+            else 
+            {
+                let height = $moved.outerHeight();
+                let max   = $(window).height();
+
+                if(pos.top + height > max)
+                    $moved.css('top', `${(max-height)/max * 100}%`);
+            }
         }
       }
       
@@ -136,6 +150,24 @@ export class WinController {
         this._setUpResponsive($widget);
         this.addOpenToggleBtn($open, $widget);        
         this._LimitedDrag($move, $widget);
+    }
+
+    isOpen() {
+        return this._$window.hasClass('open');
+    }
+
+    hide() {
+        if(this.isOpen())
+            this._$window.removeClass('open');
+    }
+
+    show() {
+        if( ! this.isOpen())
+            this._$window.addClass('open');
+    }
+
+    toggle() {
+        this._$window.toggleClass('open');
     }
 }
 

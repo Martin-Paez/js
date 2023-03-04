@@ -1,0 +1,7 @@
+#dbw_chart_config {
+    display: flex;
+}
+
+#dbw_chart_config .accordion {
+    width: 100%;
+}

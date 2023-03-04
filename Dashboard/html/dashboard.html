@@ -10,6 +10,7 @@
     
     <script src="dashboard.js" type="module"></script>
     <link href="dashboard.css" rel="stylesheet">
+    <link href="dbw-dropdown.css" rel="stylesheet">
 
     <!-- Highcharts -->
     <script src="node_modules/highcharts/highcharts.js"></script>
@@ -78,14 +79,14 @@
 </head>
 <body>
     <div class="open-widget closeByDefault">
-        <a href="#" id="open"><i class="bi-speedometer2"></i></a>
+        <a href="#" id="open"><i class="bi-pencil-square"></i></a>
         <a href="#" class="move-open-widget"><i class="bi-arrows-move"></i></a>
     </div>
     <div class="pop-window closeByDefault open"> 
         <div class="title-pop-window">
             <ul class="nav nav-tabs tabs-like-title">
                 <li class="nav-item">
-                    <a class="nav-link active" data-bs-toggle="tab" data-bs-target="#dbw_hist" href="#">
+                    <a class="nav-link" data-bs-toggle="tab" data-bs-target="#dbw_hist" href="#">
                         <i class="bi-graph-up"></i>
                     </a>
                 </li>
@@ -100,36 +101,111 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="tab" data-bs-target="#dbw_notes" href="#">
-                        <i class="bi-journal-bookmark"></i>
+                    <a class="nav-link active" data-bs-toggle="tab" data-bs-target="#dbw_notes" href="#">
+                        <i class="bi-journal-bookmark-fill"></i>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="tab" data-bs-target="#dbw_met" href="#">
-                        <i class="bi-speedometer"></i>
+                <li class="nav-item active">
+                    <a class="nav-link" data-bs-toggle="tab" data-bs-target="#dbw_chart_config" href="#">
+                        <i class="bi-clipboard2-data-fill"></i>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="tab" data-bs-target="#dbw_comp" href="#">
-                        <i class="bi-pie-chart-fill"></i>
+                        <i class="bi-gear-fill"></i>
                     </a>
                 </li>
             </ul>
             <div class="btns-pop-window">
                 <div class="move-pop-window" href="#">
-                    <div class="title-txt-pop-window">Title</div>
+                    <div class="title-txt-pop-window">
+                        <div class="title-label-pop-window hide">
+                            Title
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                Button
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Action</a></li>
+                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            </ul>
+                        </div>
+                    </div>
                     <div class="empty-title-pop-window"></div>
-                    <i class="bi-arrows-move"></i>
+                    <i class=""></i>
                 </div>
                 <a class="close-pop-window" href="#"><i class="bi-dash"></i></a>
             </div>
         </div>
         <div class="tab-content">
-            <div class="tab-pane fade show active" id="dbw_hist"></div>
+            <div class="tab-pane fade show " id="dbw_hist"></div>
             <div class="tab-pane fade show " id="dbw_met"></div>
             <div class="tab-pane fade show " id="dbw_comp"></div>
             <div class="tab-pane fade show " id="dbw_notes">
                 <textarea>Escribe tus notas aqui ...</textarea>
+            </div>
+            <div class="tab-pane fade show active" id="dbw_chart_config">
+                <div id="sel-chart">
+                    <img src="https://i.stack.imgur.com/Xrx2q.png">
+                </div>
+                <div class="accordion" id="sources">
+                    <div class="accordion-item">
+                        <h2 id="source_1h" class="accordion-header" >
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#source_1b">
+                                Sensor 1
+                            </button>
+                        </h2>
+                        <div id="source_1b" class="accordion-collapse collapse show" data-bs-parent="#sources">
+                            <div class="accordion-body">
+                                <div class="source-name input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon1">Nombre</span>
+                                    <input type="text" class="form-control" placeholder="Sensor 1" aria-label="Nombre de la fuente" aria-describedby="basic-addon1">
+                                </div>
+                                <select class="protocol form-select" aria-label="protocolo">
+                                    <option value="mqtt">MQTT</option>
+                                    <option value="sql">SQL</option>
+                                </select>
+                                <div class="sel-content">
+                                    <div class="sel-pane" id="mqtt">
+                                        <div class="url input-group mb-3">
+                                            <span class="input-group-text" id="basic-addon1">URL</span>
+                                            <input type="text" class="form-control" placeholder="http://" aria-label="url" aria-describedby="basic-addon1">
+                                        </div>
+                                        <div class="user input-group mb-3">
+                                            <span class="input-group-text" id="basic-addon1">Usuario</span>
+                                            <input type="text" class="form-control" placeholder="usuario" aria-label="url" aria-describedby="basic-addon1">
+                                        </div>
+                                        <div class="pass input-group mb-3">
+                                            <span class="input-group-text" id="basic-addon1">Contaseña</span>
+                                            <input type="text" class="form-control" placeholder="*****" aria-label="pass" aria-describedby="basic-addon1">
+                                        </div>
+                                        <div class="topic input-group mb-3">
+                                            <span class="input-group-text" id="basic-addon1">Topico</span>
+                                            <input type="text" class="form-control" placeholder="/sensor1/var1" aria-label="Topico" aria-describedby="basic-addon1">
+                                        </div>
+                                    </div>
+                                    <div class="sel-pane hide" id="sql">
+                                        Opciones de configuracion SQL
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingTwo">
+                              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                Accordion Item #2
+                              </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#sources">
+                              <div class="accordion-body">
+                                <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

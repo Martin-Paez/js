@@ -1,14 +1,29 @@
 new chart con min screen > set cols = N max
+		set default size widget grid 
 
 toggle menu > sacar autoscroll hacia arriba
 
-theme black
+reparar default size widget grid 
+
+title
+
+es caro calc pestanas
+
+right fix menu
 
 +opts para widget window
 
-scrollbar lindo	
+theme black
 
-notepad active at first
+
+
+
+
+
+
+
+
+
 
 
 

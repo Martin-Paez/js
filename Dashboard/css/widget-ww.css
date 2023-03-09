@@ -1,0 +1,29 @@
+:root {
+    --open-widget-color: rgb(215, 175, 57);
+}
+
+.open-widget {
+    position: fixed;
+    height: 1rem;
+    width: 5rem;
+    z-index: 2;
+    top: 5vh;
+    right: 1vw;
+}
+
+.open-widget>* {
+    color: var(--open-widget-color);
+    font-size: 3rem;
+    position: absolute;
+    z-index: 2;
+    padding: 0 1rem 0 1rem;
+    top: 0;
+    left: 0;
+}
+
+.open-widget>.move-open-widget {
+    font-size: 1.5rem;
+    color: var(--open-widget-color);
+    top: 3.5rem;
+    left: -0.5rem;
+}

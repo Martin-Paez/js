@@ -36,3 +36,28 @@
     animation-direction: reverse;
 }
 
+@keyframes leave {
+    0% {
+        transform: translateX(0vw);
+        opacity: 0%;
+    }
+
+    100% {
+        transform: translateX(0vw);
+        opacity: var(--final-opacity); 
+        height: 5%;
+        width: 5%;
+    }
+}
+
+.coming,
+.leaving {
+    animation-name: leave;
+    animation-duration: var(--anim-duration);
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-out;
+}
+
+.coming {
+    animation-direction: reverse;
+}

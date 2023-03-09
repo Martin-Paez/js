@@ -51,19 +51,9 @@ export class TabsController {
     {
         this._prev.forEach( (f)=>{f($(e.target));} );
         
-        let job = (model, $pane, $tab) => {  
-            model.load($pane, $tab); 
-        };
-        this._paneJob($tab, job); 
+        this._loadModel($tab); 
 
         this._next.forEach( (f)=>{f($(e.target));} );
-    }
-
-    reload() {
-        let job = (model, $pane, $tab) => {  
-            model.animateCatalog(); 
-        };
-        this._paneJob(this._active, job);
     }
 
     /**
@@ -72,14 +62,19 @@ export class TabsController {
      * @param {jQuery} $tab 
      *  Pestana cuyo contenido ah de ser cargado.
      */
-    _paneJob($tab, job) 
+    _loadModel($tab, job) 
     {
         this._active = $tab;
         let paneId = this._active.data('bs-target').slice(1);
         let model = this._models[paneId];
         let $pane = this._$panes.find(`[id=${paneId}]`);
-        if(model !== undefined)
-            job(model, $pane, $tab);
+        if(model !== undefined) 
+        {
+            model.load($pane, $tab); 
+            $tab.on('click', (e) => {
+                model.reload($pane, $tab);
+            })
+        }
     }
 
     // Encuentra la pestana activa. Si hay varias solo deja activa la primera.

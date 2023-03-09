@@ -1,0 +1,77 @@
+:root {
+    --left-pop-window: 33vw;
+    --top-pop-window: 23vh;
+    --catalog-chart-size: 12rem;
+    --chart-margin: 0.5rem;
+    --min-width-pop-window: calc(var(--catalog-chart-size) + 5 * var(--chart-margin));
+    --min-height-pop-window: calc(var(--catalog-chart-size));
+    --pop-window-width: calc(var(--catalog-chart-size) * 2 + 6 * var(--chart-margin) + var(--scroll-bar-width));
+}
+
+:_root {
+    --min-width-pop-window: 80vw;
+    --min-height-pop-window: 80vh;
+    --left-pop-window: 10vw;
+    --top-pop-window: 10vh;
+}
+
+/* Nuevas dimensiones */
+
+.pop-window {
+    min-width: var(--min-width-pop-window);
+    min-height: var(--min-height-pop-window);
+    width: var(--pop-window-width);
+    height: auto;
+    left: var(--left-pop-window);
+    top: var(--top-pop-window);
+}
+
+/* Chart settings Tab */
+
+.hide {
+    display: none;
+}
+
+#chart-window > .window-content > div {
+    display: flex;
+}
+
+#chart-config {
+    width: 100%;
+}
+
+/* Notes Tab */
+
+textarea {
+    height: 100%;
+    width: 100%;
+    font-size: 2rem;
+}
+
+/* Catalog Tabs*/
+
+.panes-ww {
+    padding: var(--chart-margin);
+}
+
+.panes-ww>.tab-pane>div {
+    margin: var(--chart-margin);
+    margin-bottom: 0;
+    display: inline-block;
+}
+
+.charts-catalog .grid-stack-item {
+    width: var(--catalog-chart-size);
+    aspect-ratio: 1/1;
+}
+
+.charts-catalog svg.highcharts-root {
+    width: 100%;
+}
+
+.charts-catalog div.grid-stack-item-content,
+.charts-catalog div.grid-stack-item-content>* {
+    height: 100%;
+}
+
+.charts-catalog svg.highcharts-root .highcharts-title {}

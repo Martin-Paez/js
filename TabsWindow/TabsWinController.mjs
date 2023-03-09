@@ -1,4 +1,4 @@
-import { WinController } from "./window.mjs";
+import { WebWindow  } from "./WebWindow.mjs";
 import { TabsController } from "./TabsController.mjs";
 
 /**
@@ -18,21 +18,17 @@ import { TabsController } from "./TabsController.mjs";
  */
 export class TabWinController 
 {
-    constructor(paneModels, namespace = "", btnsPopWinWidth = 60) 
+    constructor(paneModels, windowId = "") 
     {
-        if (namespace !== "")
-            namespace += '.' + namespace;
+        this._window = new WebWindow(windowId);
+
+        let windowQ = `#${windowId}.pop-window`;
+        let panes   = windowQ + ` > .panes-ww`;
+        let tabs    = windowQ + ` .tabs-ww`;
         
-        let windowQ = `.pop-window${namespace}`;
-        let close   = `${windowQ} .close-pop-window`;
-        let move    = `${windowQ} .move-pop-window`;
-        let panes   = windowQ + ` > .tab-content`;
-        let tabs    = windowQ + `.title-pop-window .nav-tabs`;
-        
-        this._window = new WinController(windowQ, close, move);
         this._tabs   = new TabsController(tabs, panes, paneModels);
-    
-        this._setUpTabsResponsive($(windowQ));
+
+        this._setUpTabsResponsive(windowQ);
     }
 
     hide() {
@@ -49,52 +45,74 @@ export class TabWinController
 
         
     // todo , namespace con $window a todo
-    _setUpTabsResponsive($window) 
+    _setUpTabsResponsive(windowQ) 
     {
-        if( $window.find('.title-pop-window .nav-tabs').length > 0)
+        this._$window    = $(windowQ);
+        this._$head      = this._$window.find('.head-pop-window');
+        let $btns        = this._$head.find('.btns-pop-window');
+        this._closeWidth = $btns.find('.close-pop-window').outerWidth();
+        this._$empty     = $btns.find('.empty-head-pop-window');
+        this._$title     = $btns.find('.title-pop-window');
+        this._$tabs      = this._$window.find('.tabs-ww');
+
+        this._calcTabsLimit();
+        if( this._$tabs.length > 0)
             this._currLimit = 0;
         else
             this._currLimit = this._responsiveLimit;
+        this._checkTabsResponsive();
 
-        this._checkTabsResponsive($window) 
-        $(window).on( "resize", f.bind(this, $window));
+        $(window).on( "resize", (e) => {
+            if(e.target === window)
+                setTimeout( () => 
+                {
+                    this._calcTabsLimit();
+                    this._checkTabsResponsive();
+                }
+                , 500);        
+            else if(e.target == this._$window[0])    
+                this._checkTabsResponsive();
+        });
 
-        $window.on('left-pop-window top-pop-window right-pop-window', (e) => 
+        this._$window.on('left-pop-window top-pop-window right-pop-window', (e) => 
         {
-            this._checkTabsResponsive($window);
+            this._calcTabsLimit(); // Con tamano fijo, en resize no puede calcular
+            this._checkTabsResponsive();
         });
     }
 
-    async _checkTabsResponsive($window)
-    { 
+    _calcTabsLimit() 
+    {
         this._responsiveLimit = 0;
-        $window.find('.title-pop-window .nav-link').each( (i, link) => 
+        this._$tabs.each( (i, link) => 
         {
             this._responsiveLimit += $(link).outerWidth();
         });
-        let $title = $window.find('.title-pop-window');
-        let $btns = $title.find('.btns-pop-window');
-        let $empty = $btns.find('.empty-title-pop-window');
-
-        this._responsiveLimit += $btns.outerWidth() - $empty.outerWidth();
+        let empty = this._$empty.outerWidth();
+        let title = this._$title.outerWidth();
+        this._responsiveLimit += this._closeWidth + title - empty;
         this._responsiveLimit /= $(window).width();
+    }
+
+    _checkTabsResponsive()
+    { 
         let winWidth = $(window).width();
-        let emptyWidth = $empty.outerWidth();
+        let emptyWidth = this._$empty.outerWidth();
         emptyWidth /= winWidth; 
             
        // $('textarea').html(`window: ${winWidth}px\nempty: ${parseInt(emptyWidth*100)}%\nlimit: ${parseInt(this._currLimit*100)}%`);
         if (emptyWidth > this._currLimit) 
         {
             
-            $title.find('.nav-tabs').prependTo($title);
+            this._$tabs.prependTo(this._$head);
             this._currLimit = 0;
         } 
         else
         {    
             this._currLimit = this._responsiveLimit;
 
-            let first = $window.children().eq(0); 
-            $title.find('.nav-tabs').insertAfter(first);
+            let first = this._$window.children().eq(0); 
+            this._$tabs.insertAfter(first);
         }
         //$('textarea').html(`${$('textarea').html()}\nnew limit: ${parseInt(this._currLimit*100)}%`);
     }
@@ -116,10 +134,3 @@ export class TabWinController
     }
 
 }
-
-async function f($window) {
-    await new Promise( (resolve) => {
-        this._checkTabsResponsive($window);
-        resolve();
-    });
-} 

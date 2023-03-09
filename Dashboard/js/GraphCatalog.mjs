@@ -1,5 +1,5 @@
-import { genericChart} from './HighChartOpts.mjs';
-import { IModel } from "./IModel.mjs";
+import { genericChart } from './opts-hchart.mjs';
+import { IModel       } from "./IModel.mjs";
 
 export class GraphCatalog extends IModel 
 {
@@ -14,7 +14,7 @@ export class GraphCatalog extends IModel
         this._count  = 0;
     }
 
-    animateCatalog() 
+    reload($pane) 
     {/*
         for (let chart in this._charts) { 
             chart = this._charts[chart];
@@ -22,6 +22,10 @@ export class GraphCatalog extends IModel
             chart.series[0].setData(serie[0].data, false);
             chart.redraw(true);
         }*/
+        this._grid.getGridstack().off('added');
+        this._grid.getGridstack().on('added', () => {
+            this._setUpGridChart($pane);
+        });
     }
 
     load($pane) 
@@ -29,10 +33,7 @@ export class GraphCatalog extends IModel
         this._types.forEach(chartType => {
             this._restock($pane, chartType);
         });
-        this._grid.getGridstack().on('added', () => {
-            this._setUpGridChart($pane);
-        });
-        this.load = this.animateCatalog;
+        this.reload($pane);
     }
 
     _restock($pane, chartType) 
@@ -49,14 +50,13 @@ export class GraphCatalog extends IModel
 
         setTimeout(()=> {
             GridStack.setupDragIn('.newWidget');
-        }, 500); // Para que los reemplazos sean dragables sin cerrar la ventana 
+        }, 500); // Para que los reemplazos sean dragables sin cerrar la ventana
 
         let $item = $pane.children().last(); 
         $item.on('mousedown', () => 
         { 
             $item.trigger('catalog-item-selected');
-        });
-        
+        });   
     }
 
     _setUpGridChart($pane) {
@@ -65,28 +65,39 @@ export class GraphCatalog extends IModel
         let id      = $item.attr('id');
         let chart   = this._charts[id];
         let type    = [];
-
+        
         type.push($item.data('type'));
         type.push($item.data('type-label'));
-        chart.update({ 
-            chart: { margin   : 40    ,
-                     marginTop: 50   },
-            xAxis: { visible  : true },
-            yAxis: { visible  : true },
-            title: { text     : this._model.title() },
-            exporting: { enabled : true},
-        });
+
+        // TODO : quitar valores hardcodeados
+        let opts = { 
+            chart: { margin      : 40    ,
+                     marginRight : 40    ,
+                     marginTop   : 50   },
+            yAxis: { visible     : true },
+            title: { text        : this._model.title() },
+            exporting: { enabled : true },            
+        }
+        if(chart.options.xAxis)
+            opts.xAxis = { visible  : true };
+        if(chart.options.chart.type === 'gauge' || chart.options.chart.type === 'solidgauge')
+            opts.pane = { size : '180%' };
+        chart.update(opts);
+
         this._grid.initLastAdded(chart, id, this._model.gridCols(), this._model.gridRows());
-    
         this._restock($pane, type); //Repongo widget en catalogo
     }
 
     _setUpWindowChart(chart) {
-        chart.chart.margin    = 10;
-        chart.chart.marginTop = 30;
-        chart.yAxis.visible   = false;
-        chart.xAxis.visible   = false;
-        chart.exporting.enabled = false;
+        chart.chart.margin        = 10;
+        chart.chart.marginTop     = 30;
+        chart.exporting.enabled   = false;
+        if (chart.xAxis) {
+            chart.xAxis.visible   = false;
+            chart.yAxis.visible   = false;
+        }
+        if(chart.chart.type === 'gauge' || chart.chart.type === 'solidgauge')
+            chart.pane.size = '140%';
     }
 
     _getHtmlWidget(id, type) 

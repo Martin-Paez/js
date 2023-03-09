@@ -83,11 +83,11 @@
         <a href="#" class="move-open-widget"><i class="bi-arrows-move"></i></a>
     </div>
     <div class="pop-window closeByDefault open"> 
-        <div class="title-pop-window">
-            <ul class="nav nav-tabs tabs-like-title">
+        <div class="head-pop-window">
+            <ul id="title-tabs-pop-window" class="nav nav-tabs tabs-like-title">
                 <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="tab" data-bs-target="#dbw_hist" href="#">
-                        <i class="bi-graph-up"></i>
+                        <i class="bi-bar-chart-line-fill"></i>
                     </a>
                 </li>
                 <li class="nav-item ">
@@ -102,12 +102,13 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" data-bs-toggle="tab" data-bs-target="#dbw_notes" href="#">
-                        <i class="bi-journal-bookmark-fill"></i>
+                        <i class="bi-stickies-fill
+                        "></i>
                     </a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" data-bs-toggle="tab" data-bs-target="#dbw_chart_config" href="#">
-                        <i class="bi-clipboard2-data-fill"></i>
+                        <i class="bi-clipboard-data-fill"></i>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -118,7 +119,7 @@
             </ul>
             <div class="btns-pop-window">
                 <div class="move-pop-window" href="#">
-                    <div class="title-txt-pop-window">
+                    <div class="title-pop-window">
                         <div class="title-label-pop-window hide">
                             Title
                         </div>
@@ -133,7 +134,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="empty-title-pop-window"></div>
+                    <div class="empty-head-pop-window"></div>
                     <i class=""></i>
                 </div>
                 <a class="close-pop-window" href="#"><i class="bi-dash"></i></a>
@@ -163,7 +164,7 @@
                                     <span class="input-group-text" id="basic-addon1">Nombre</span>
                                     <input type="text" class="form-control" placeholder="Sensor 1" aria-label="Nombre de la fuente" aria-describedby="basic-addon1">
                                 </div>
-                                <select class="protocol form-select" aria-label="protocolo">
+                                <select class="protocol form-select mb-3" aria-label="protocolo">
                                     <option value="mqtt">MQTT</option>
                                     <option value="sql">SQL</option>
                                 </select>
@@ -192,18 +193,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="headingTwo">
-                              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                Accordion Item #2
-                              </button>
-                            </h2>
-                            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#sources">
-                              <div class="accordion-body">
-                                <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                              </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -213,3 +202,48 @@
     <div class="grid-stack"></div>
 </body>
 </html>
+
+
+<div class="open-widget closeByDefault">
+    <a href="#" id="open"><i class="bi-pencil-square"></i></a>
+    <a href="#" class="move-open-widget"><i class="bi-arrows-move"></i></a>
+</div>
+<div class="pop-window closeByDefault open"> 
+    <div class="head-pop-window">
+        <ul class="nav nav-tabs tabs-like-title">
+            
+        </ul>
+        <div class="btns-pop-window">
+            <div class="move-pop-window" href="#">
+                <div class="title-pop-window">
+                    <div class="title-label-pop-window hide">
+                        Title
+                    </div>
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            Button
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="empty-head-pop-window"></div>
+                <i class=""></i>
+            </div>
+            <a class="close-pop-window" href="#"><i class="bi-dash"></i></a>
+        </div>
+    </div>
+    <div class="tab-content">
+        <div class="tab-pane fade show " id="dbw_hist"></div>
+        <div class="tab-pane fade show " id="dbw_met"></div>
+        <div class="tab-pane fade show " id="dbw_comp"></div>
+        <div class="tab-pane fade show " id="dbw_notes">
+            <textarea>Escribe tus notas aqui ...</textarea>
+        </div>
+    </div>
+</div>
+
+<div class="grid-stack"></div>

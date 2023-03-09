@@ -1,0 +1,19 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Dashboard
+        
+        include ./includes/library-dboard.pug
+        include ./includes/pug-includes/bootstrap.pug
+
+        script(src="dashboard.js", type="module")
+        link(href="dboard.css", rel="stylesheet")
+        
+    body
+        include ./src/pop-widget.pug
+        include ./src/windows/catalog-window.pug
+        include ./src/windows/chart-window.pug
+        div.grid-stack

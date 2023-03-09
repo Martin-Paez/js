@@ -6,21 +6,22 @@
  */
 export class WidgetsGrid {
 
-    constructor (rowHeight, colWidth) 
+    constructor (rowHeight = 58, colWidth) 
     {
         this.widgets   = [];
         this.gridstack = GridStack.init({
             cellHeight: rowHeight,
             acceptWidgets: true,
             float: true,
-            minRow: 10,
+            minRow: 11,
             resizable: {
                 handles: 'all'
             },
         });
 
-        $(window).on('resize', ()=>{
-            this.refresh();
+        $(window).on('resize', (e)=>{
+            if(e.target === window)
+                this.refresh();
         });
     }
 
@@ -46,14 +47,15 @@ export class WidgetsGrid {
 
         if ($(this.gridstack.el).hasClass('grid-stack-1'))
         {
-            $(window).one('resize', () => {
-                this.gridstack.update(w.el, { w: 12 });
+            $(window).one('resize', (e) => {
+                if(e.target === window)
+                    this.gridstack.update(w.el, { w: 12 });
             })
         }
         this.initChartMenu(w); 
         this.initWidget(chart, w, id, cols, rows);
 
-        $(this.gridstack.el).trigger('widget-added');
+        $(w).trigger('widget-added');
     }
     
     lastAdded() {
@@ -121,8 +123,6 @@ export class WidgetsGrid {
             });
         }, 500);
     }
-
-    
 
     initChartMenu(widget)
     {/*

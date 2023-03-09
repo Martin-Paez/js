@@ -1,0 +1,70 @@
+// Dropdown menu
+mixin bs-dropdown(label, id="", classes="")
+    div.dropdown(id=id, class=classes)
+        button.dropdown-toggle(class="btn" type="button", data-bs-toggle="dropdown")=label
+        ul.dropdown-menu
+            block
+
+mixin bs-dropdown-item(item, link, itemId="", classes)
+    li
+        a.dropdown-item(id=itemId, class=classes, href=link)=item
+
+// Pestañas
+mixin bs-navtab(classes="", id="")
+    ul(id=id, class="nav nav-tabs "+classes)
+        block 
+
+mixin bs-navLink(target, iconClass, linkClass="", itemClass="", linkId="", itemId="")
+    li.nav-item(id=itemId, class=itemClass)
+        a.nav-link(id=linkId, class=linkClass, data-bs-toggle='tab', data-bs-target=target)
+            i(class=iconClass)
+
+mixin bs-tabPane(id, classes="")
+    - var paneClasses = "tab-pane fade show " + classes
+    if block
+        div(id=id class=paneClasses)
+            block
+    else
+        div(id=id class=paneClasses)
+            yield
+
+// Accordion
+mixin bs-accordion(id, classes)
+    div.accordion(id=id, class=classes)
+        block
+
+mixin bs-accordion-item(btnTxt, id, accordionId)
+    div.accordion-item
+        h2.accordion-header(id=id+'h')
+            button.accordion-button(type="button", data-bs-toggle="collapse", data-bs-target='#'+id+'b') #{btnTxt}            
+        div.accordion-collapse(id=id+'b', class="collapse show",  data-bs-parent='#'+accordionId)
+            div.accordion-body
+                block  
+
+// --------   FORMULARIOS    -------
+
+mixin bs-input-group(label)
+    div.input-group(class="mb-3")
+        span.input-group-text #{label}
+        block
+
+mixin bs-input(label, defaultTxt, classes="", id="", ariaLabel="")
+    +bs-input-group(label)
+        input.form-control(type="text", class=classes, id=id, placeholder=defaultTxt, aria-label=ariaLabel)
+        
+mixin bs-select(label, classes="", id="", ariaLabel="")
+    +bs-input-group(label)
+        select.form-select(class=classes, id=id, aria-label=ariaLabel)
+            block
+
+// Para bs-select
+mixin bs-option(value, txt)
+    option(value=value) #{txt}
+        block
+
+mixin bs-button(label, classes="btn-primary", id="")
+    button.btn(type="button", id=id, class=classes)=label
+
+mixin bs-textarea(label, rows, txt, classes, id)
+    +bs-input-group(label)
+        textarea.form-control(class=classes, id=id, rows=rows) #{txt}

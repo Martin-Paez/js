@@ -1,0 +1,35 @@
+:root {
+    --tabs-ww-link-border-color: rgb(137, 167, 191);
+    --tabs-ww-border-botom-color: rgb(171, 191, 208);
+}
+
+.tabs-ww {
+    float: left;
+    font-size: 1.4rem;
+    border-radius: 0 0 0 0;
+    border-color: var(--tabs-ww-border-botom-color);
+}
+
+.tabs-ww i {
+    font-size: 1.8rem;
+    color: black;
+}
+
+.tabs-ww .nav-link {
+    border: 0.1rem solid var(--tabs-ww-link-border-color);
+    margin-bottom: 0;
+    /* Saca pequena linea negra de bootstrap */
+}
+
+.tabs-ww .nav-link:not(.active):hover {
+    background-color: rgb(181, 194, 205);
+}
+
+.panes-ww {
+    overflow-y: auto;
+    height: 100%;
+}
+
+.panes-ww > .tab-pane {
+    text-align: center;
+}

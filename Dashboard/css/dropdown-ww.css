@@ -1,0 +1,17 @@
+.btns-pop-window .title-pop-window .dropdown {
+    display: flex;
+}
+
+.btns-pop-window .title-pop-window .dropdown .dropdown-toggle {
+    color: white;
+    font-size: 1.5rem;
+    border-color: transparent;
+}
+
+.btns-pop-window .title-pop-window .dropdown .dropdown-toggle:focus {
+    background-color: rgba(45, 99, 170, 0.903);
+}
+
+.btns-pop-window .title-pop-window .dropdown .dropdown-item {
+    font-size: 1.5rem;
+}

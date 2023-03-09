@@ -1,0 +1,79 @@
+:root {
+    --btns-pop-window-width: 3rem;
+    --btns-pop-window-height: 3.9rem;
+    --scroll-bar-width: 1rem;
+}
+
+::-webkit-scrollbar {
+    width: var(--scroll-bar-width);
+    height: var(--scroll-bar-width);
+}
+
+.pop-window {
+    height: 80vh;
+    width: 66vw;
+    max-width: calc(100vw - var(--scrollbar-width));
+    position: fixed !important;
+    left: 17vw;
+    top: 10vh;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+}
+ 
+.head-pop-window {
+    display: flex;
+    height: var( --btns-pop-window-height);
+}
+
+.btns-pop-window {
+    display: flex;
+    flex-grow: 1;
+}
+
+.btns-pop-window > * {
+    width: 3rem;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-pop-window {
+    width: var(--btns-pop-window-width);
+    text-align: center;
+    height: 100%;
+}
+
+.move-pop-window {
+    flex-grow: 1;
+}
+
+.move-pop-window,
+.close-pop-window {
+    text-decoration: none;
+}
+
+.title-pop-window { 
+    height: 100%;
+    width: auto;
+    margin: 0;
+    color: rgb(218, 229, 239);
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    overflow-x: hidden;
+}
+
+.empty-head-pop-window {
+    height: 100%;
+    flex-grow: 1;
+}
+
+.move-pop-window i {
+    padding-right: 1.1rem;
+}
+
+.btns-pop-window .title-pop-window .title-label-pop-window { 
+    padding-left: 2rem;  
+}

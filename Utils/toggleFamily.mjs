@@ -1,8 +1,10 @@
-export function toggleSame(targetQ, isEnabled, onMouseDown, onMouseUp) {
-    let $target = $(targetQ);
+export function toggleSame($target, isEnabled, onMouseDown, onMouseUp,
+                           eventA='mousedown', eventB='mouseup') 
+{
+    //let $target = $(targetQ);
     let running = false;
 
-    $target.on('mousedown', () => {
+    $target.on(eventA, () => {
         let a = isEnabled(); 
         if ( isEnabled() ) {
             onMouseDown();
@@ -10,7 +12,7 @@ export function toggleSame(targetQ, isEnabled, onMouseDown, onMouseUp) {
         }
     });
 
-    $target.on('mouseup', () => {
+    $target.on(eventB, () => {
         if ( running ) {
             onMouseUp();
             running = false;

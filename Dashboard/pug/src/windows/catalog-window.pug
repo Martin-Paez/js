@@ -1,0 +1,18 @@
+div#catalog-window(class="pop-window closeByDefault open") 
+
+    div.head-pop-window
+        +bs-navtab("tabs-ww", "")
+            +bs-navLink('#dbw_hist'        , 'bi-bar-chart-line-fill'  , 'active')
+            +bs-navLink('#dbw_met'         , 'bi-speedometer'          )
+            +bs-navLink('#dbw_comp'        , 'bi-pie-chart-fill'       )
+            +bs-navLink('#dbw_notes'       , 'bi-stickies-fill'        )
+            +bs-navLink('#dbw_config'      , 'bi-gear-fill'            )
+        include btns-window.pug
+
+    div.tab-content.panes-ww
+        +bs-tabPane("dbw_hist" , 'charts-catalog active')
+        +bs-tabPane("dbw_met"  , 'charts-catalog' )
+        +bs-tabPane("dbw_comp" , 'charts-catalog' )
+        +bs-tabPane("dbw_notes")
+            textarea(rows='5') Escribe tus notas aqui ...
+                

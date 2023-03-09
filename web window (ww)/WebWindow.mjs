@@ -1,12 +1,13 @@
-export class WinController 
+export class WebWindow 
 {
-    constructor(windowQ, closeBtnQ, moveBtnQ, timer=1000) 
+    constructor(windowId, timer=1000) 
     {
-        this._$window   = $(windowQ);
-        this._$closeBtn = $(closeBtnQ);
+        this._$window   = $(`#${windowId}`);
+        this._$closeBtn = this._$window.find('.close-pop-window');
+        let $move       = this._$window.find('.move-pop-window');
 
         this._initResizable();
-        this._LimitedDrag($(moveBtnQ), this._$window);
+        this._LimitedDrag($move, this._$window);
         this._setUpResponsive(this._$window);
     }
 
@@ -15,11 +16,9 @@ export class WinController
             handles: "all",
             stop: (e) => {
                 let $target = $(e.target);
-                let width   = $target.width()  / $(window).width()  * 100;
-                let height  = $target.height() / $(window).height() * 100;
+                let width   = $target.width() / $(window).width()  * 100;
                 
                 $target.css('width', `${width}%`);
-                $target.css('height', `${height}%`);
             }
         });
     }
@@ -27,16 +26,38 @@ export class WinController
     // $target solo tiene drag presionando $btn y drop dentro de window 
     _LimitedDrag($btn, $target) 
     {
+        let onWindowOut = (e) => {
+            let err = -2;
+            if (e.pageY <= err)
+                this._$window.addClass('top-pop-window');
+        };
+        let onWindowEnter = (e) => {
+            let err = -2;
+            if (e.pageY >= err)
+                this._$window.removeClass('top-pop-window');
+        };
         $btn.one('mousedown', (e) => 
-        {
+        {   
+            let inFlag=true;
             $target.draggable({
-                start: (e, ui) => {
-                    
-                    $('textarea').html(`${$('textarea').html()}\nhola`);
-
+                start: (e) => 
+                {
+                    $('body').on("mouseleave", onWindowOut);
+                    $('body').on("mouseenter", onWindowEnter);
+                },
+                drag: (e) => {
+                    let err = 2;
+                    if (e.pageX <= err) {
+                        this._$window.addClass('left-pop-window');
+                        inFlag = false;
+                    } else if (e.pageX > err && ! inFlag) 
+                        this._$window.removeClass('left-pop-window');
                 },
                 stop: (e) => 
                 { 
+                    $('body').off("mouseleave", onWindowOut);
+                    $('body').off("mouseenter", onWindowEnter);
+                    
                     this._pxToPercent($target);
                     
                     if($target.hasClass('pop-window'))
@@ -69,11 +90,10 @@ export class WinController
             this._bringBack(this._$window);
     }
 
-    pinMenu(menuClass, $btn)
+    pinMenu(menuClass)
     {
         this._$window.addClass(menuClass);
-        let $pin = this._$window.find('.move-pop-window'); 
-        let $icon = $pin.find('i'); 
+        let $icon = this._$window.find('.move-pop-window i'); 
         $icon.addClass('bi-pin-angle');
         this._$window.resizable('disable');
         $icon.on('mousedown', () => 
@@ -86,7 +106,7 @@ export class WinController
         });
         this._$window.trigger(menuClass);
     }
-
+    
     _setUpResponsive($target) {
         $(window).on('resize', (e)=> {
             if (e.target === window) {
@@ -131,15 +151,19 @@ export class WinController
     // SetUp un boton para abrir la ventana
     addOpenBtn(openBtnQ) {
         let $open = $(openBtnQ);
-        initPopUp(0.9, $open, this._$closeBtn, this._$window);
+        setPopUpEvent(0.9, $open, this._$window, 'opening', false);
+    }
+
+    setDefaultCloseBtn() {
+        setPopUpEvent(0.9, this._$closeBtn, this._$window, 'closing');
     }
 
     // Idem addOpenBtn, pero desaparece el boton y reaparece al cerrar la ventana
-    addOpenToggleBtn(openBtnQ, openBtnContainerQ) {
-        let $open   = $(openBtnQ);
+    addOpenToggleBtn($open, openBtnContainerQ) {
+        $open   = $($open);
         let $widget = $(openBtnContainerQ);
         initPopUp(0.9, $open, this._$closeBtn, this._$window);
-        initPopUp(1, this._$closeBtn, $open, $widget)
+        initPopUp(1, this._$closeBtn, $open, $widget, 'leaving', 'coming');
     }
 
     // Idem addOpenToggleBtn, y ademas, setea drag al wiget que contiene al boton
@@ -171,20 +195,27 @@ export class WinController
     }
 }
 
-export function initPopUp(opacity, openBtnQ, closeBtnQ, popupQ) {
-    setPopUpEvent(opacity, openBtnQ, popupQ);
-    setPopUpEvent(opacity, closeBtnQ, popupQ, 'closing');
+export function initPopUp(opacity, openBtnQ, closeBtnQ, popupQ, animA='opening',
+                          animB='closing') 
+{
+    setPopUpEvent(opacity, openBtnQ, popupQ, animA);
+    setPopUpEvent(opacity, closeBtnQ, popupQ, animB);
 }
 
 export function setPopUpEvent(opacity, btnQuery, windowQuery, animClass='opening',
-event='click', finalClass='open') 
+                              toggle=true, event='click', finalClass='open') 
 {
     const root = document.documentElement;
     let $window = $(windowQuery);
     let $btn = $(btnQuery); 
     $btn.on(event, function(){ 
         root.style.setProperty('--final-opacity', String(opacity));
-        $window.toggleClass(finalClass);
+        if(toggle)
+            $window.toggleClass(finalClass);
+        else if ( ! $window.hasClass(finalClass) )
+            $window.addClass(finalClass);
+        else
+            return;
         $window.addClass(animClass);
         let cssVars = getComputedStyle(document.documentElement);
         let timer = cssVars.getPropertyValue('--anim-duration');

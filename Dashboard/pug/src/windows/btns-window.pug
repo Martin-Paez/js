@@ -1,0 +1,12 @@
+div.btns-pop-window
+    div.move-pop-window(href="#")
+        div.title-pop-window
+            div.title-label-pop-window Title
+            //+bs-dropdown("Temperatura")
+                +bs-dropdown-item("Temperatura", "#")
+                +bs-dropdown-item("Humedad", "#")
+                +bs-dropdown-item("Intensidad", "#")
+        div.empty-head-pop-window
+        i 
+    a.close-pop-window(href="#")
+        i.bi-dash

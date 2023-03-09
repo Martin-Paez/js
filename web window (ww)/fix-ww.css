@@ -1,0 +1,56 @@
+:root {
+   --min-width-pop-window: 15rem;
+   --min-height-pop-window: 17rem;
+}
+
+@media screen and (min-width: 769px) {
+   .left-pop-window {
+      left: 0 !important;
+      top: 0 !important;
+      height: 100vh !important;
+      width: calc(2 * var(--min-width-pop-window)) !important;
+      border-radius: 0 !important;
+   }
+
+   .right-pop-window {
+      right: 0 !important;
+      top: 0 !important;
+      height: 100vh !important;
+      width: calc(var(--min-width-pop-window)) !important;
+      border-radius: 0 !important;
+      transform: translateX(50%);
+   }
+
+   .top-pop-window {
+      left: 0 !important;
+      top: 0 !important;
+      width: calc(100vw - var(--scroll-bar-width)) !important;
+      height: auto !important;
+      border-radius: 0 !important;
+   }
+}
+
+@media screen and (max-width: 768px) {
+
+   .left-pop-window,
+   .right-pop-window,
+   .top-pop-window {
+      left: 0 !important;
+      top: 0 !important;
+      width: 100vw !important;
+      min-height: var(--min-height-pop-window) !important;
+      height: auto !important;
+      border-radius: 0 !important;
+   }
+
+}
+
+.left-pop-window .close-pop-window,
+.right-pop-window .close-pop-window,
+.top-pop-window .close-pop-window {
+   border-radius: 0 !important;
+}
+
+.left-pop-window .close-pop-window {
+   border-radius: 0;
+}

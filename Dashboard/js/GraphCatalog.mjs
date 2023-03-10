@@ -3,12 +3,12 @@ import { IModel       } from "./IModel.mjs";
 
 export class GraphCatalog extends IModel 
 {
-    constructor(id, chartTypes, grid, graph={title , units, opts, source}) 
+    constructor(id, categs, grid, graph={title , units, opts, source})
     {
         super(graph);
 
         this._id     = id;
-        this._types  = chartTypes;
+        this._categs = categs;
         this._grid   = grid;
         this._charts = {};
         this._count  = 0;
@@ -26,11 +26,19 @@ export class GraphCatalog extends IModel
         this._grid.getGridstack().on('added', () => {
             this._setUpGridChart($pane);
         });
+        for (let key in this._charts) {
+            let a = this._charts[key];
+            this._charts[key].reflow();
+        }
+    }
+
+    catalogName() {
+        return this._categs.name;
     }
 
     load($pane) 
     {
-        this._types.forEach(chartType => {
+        this._categs.list.forEach(chartType => {
             this._restock($pane, chartType);
         });
         this.reload($pane);

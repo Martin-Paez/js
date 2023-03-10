@@ -34,9 +34,9 @@ export class TabsController {
         this._next   = nextCalls;
         this._$links = $(navTabsQ).find('.nav-link');
         this._$panes = $(tabContentQ);
+        this._clickHandlers = [];
 
         this.initEvents();
-        this._findActive().trigger('click');
     }
 
     // Setea onclick a cada pestana cargar los tab-pane bajo demanda por UNICA vez.
@@ -45,6 +45,11 @@ export class TabsController {
         this._$links.one('click', (e) => {
             this._load($(e.currentTarget));
         });
+    }
+
+    loadActive() 
+    {
+        this._findActive().trigger('click');
     }
 
     _load($tab) 
@@ -62,7 +67,7 @@ export class TabsController {
      * @param {jQuery} $tab 
      *  Pestana cuyo contenido ah de ser cargado.
      */
-    _loadModel($tab, job) 
+    _loadModel($tab) 
     {
         this._active = $tab;
         let paneId = this._active.data('bs-target').slice(1);
@@ -70,11 +75,30 @@ export class TabsController {
         let $pane = this._$panes.find(`[id=${paneId}]`);
         if(model !== undefined) 
         {
-            model.load($pane, $tab); 
+            model.load($pane, $tab);
+            this._triggerTabPressed(model);
             $tab.on('click', (e) => {
                 model.reload($pane, $tab);
+                this._triggerTabPressed(model);
             })
         }
+    }
+
+    _triggerTabPressed(model) {
+        this._clickHandlers.forEach( (handler) => {
+            handler(model);
+        });
+    }
+
+    /**
+     * 
+     * @param {function} callback
+     *   callback recibe como parametro el modelo de la pestana sobre la cual
+     *   se hizo click.
+     */
+    onClick(callback) 
+    {
+        this._clickHandlers.push(callback);
     }
 
     // Encuentra la pestana activa. Si hay varias solo deja activa la primera.

@@ -46,14 +46,14 @@ document.addEventListener("DOMContentLoaded", function() {
     ctgw.addOpenBtn('.open-widget');
     toggleSame(grid.getGridstack(), ctgw.isOpen.bind(ctgw), ctgw.hide.bind(ctgw),
                ctgw.show.bind(ctgw), 'dragstart', 'dragstop');
-    
+    /*
     let chartConfig = new WebWindow('chart-window');
     chartConfig.setDefaultCloseBtn();
     $(grid.getGridstack().el).on('widget-added', (e) => {
         let $widget = $(e.target);
         let $btn = $widget.find(".chartConfigBtn");
         chartConfig.addOpenBtn($btn); 
-    });
+    });*/
 });
 
 // chart-config form
@@ -76,3 +76,8 @@ document.addEventListener('DOMContentLoaded', function()
     });
 
 });
+
+function print(msg) {
+    $('textarea').html($('textarea').html() + msg);
+    $('textarea').scrollTop($('textarea')[0].scrollHeight - $('textarea').height());
+}

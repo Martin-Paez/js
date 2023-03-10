@@ -1,7 +1,7 @@
 @import url("web-window.css");
 @import url("ww-dboard.css");
-@import url('dropdown-ww.css');
 @import url('tabs-ww.css');
+@import url('dropdown-ww.css');
 @import url('widget-ww.css');
 
 html {
@@ -14,18 +14,6 @@ body {
     font-size: calc(12px + 3.5 * ((100vw - 700px) / 700)) !important;
 }
 
-body {
-    /*background-image: url(https://www.unaj.edu.ar/wp-content/uploads/2015/08/UNAJ_RGB-01.jpg);*/
-    background-image: url(https://images.pling.com/img/00/00/62/69/92/1666998/cyberpunk-city-buildings-art1.jpg);
-    /*background-image: url(https://i.pinimg.com/originals/0e/4c/55/0e4c5502496af562691a314543be91c6.jpg);*/
-    /*background-image: url(https://images.hdqwalls.com/download/colorful-neon-city-4k-tx-2560x1080.jpg);*/
-    /*background-image: url(https://images4.alphacoders.com/105/thumb-1920-1053330.jpg);*/
-    /*background-image: url(https://sun9-39.userapi.com/mO6TLepj3KPLaD158xAPWbGx9UL7SmZS_GKTjw/on50M9y12W0.jpg);*/
-    /*background-image: url(https://images2.alphacoders.com/124/thumb-1920-1245092.png);*/
-    margin: 0;
-    background-size: cover;
-    background-position: center;
-}
 
 body {
     margin: 0;
@@ -43,4 +31,18 @@ div.highcharts-container {
 
 .grid-stack {
    /* background: #FAFAD2;*/
+}
+
+
+body {
+    /*background-image: url(https://www.unaj.edu.ar/wp-content/uploads/2015/08/UNAJ_RGB-01.jpg);*/
+    background-image: url(https://images.pling.com/img/00/00/62/69/92/1666998/cyberpunk-city-buildings-art1.jpg);
+    /*background-image: url(https://i.pinimg.com/originals/0e/4c/55/0e4c5502496af562691a314543be91c6.jpg);*/
+    /*background-image: url(https://images.hdqwalls.com/download/colorful-neon-city-4k-tx-2560x1080.jpg);*/
+    /*background-image: url(https://images4.alphacoders.com/105/thumb-1920-1053330.jpg);*/
+    /*background-image: url(https://sun9-39.userapi.com/mO6TLepj3KPLaD158xAPWbGx9UL7SmZS_GKTjw/on50M9y12W0.jpg);*/
+    /*background-image: url(https://images2.alphacoders.com/124/thumb-1920-1245092.png);*/
+    margin: 0;
+    background-size: cover;
+    background-position: center;
 }

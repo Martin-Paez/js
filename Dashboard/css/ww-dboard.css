@@ -48,13 +48,13 @@ textarea {
     font-size: 2rem;
 }
 
-/* Catalog Tabs*/
+/* Catalog Tabs */
 
 .panes-ww {
     padding: var(--chart-margin);
 }
 
-.panes-ww>.tab-pane>div {
+.panes-ww > .tab-pane > div {
     margin: var(--chart-margin);
     margin-bottom: 0;
     display: inline-block;
@@ -67,11 +67,14 @@ textarea {
 
 .charts-catalog svg.highcharts-root {
     width: 100%;
-}
+} 
 
 .charts-catalog div.grid-stack-item-content,
-.charts-catalog div.grid-stack-item-content>* {
+.charts-catalog div.grid-stack-item-content > * {
     height: 100%;
 }
 
-.charts-catalog svg.highcharts-root .highcharts-title {}
+.charts-catalog .dynamicLoad,
+.charts-catalog svg.highcharts-root .highcharts-title {
+    font-size: 1.5rem!important;
+}

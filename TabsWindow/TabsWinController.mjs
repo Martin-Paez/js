@@ -28,6 +28,11 @@ export class TabWinController
         
         this._tabs   = new TabsController(tabs, panes, paneModels);
 
+        this._tabs.onClick(( model) => {
+            this._window.title(model.catalogName());
+        });
+        this._tabs.loadActive();
+
         this._setUpTabsResponsive(windowQ);
     }
 
@@ -127,10 +132,6 @@ export class TabWinController
     {
         let $btn = $(btnQ);
         this._window.addOpenWidget($btn);
-        $(btnQ).on('click', () => 
-        {
-            setTimeout( () => { this._tabs.reload(); }, 1100);
-        });
     }
 
 }

@@ -49,7 +49,7 @@ export class WidgetsGrid {
         {
             $(window).one('resize', (e) => {
                 if(e.target === window)
-                    this.gridstack.update(w.el, { w: 12 });
+                    this.gridstack.update(w.el, { w: cols });
             })
         }
         this.initChartMenu(w); 
@@ -101,13 +101,20 @@ export class WidgetsGrid {
         this.gridstack.removeWidget(node.parentNode.parentNode)
     } 
 
-    /* Redimenciona el contenido al tamano del widget. 
-     * El parametro content debe tener el metodo setSize(width, height) implementado.
+    /** Redimenciona el contenido (widget en si mismo) al tamano del contenedor (widget
+     * para gridstack, o sea, lo que se redimenciona, arrastra y contiene aquello que 
+     * el usuario quiere que sea el widget). 
+     * 
+     * @param {widgetDelUsuario }content 
+     *  El parametro content, o sea, el widget que el usuario desea ver, debe tener el 
+     *  metodo setSize(width, height) implementado. El widget del usuario sera 
+     *  redimencionado con ese metodo al tamano del contenedor, o sea, el widget que 
+     *  reconoce gridstack.
      */
-    setDim (widget, content) 
+    setDim (container, content) 
     {
-        let width = widget.offsetWidth * 1;
-        let height = widget.parentNode.offsetHeight * 1;
+        let width = container.offsetWidth * 1;
+        let height = container.parentNode.offsetHeight * 1;
         content.setSize(width, height);
     }
 
@@ -115,11 +122,11 @@ export class WidgetsGrid {
      */
     refresh() 
     {
-        self = this;
-        setTimeout(function() {
-            $('[data-widget_index]').each(function(index, e) {
+        setTimeout(() => {
+            let a = $('[data-widget_index]'); 
+            $('[data-widget_index]').each((index, e) => {
                 let i = e.dataset['widget_index'];
-                self.setDim(e, self.widgets[i]);
+                this.setDim(e, this.widgets[i]);
             });
         }, 500);
     }

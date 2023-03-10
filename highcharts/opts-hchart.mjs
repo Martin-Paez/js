@@ -63,15 +63,15 @@ export function genericChart(type, graph)
     let chart = {
             chart:    { type:               type         ,   // Line, Column, etc
                         margin:             40           ,   // Entre grafico y canvas      
-                        marginRight:        0, 
-                        backgroundColor:    opacity     },   // Cavas color
+                        backgroundColor:    opacity      },   // Cavas color
             credits:  { enabled:            false       },   // Quita hightcharts.com label 
             tooltip:                        g.tooltip()  ,   // Cartel con info de cada punto
             exporting:                      g.btns()     ,   // Menu del grafico
             title:    { text:               g.title()    ,   // Titulo del grafico
                         style:{
+                            fontSize: '1.5rem',
                             whiteSpace:     'nowrap'     ,   // Siempre en una linea
-                            fontSize:       '1.5rem'   }},   // Texto responsivo
+                            }},   // Texto responsivo
             legend:   { enabled:            g.colorRef()},   // Quita el Label de "Colores del Eje Y"
             yAxis:    { title:{ text:       g.units()    ,   // Unidades, label Ehe Y
                                 style:
@@ -97,10 +97,6 @@ export function genericChart(type, graph)
                                 align:      'high'        ,   // Llevar el label al extremo derecho
                                 x:          -20           ,   // Desplazar el label horizontalmente
                                 y:          20            }}, // Bajar un poco el label
-            plotOptions: {
-                    pyramid: {
-                     
-                    }}
     };
 
     setUpButtons(chart);
@@ -153,7 +149,10 @@ export function gauge(gauge)
         chart:    { type:               'solidgauge'    ,
                     backgroundColor:    opacity         },
         exporting:                      g.btns()        ,
-        title:    { text:               g.title()       },
+        title:    { text:               g.title()       ,
+            style:{
+            whiteSpace:     'nowrap'     ,   // Siempre en una linea
+            }},   // Texto responsivo
         credits:  { enabled:            false           },
         pane:     { startAngle:         -90             ,
                     endAngle:           89.9            ,
@@ -169,7 +168,6 @@ export function gauge(gauge)
 
         yAxis:    { min:                0               ,   // Minimo valor
                     max:                100             ,   // Valor maximo a 90º
-
                     stops: [
                         [0.1, '#55BF3B'], // green
                         [0.5, '#DDDF0D'], // yellow
@@ -180,7 +178,9 @@ export function gauge(gauge)
 
                     labels:                             {
                         distance:       20              ,   // Distancia de los numeros al gauge
-                        style:{fontSize:'14px'          }}}, // Numeros de las marcas
+                        style:{
+                            // Siempre en una linea
+                         fontSize:       '14px'   }}},   // Texto responsivo
         plotOptions: {
                     solidgauge: {
                         dataLabels: {
@@ -210,7 +210,9 @@ export function speedometer(gauge)
                         padding:            0               ,
                         backgroundColor:    opacity         ,},
             exporting:                      g.btns()        ,
-            title:    { text:               g.title()       },
+            title:    { text:               g.title()       ,style:{
+                whiteSpace:     'nowrap'     ,   // Siempre en una linea
+                }},   // Texto responsivo
             credits:  { enabled:            false           },
             pane:     { startAngle:         -90             ,
                         endAngle:           89.9            ,
@@ -279,7 +281,9 @@ export function speedometer2(gauge)
             chart:    { type:               'gauge'         ,
                         backgroundColor:    opacity         ,},
             exporting:                      g.btns()        ,
-            title:    { text:               g.title()       },
+            title:    { text:               g.title()       ,style:{
+                whiteSpace:     'nowrap'     ,   // Siempre en una linea
+                }},   // Texto responsivo
             credits:  { enabled:            false           },
             pane:     { startAngle:         -90             ,
                         endAngle:           89.9            ,

@@ -58,11 +58,12 @@
     height: 100%;
     width: auto;
     margin: 0;
-    color: rgb(218, 229, 239);
+    color: rgb(196, 207, 217);
     display: flex;
     align-items: center;
     justify-content: start;
     overflow-x: hidden;
+    font-size: 1.5rem;
 }
 
 .empty-head-pop-window {

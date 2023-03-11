@@ -13,12 +13,12 @@
    }
 
    .right-pop-window {
-      right: 0 !important;
+      left: 100% !important;
+      translate: -100%;
       top: 0 !important;
       height: 100vh !important;
-      width: var(--min-width-pop-window) !important;
+      width: var(--min-width-pop-window);
       border-radius: 0 !important;
-      transform: translateX(50%);
    }
 
    .top-pop-window {
@@ -37,9 +37,9 @@
    .top-pop-window {
       left: 0 !important;
       top: 0 !important;
-      width: 100vw !important;
+      width: 100% !important;
       min-height: var(--min-height-pop-window) !important;
-      height: auto !important;
+      height: auto ;
       border-radius: 0 !important;
    }
 
@@ -51,8 +51,4 @@
    border-radius: 0 !important;
 }
 
-.left-pop-window .move-pop-window i ,
-.top-pop-window  .move-pop-window i {
-   margin-left: 3rem !important;
-}
 

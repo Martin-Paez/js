@@ -7,6 +7,12 @@ div.btns-pop-window
                 +bs-dropdown-item("Humedad", "#")
                 +bs-dropdown-item("Intensidad", "#")
         div.empty-head-pop-window
-        i 
+    a.pin-pop-window(class="hide" href="#")
+        i.bi-pin-angle
+    a.auto-pop-window(class="hide" href="#")
+        i.bi-unlock-fill
+    a.maxmin-pop-window(href="#")
+        i.max-pop-window(class="bi-aspect-ratio")
+        i.min-pop-window(class="bi-fullscreen-exit hide")
     a.close-pop-window(href="#")
-        i.bi-dash
+        i.bi-eye-slash

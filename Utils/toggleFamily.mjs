@@ -5,7 +5,6 @@ export function toggleSame($target, isEnabled, onMouseDown, onMouseUp,
     let running = false;
 
     $target.on(eventA, () => {
-        let a = isEnabled(); 
         if ( isEnabled() ) {
             onMouseDown();
             running = true;

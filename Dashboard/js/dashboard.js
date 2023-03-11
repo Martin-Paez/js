@@ -6,7 +6,6 @@ import { listLikeTabs     } from './listLikeTabs.mjs';
 import { WidgetsGrid      } from "./WidgetsGrid.mjs";
 import { toggleSame       } from './toggleFamily.mjs';
 import { comparision      } from "./categ-hchart.mjs";
-import { WebWindow        } from "./WebWindow.mjs";   
 import { metrics          } from "./categ-hchart.mjs";
 import { history          } from "./categ-hchart.mjs"; 
 /*
@@ -77,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function()
 
 });
 
-function print(msg) {
+export function printf(msg) {
     $('textarea').html($('textarea').html() + msg);
     $('textarea').scrollTop($('textarea')[0].scrollHeight - $('textarea').height());
 }

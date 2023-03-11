@@ -1,4 +1,4 @@
-import { genericChart, speedometer, defaultOpts} from './HighChartOpts.mjs';
+import { genericChart, speedometer, defaultOpts} from './opts-hchart.mjs';
 import { WidgetsGrid } from './WidgetsGrid.mjs'
 import { IotMenu } from './IotMenu.mjs';
 /*

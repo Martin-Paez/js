@@ -4,8 +4,8 @@
  * El grid es como una cuadricula, un contenedor, dentro del cual se alojan los 
  * widgets.
  */
-export class WidgetsGrid {
-
+export class WidgetsGrid 
+{
     constructor (rowHeight = 58, colWidth) 
     {
         this.widgets   = [];
@@ -42,7 +42,7 @@ export class WidgetsGrid {
         return chart;
     }
 
-    initLastAdded(chart, id, cols=4, rows=4) {    
+        initLastAdded(chart, id, cols=4, rows=4) {    
         let w = this.lastAdded();
 
         if ($(this.gridstack.el).hasClass('grid-stack-1'))

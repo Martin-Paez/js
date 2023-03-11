@@ -1,0 +1,21 @@
+:root {
+    --tabs-ww-link-border-color: rgb(137, 167, 191);
+    --tabs-ww-border-botom-color: rgb(171, 191, 208);
+}
+
+.tabs-ww {
+    border-radius: 0 0 0 0;
+    border-color: var(--tabs-ww-border-botom-color);
+}
+
+.tabs-ww i {
+    color: black;
+}
+
+.tabs-ww .nav-link {
+    border: 0.1rem solid var(--tabs-ww-link-border-color);
+}
+
+.tabs-ww .nav-link:not(.active):hover {
+    background-color: rgb(181, 194, 205);
+}

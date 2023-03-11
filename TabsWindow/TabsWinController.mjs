@@ -48,10 +48,7 @@ export class TabWinController
         return this._window.isOpen();
     }
 
-        
-    // todo , namespace con $window a todo
-    _setUpTabsResponsive(windowQ) 
-    {
+    _loadElems(windowQ) {
         this._$window    = $(windowQ);
         this._$head      = this._$window.find('.head-pop-window');
         let $btns        = this._$head.find('.btns-pop-window');
@@ -59,27 +56,47 @@ export class TabWinController
         this._$empty     = $btns.find('.empty-head-pop-window');
         this._$title     = $btns.find('.title-pop-window');
         this._$tabs      = this._$window.find('.tabs-ww');
-
+    }
+    
+    _initResponsiveLimit() {
         this._calcTabsLimit();
         if( this._$tabs.length > 0)
             this._currLimit = 0;
         else
             this._currLimit = this._responsiveLimit;
         this._checkTabsResponsive();
+    }
 
+    _initOnWindowResize()
+    {
+        let ignored = 0;
         $(window).on( "resize", (e) => {
             if(e.target === window)
+            {   
+                ignored++;
                 setTimeout( () => 
                 {
-                    this._calcTabsLimit();
-                    this._checkTabsResponsive();
+                    if ( --ignored === 0 )
+                    {
+                        this._calcTabsLimit();
+                        this._checkTabsResponsive();
+                    }
                 }
-                , 500);        
+                , 500);
+            }           
             else if(e.target == this._$window[0])    
                 this._checkTabsResponsive();
         });
+    }
 
-        this._$window.on('left-pop-window top-pop-window right-pop-window', (e) => 
+    // todo , namespace con $window a todo
+    _setUpTabsResponsive(windowQ) 
+    {
+        this._loadElems(windowQ);
+        this._initResponsiveLimit();
+        this._initOnWindowResize();        
+
+        this._$window.on('left-pop-window top-pop-window right-pop-window maxmin-pop-window', (e) => 
         {
             this._calcTabsLimit(); // Con tamano fijo, en resize no puede calcular
             this._checkTabsResponsive();
@@ -90,7 +107,7 @@ export class TabWinController
     {
         this._responsiveLimit = 0;
         this._$tabs.each( (i, link) => 
-        {
+        {   // Pensado para tabs de distinto tamano
             this._responsiveLimit += $(link).outerWidth();
         });
         let empty = this._$empty.outerWidth();
@@ -105,10 +122,9 @@ export class TabWinController
         let emptyWidth = this._$empty.outerWidth();
         emptyWidth /= winWidth; 
             
-       // $('textarea').html(`window: ${winWidth}px\nempty: ${parseInt(emptyWidth*100)}%\nlimit: ${parseInt(this._currLimit*100)}%`);
+        // $('textarea').html(`window: ${winWidth}px\nempty: ${parseInt(emptyWidth*100)}%\nlimit: ${parseInt(this._currLimit*100)}%`);
         if (emptyWidth > this._currLimit) 
         {
-            
             this._$tabs.prependTo(this._$head);
             this._currLimit = 0;
         } 

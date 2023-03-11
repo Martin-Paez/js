@@ -1,3 +1,5 @@
+import { getCssVar } from '../Utils/cssAnimate.mjs';
+
 export class Source 
 {
     constructor(size, x, series, client, credentials, query)
@@ -59,6 +61,7 @@ export function genericChart(type, graph)
 {
     let g       = graph;
     let opacity = 'rgba(255, 255, 255, 0.95)';
+    opacity = getCssVar('--chart-bg-ww');
 
     let chart = {
             chart:    { type:               type         ,   // Line, Column, etc
@@ -70,19 +73,23 @@ export function genericChart(type, graph)
             title:    { text:               g.title()    ,   // Titulo del grafico
                         style:{
                             fontSize: '1.5rem',
+                            color: getCssVar('--grey-opacity-ww'),
                             whiteSpace:     'nowrap'     ,   // Siempre en una linea
                             }},   // Texto responsivo
             legend:   { enabled:            g.colorRef()},   // Quita el Label de "Colores del Eje Y"
             yAxis:    { title:{ text:       g.units()    ,   // Unidades, label Ehe Y
                                 style:
-                                {   fontSize:  '14px'    , 
+                                {   fontSize:  '14px'    ,
+                                    color: getCssVar('--chart-grey-ww'),  
                                     fontWeight: 'bold'  },
                                 offset:     10           ,   // Mover label horizontal
                                 rotation:   0            ,   // Lo volteo, queda horizontal
                                 align:      'high'       ,   // Poner arriba el label
                                 gridLineWidth:  4        ,
                                 gridLineColor:  'red'    ,
-                                y:          -30       ,}},   // Subir un poco mas el label
+                                y:          -15       ,},
+                                gridLineColor: getCssVar('--chart-grey-ww'), 
+                            },   // Subir un poco mas el label
             series:/*[{ name:               'Variable',      
             yAxis       data:*/             g.y(0,g.n)/*}]*/,// Datos del Eje Y [name: 'var', data:[1,2] ]
             xAxis:    { categories:         g.x(0,g.n)    ,  // Datos del Eje X [1,2,3]
@@ -96,7 +103,14 @@ export function genericChart(type, graph)
                                 offset:     10            ,   // Mover label horizontal
                                 align:      'high'        ,   // Llevar el label al extremo derecho
                                 x:          -20           ,   // Desplazar el label horizontalmente
-                                y:          20            }}, // Bajar un poco el label
+                                y:          20            },
+                                lineColor: getCssVar('--chart-grey-ww'), 
+                            }, // Bajar un poco el label
+            plotOptions : {
+                histrogram: {
+                    borderColor: getCssVar('--chart-grey-ww'), 
+                }
+            }
     };
 
     setUpButtons(chart);

@@ -40,8 +40,7 @@ export class GraphFactory
             text: html, 
             onclick: callback,
             theme: {fill:'transparent'},
-            zIndex : 10001,
-            y : -10,
+            y : 5,
         }; 
     }
 

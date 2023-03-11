@@ -1,5 +1,6 @@
 import { genericChart } from './opts-hchart.mjs';
 import { IModel       } from "./IModel.mjs";
+import { getCssVar } from './cssAnimate.mjs';
 
 export class GraphCatalog extends IModel 
 {
@@ -81,7 +82,8 @@ export class GraphCatalog extends IModel
         let opts = { 
             chart: { margin      : 40    ,
                      marginRight : 40    ,
-                     marginTop   : 50   },
+                     marginTop   : 50    ,
+                     backgroundColor : getCssVar('--chart-bg-ww'), },
             yAxis: { visible     : true },
             title: { text        : this._model.title() },
             exporting: { enabled : true },            
@@ -100,6 +102,7 @@ export class GraphCatalog extends IModel
         chart.chart.margin        = 10;
         chart.chart.marginTop     = 30;
         chart.exporting.enabled   = false;
+        chart.chart.backgroundColor = 'transparent';
         if (chart.xAxis) {
             chart.xAxis.visible   = false;
             chart.yAxis.visible   = false;

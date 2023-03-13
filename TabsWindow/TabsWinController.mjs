@@ -18,20 +18,17 @@ import { TabsController } from "./TabsController.mjs";
  */
 export class TabWinController 
 {
-    constructor(paneModels, windowId = "") 
+    constructor(paneModels, windowQ = "") 
     {
-        this._window = new WebWindow(windowId);
+        windowQ      = `${windowQ}.pop-window`;
+        let panes    = windowQ + ` > .panes-ww`;
+        let tabsQ    = windowQ + ` .tabs-ww`;
+        let tabs     = new TabsController(tabsQ, panes, paneModels);
+        this._window = new WebWindow(windowQ, tabs);
 
-        let windowQ = `#${windowId}.pop-window`;
-        let panes   = windowQ + ` > .panes-ww`;
-        let tabs    = windowQ + ` .tabs-ww`;
-        
-        this._tabs   = new TabsController(tabs, panes, paneModels);
-
-        this._tabs.onClick(( model) => {
-            this._window.title(model.catalogName());
+        tabs.on('loaded ', () => {
+            this._window.title(tabs.modelName());
         });
-        this._tabs.loadActive();
 
         this._setUpTabsResponsive(windowQ);
     }
@@ -58,13 +55,26 @@ export class TabWinController
         this._$tabs      = this._$window.find('.tabs-ww');
     }
     
-    _initResponsiveLimit() {
-        this._calcTabsLimit();
-        if( this._$tabs.length > 0)
-            this._currLimit = 0;
-        else
-            this._currLimit = this._responsiveLimit;
-        this._checkTabsResponsive();
+    _initResponsiveLimit() 
+    {
+        this._responsiveLimit = 0;
+        this._$tabs.find('.nav-link').each( (i, link) => 
+        {   
+            this._responsiveLimit += $(link).outerWidth();
+        });
+        this._$window.find('.btns-pop-window > a').each( (i, btn) => 
+        {   
+            this._responsiveLimit += $(btn).outerWidth();
+        });
+        let $title   = this._$window.find('.title-label-pop-window');
+        this._responsiveLimit +=  $title.outerWidth();
+        var remUnits = parseFloat($("html").css("font-size"));
+        this._responsiveLimit /= remUnits;
+        
+        let width = this._$window.outerWidth() / remUnits; 
+        this._inlineTabs = width <= this._responsiveLimit;
+             
+        this._checkTabsResponsive(); //init this._inlineTabs
     }
 
     _initOnWindowResize()
@@ -77,12 +87,9 @@ export class TabWinController
                 setTimeout( () => 
                 {
                     if ( --ignored === 0 )
-                    {
-                        this._calcTabsLimit();
                         this._checkTabsResponsive();
-                    }
                 }
-                , 500);
+                , 100);
             }           
             else if(e.target == this._$window[0])    
                 this._checkTabsResponsive();
@@ -98,42 +105,26 @@ export class TabWinController
 
         this._$window.on('left-pop-window top-pop-window right-pop-window maxmin-pop-window', (e) => 
         {
-            this._calcTabsLimit(); // Con tamano fijo, en resize no puede calcular
             this._checkTabsResponsive();
         });
     }
 
-    _calcTabsLimit() 
-    {
-        this._responsiveLimit = 0;
-        this._$tabs.each( (i, link) => 
-        {   // Pensado para tabs de distinto tamano
-            this._responsiveLimit += $(link).outerWidth();
-        });
-        let empty = this._$empty.outerWidth();
-        let title = this._$title.outerWidth();
-        this._responsiveLimit += this._closeWidth + title - empty;
-        this._responsiveLimit /= $(window).width();
-    }
-
     _checkTabsResponsive()
     { 
-        let winWidth = $(window).width();
-        let emptyWidth = this._$empty.outerWidth();
-        emptyWidth /= winWidth; 
+        var remUnits = parseFloat($("html").css("font-size"));
+        let width = this._$window.outerWidth() / remUnits; 
             
         // $('textarea').html(`window: ${winWidth}px\nempty: ${parseInt(emptyWidth*100)}%\nlimit: ${parseInt(this._currLimit*100)}%`);
-        if (emptyWidth > this._currLimit) 
+        if (! this._inlineTabs && width > this._responsiveLimit) 
         {
             this._$tabs.prependTo(this._$head);
-            this._currLimit = 0;
+            this._inlineTabs = true;
         } 
-        else
+        else if (this._inlineTabs && width <= this._responsiveLimit)
         {    
-            this._currLimit = this._responsiveLimit;
-
             let first = this._$window.children().eq(0); 
             this._$tabs.insertAfter(first);
+            this._inlineTabs = false;
         }
         //$('textarea').html(`${$('textarea').html()}\nnew limit: ${parseInt(this._currLimit*100)}%`);
     }

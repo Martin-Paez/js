@@ -1,10 +1,10 @@
 import { genericChart } from './opts-hchart.mjs';
-import { IModel       } from "./IModel.mjs";
+import { IModel  } from "./IModel.mjs";
 import { getCssVar } from './cssAnimate.mjs';
 
-export class GraphCatalog extends IModel 
+export class GraphCatalog extends IModel
 {
-    constructor(id, categs, grid, graph={title , units, opts, source})
+    constructor(categs, grid, graph={title , units, opts, source}, id="")
     {
         super(graph);
 
@@ -23,17 +23,17 @@ export class GraphCatalog extends IModel
             chart.series[0].setData(serie[0].data, false);
             chart.redraw(true);
         }*/
-        this._grid.getGridstack().off('added');
-        this._grid.getGridstack().on('added', () => {
-            this._setUpGridChart($pane);
-        });
-        for (let key in this._charts) {
-            let a = this._charts[key];
-            this._charts[key].reflow();
+        this._grid.off('added', this._onGridAdded);
+        this._onGridAdded = () => {
+            this._setUpGridChart($pane, $(this._grid.lastAdded()));
         }
+        this._grid.on('added', this._onGridAdded);
+        for (let key in this._charts)
+            this._charts[key].reflow(); // Adaptar size al contenedor 
+        this._emit('loaded');
     }
 
-    catalogName() {
+    modelName() {
         return this._categs.name;
     }
 
@@ -68,9 +68,8 @@ export class GraphCatalog extends IModel
         });   
     }
 
-    _setUpGridChart($pane) {
-        let widget  = $(this._grid.lastAdded())
-        let $item   = widget.find('.dynamicLoad');
+    _setUpGridChart($pane, $widget) {
+        let $item   = $widget.find('.dynamicLoad');
         let id      = $item.attr('id');
         let chart   = this._charts[id];
         let type    = [];
@@ -94,6 +93,10 @@ export class GraphCatalog extends IModel
             opts.pane = { size : '180%' };
         chart.update(opts);
 
+        this._grid.on('widget-for-remove', (e) => {
+            let key = $(e.target).attr('id');
+            delete this._charts[key];
+        });
         this._grid.initLastAdded(chart, id, this._model.gridCols(), this._model.gridRows());
         this._restock($pane, type); //Repongo widget en catalogo
     }

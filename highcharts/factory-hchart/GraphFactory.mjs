@@ -23,14 +23,15 @@ export class GraphFactory
         };
 
         let crossIcon = '<i class="bi-x-circle"></i>'; 
-        GraphFactory.addBtn(opts, crossIcon, 'closeBtn', closeCallback);
+        GraphFactory.mergeBtn(opts, crossIcon, 'closeBtn', closeCallback);
         opts.btns.enabled = false;
         opts.btns.buttons.contextButton = { enabled : false };
         
         return opts;
     }
 
-    static addBtn(opts, html, btnName, callback = ()=>{}) {
+    static mergeBtn(opts, html, btnName, callback = ()=>{}) 
+    {
         if( !opts.btns )
             opts.btns = {};
         if( !opts.btns.buttons )
@@ -38,7 +39,7 @@ export class GraphFactory
             
         opts.btns.buttons[btnName] = { 
             text: html, 
-            onclick: callback,
+            onclick: function() {  callback.bind(this)() },
             theme: {fill:'transparent'},
             y : 5,
         }; 

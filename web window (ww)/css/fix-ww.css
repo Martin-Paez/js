@@ -3,6 +3,10 @@
    --min-height-pop-window: 17rem;
 }
 
+.fix-preview {
+   opacity: 40% !important;
+}
+
 @media screen and (min-width: 769px) {
    .left-pop-window {
       left: 0 !important;

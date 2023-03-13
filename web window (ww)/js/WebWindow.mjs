@@ -1,37 +1,49 @@
 import { initPopUp, setPopUpEvent } from './popUpAnimation.mjs';
-import { getCssVar } from '../Utils/cssAnimate.mjs';
+import { ISimpleController } from './ISimpleController.mjs';
+import { getCssVar } from './cssAnimate.mjs';
 import { printf } from './dashboard.js';
 
 class WindowState {
     constructor(btn, left, top, width, height) 
     {
-        this.btn = btn;
-        this.left = left;
-        this.top = top;
-        this.width = width;
+        this.btn    = btn;
+        this.left   = left;
+        this.top    = top;
+        this.width  = width;
         this.height = height;
     }
 }
 
-export class WebWindow
+export class WebWindow extends ISimpleController
 {
-    constructor(windowId)
+    constructor(windowQ, model)
     {
-        this._$window = $(`#${windowId}`);
+        super(model);
+        this._$window   = $(windowQ);
         this._$closeBtn = this._$window.find('.close-pop-window');
-        this._$move = this._$window.find('.move-pop-window');
+        this._$move     = this._$window.find('.move-pop-window');
+        this._history   = [];
 
-        this._history = [];
+        this.title(this._model.modelName());
 
         this._initResizable();
         this.enableDrag();
         this._setUpResponsive(this._$window);
         this._setUpMaxWindow();
+
+        if(this._$window.hasClass('open'))
+            this._model.load();
+    }
+
+    modelName() 
+    {
+        return this._model.modelName();
     }
 
     title(title)
     {
         let $title = this._$window.find('.title-label-pop-window');
+        
         if (title === null)
             return $title.html();
         $title.html(title);
@@ -42,10 +54,10 @@ export class WebWindow
         // Se harcodean por jquery resizable (no sirven las clases css)
         let $window  = $(window);
         let position = this._$window.position();
-        let top    = position.top;  
-        let left   = position.left;
-        let width  = this._$window.width();
-        let height = this._$window.height();  
+        let top      = position.top;  
+        let left     = position.left;
+        let width    = this._$window.width();
+        let height   = this._$window.height();  
         
         top    = `${position.top           / $window.height() * 100 }%`;  
         left   = `${position.left          / $window.width()  * 100 }%`;
@@ -83,13 +95,15 @@ export class WebWindow
     _setUpMaxWindow() 
     {
         let $max = this._$window.find('.maxmin-pop-window');
-        $max.one('click', () => {
+        $max.one('click', () => 
+        {
             if( this.isPinned() ) 
                 this.disableDrag();
             this._saveState('max');
             this._resizeAndMove('0%', '0%', '100%', '100%');
             this._toggleMaxMin($max);
-            $max.one('click', () => {
+            $max.one('click', () => 
+            {
                 this._loadState('max');
                 this._toggleMaxMin($max);
                 this._setUpMaxWindow();
@@ -159,6 +173,7 @@ export class WebWindow
                 $target.css('width', `${width}%`);
                 
                 this._initAutoBtn();
+                this._bringBackOnY(this._$window, this._$window.position());
             }
         });
     }
@@ -239,17 +254,16 @@ export class WebWindow
         this._initDragYHandlers();
         this._$move.one('mousedown', (e) =>
         {
-            let opacity = this._$window.css('opacity');
             let drag;
             this._$window.draggable({
                 start: (e) => 
                 { 
-                    drag = this._onDragStart(e, opacity);
+                    drag = this._onDragStart(e);
                 },
                 drag: (e, ui) => { drag(e, ui) }, // No se puede dar drag directamente
                 stop:  (e) =>
                 {
-                    this._onDragStop(e, opacity);
+                    this._onDragStop(e);
                 }
             });
         });
@@ -263,7 +277,7 @@ export class WebWindow
             if (e.pageY <= err && ! this.isPreviewOn("top-pop-window")) 
             {
                 this.showPinPreview('top-pop-window');
-                this._$window.css('opacity', '40%');
+                this._$window.toggleClass('fix-preview');
             }
         };
 
@@ -273,17 +287,17 @@ export class WebWindow
             if (e.pageY >= err && this.isPreviewOn("top-pop-window")) 
             {
                 this.hidePinPreview();
-                this._$window.css('opacity', e.data.opacity);
+                this._$window.toggleClass('fix-preview');
             }
         };
     }
 
-    _onDragStart(e, opacity)
+    _onDragStart(e)
     {
         this.initPinPreview();
 
         $('body').on("mouseleave", this._onWindowOut);
-        $('body').on("mouseenter", {opacity: opacity}, this._onWindowEnter);
+        $('body').on("mouseenter", this._onWindowEnter);
 
         let onDrag;
         let wasMaximized = this.exitMaximize();
@@ -291,58 +305,56 @@ export class WebWindow
             onDrag = (e, ui) => { 
                 ui.position.top = e.pageY ;
                 ui.position.left = e.pageX - this._$window.outerWidth() / 2;
-                this._onDrag(e, opacity);
+                this._onDrag(e);
             };
         else
-            onDrag = (e) => { this._onDrag(e, opacity); };
+            onDrag = (e) => { this._onDrag(e); };
 
-        if (!this.isPinned()) // Antes de mover
-            this._saveState('pin');
+        this._saveState('pin');
         if (wasMaximized)
             this._move(e.pageX, e.pageY); 
 
         return onDrag;
-
     }
 
-    _onDrag(e, opacity)
+    _onDrag(e)
     {
         let err = 3;
+        let max   = $(window).width() - err;
+        let yOk   = e.pageY > 0;
+        let prevL = this.isPreviewOn("left-pop-window");
+        let prevR = this.isPreviewOn("right-pop-window");
 
-        let max   = $(window).width();
-
-        if (e.pageX <= err && ! this.isPreviewOn("left-pop-window") && e.pageY > 0)
+        if (e.pageX <= err && ! prevL && yOk)
         {
             this.showPinPreview('left-pop-window');
-            this._$window.css('opacity', '40%');
+            this._$window.addClass('fix-preview');
         }
-        else if (e.pageX > err && this.isPreviewOn("left-pop-window"))
-        {
-            this.hidePinPreview();
-            this._$window.css('opacity', opacity);
-        }
-        if (e.pageX > max - err && ! this.isPreviewOn("right-pop-window") && e.pageY > 0)
+        if (e.pageX > max && ! prevR && yOk)
         {
             this.showPinPreview('right-pop-window');
-            this._$window.css('opacity', '40%');
+            this._$window.addClass('fix-preview');
         }
-        else if (e.pageX < max - err && this.isPreviewOn("right-pop-window"))
+        else if (e.pageX > err && prevL ||
+                 e.pageX < max && prevR )
         {
             this.hidePinPreview();
-            this._$window.css('opacity', opacity);
+            this._$window.removeClass('fix-preview');
         }
     }
 
-    _onDragStop(e, opacity)
+    _onDragStop(e)
     {
         $('body').off("mouseleave", this._onWindowOut);
         $('body').off("mouseenter", this._onWindowEnter);
-        this._$window.css('opacity', opacity);
 
         this._posToPercentage(this._$window);
 
         if (this.isPinnedChanged())
+        {
             this._checkPinedWindow(e.pageX, e.pageY);
+            this._$window.removeClass('fix-preview');
+        }
         else
             this._bringBack(this._$window);
 
@@ -451,15 +463,20 @@ export class WebWindow
             let max = $(window).height();
 
             if (pos.top + height > max)
-                $moved.css('top', `${(max - height) / max * 100}%`);
+                if(height > max)
+                    this._$window.css('height', max - pos.top); 
+                else
+                    $moved.css('top', `${(max - height) / max * 100}%`);
         }
     }
 
+    // No es necesario remover el boton si el tag es eliminado
     // SetUp un boton para abrir la ventana
     addOpenBtn(openBtnQ)
     {
         let $open = $(openBtnQ);
         setPopUpEvent(0.9, $open, this._$window, 'opening', false);
+        $open.one('click', () => {this.load($open)});
     }
 
     setDefaultCloseBtn()
@@ -474,6 +491,7 @@ export class WebWindow
         let $widget = $(openBtnContainerQ);
         initPopUp(0.9, $open, this._$closeBtn, this._$window);
         initPopUp(1, this._$closeBtn, $open, $widget, 'leaving', 'coming');
+        $open.one('click', () => {this.load($open)});
     }
 
     // Idem addOpenToggleBtn, y ademas, setea drag al wiget que contiene al boton

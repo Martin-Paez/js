@@ -30,6 +30,24 @@ export class WidgetsGrid
         return this.gridstack;
     }
 
+    /**
+     * Eventos destacados:
+     *      'added' : luego con el metodo lastAdded se recupera el '.grid-stak-item'.
+     *      'widget-for-remove' : event.target tiene el '.grid-stak-item'. 
+     * 
+     * @param {*} event 
+     * @param {*} callback 
+     */
+    on(event, callback)
+    {
+        $(this.gridstack.el).on(event, callback);
+    }
+
+    off(event, callback)
+    {
+        $(this.gridstack.el).off(event, callback);
+    }
+
     addHighChart(chartOpts, {x, y, w, h}, id) 
     {
         let item = { x: x, y:y, w: w , h:h, content: `<div id="${id}"></div>`};     
@@ -42,7 +60,7 @@ export class WidgetsGrid
         return chart;
     }
 
-        initLastAdded(chart, id, cols=4, rows=4) {    
+    initLastAdded(chart, id, cols=4, rows=4) {    
         let w = this.lastAdded();
 
         if ($(this.gridstack.el).hasClass('grid-stack-1'))
@@ -54,8 +72,10 @@ export class WidgetsGrid
         }
         this.initChartMenu(w); 
         this.initWidget(chart, w, id, cols, rows);
-
-        $(w).trigger('widget-added');
+        
+        // Esto no esvalido aca: $(w).trigger('widget-added');
+        // Usar 'added', a esta funcion se la llama DESPUES del evento
+        // Luego se recupera el widget con lastAdded()
     }
     
     lastAdded() {
@@ -98,7 +118,8 @@ export class WidgetsGrid
     removeWidget(node) 
     {
         // Lo que se elimina es un .grid-stack-item
-        this.gridstack.removeWidget(node.parentNode.parentNode)
+        $(node).trigger('widget-for-remove');
+        this.gridstack.removeWidget(node.parentNode.parentNode);
     } 
 
     /** Redimenciona el contenido (widget en si mismo) al tamano del contenedor (widget

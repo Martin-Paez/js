@@ -64,7 +64,7 @@ export class WidgetsGrid
         let w = this.lastAdded();
 
         if ($(this.gridstack.el).hasClass('grid-stack-1'))
-        {
+        {   // En small screen los nuevos widgets tienen una sola columana 
             $(window).one('resize', (e) => {
                 if(e.target === window)
                     this.gridstack.update(w.el, { w: cols });

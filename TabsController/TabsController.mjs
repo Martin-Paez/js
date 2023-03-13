@@ -43,7 +43,7 @@ export class TabsController extends IController {
     {
         this._$links = $(`${navTabsQ} .nav-link`);
 
-        this._$links.one('click', (e) => {
+        this._$links.on('click', (e) => {
             this._loadModel($(e.currentTarget));
         });
     }

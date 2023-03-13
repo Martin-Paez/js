@@ -26,13 +26,19 @@ document.addEventListener("DOMContentLoaded", function() {
     // Grid
     let grid = new WidgetsGrid();
 
-    // Plantillas para graficos
+    // Configuracion general de los graficos
     let opts = GraphFactory.defaultOpts(function()
     {
         grid.removeWidget(this.container.parentNode);
     });
+
+    let chartConf = new ChartConfig();
+    let cconfw    = new WebWindow('#chart-window', chartConf);
+    cconfw.setDefaultCloseBtn();
     let configBtn = '<i class="chartConfigBtn bi-gear"></i>';
-    GraphFactory.mergeBtn(opts, configBtn, 'chartConfigBtn', ()=>{});
+    GraphFactory.mergeBtn(opts, configBtn, 'chartConfigBtn', (chart)=>{
+        cconfw.show();
+    });
 
     // Fabricas para graficos
     let graph  = new GraphFactory(source, 3, "Humedad", '%', opts);
@@ -45,19 +51,11 @@ document.addEventListener("DOMContentLoaded", function() {
         dbw_comp : new GraphCatalog(comparision(), grid, graph),
     };
     let ctgw = new TabWinController(catalogs, '#catalog-window');
-    ctgw.addOpenBtn('.open-widget');
+    ctgw.addOpenWidget('.open-widget');
 
     // Vinculo grid/ventana. Se oculta al mover widgets
     toggleSame(grid.getGridstack(), ctgw.isOpen.bind(ctgw), ctgw.hide.bind(ctgw),
                ctgw.show.bind(ctgw), 'dragstart', 'dragstop');
-
-    // Ventana de config para graficos
-    /*let chartConf = new ChartConfig();
-    let cconfw    = new WebWindow('#chart-window');
-    gird.on('added', ()=> {
-        let $btn = $(gird.lastAdded()).find('.chartConfigBtn');
-        cconfw.addOpenBtn($btn);
-    });*/
 });
 
 // chart-config form

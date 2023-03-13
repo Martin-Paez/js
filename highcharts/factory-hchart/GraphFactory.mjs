@@ -39,9 +39,10 @@ export class GraphFactory
             
         opts.btns.buttons[btnName] = { 
             text: html, 
-            onclick: function() {  callback.bind(this)() },
+            onclick: function() {  callback.bind(this)(this) },
             theme: {fill:'transparent'},
             y : 5,
+            className: btnName
         }; 
     }
 

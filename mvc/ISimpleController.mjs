@@ -2,14 +2,14 @@ import { IController } from "./IController.mjs";
 
 export class ISimpleController extends IController 
 {
-    constructor(model, panesQ) 
+    constructor(model, boxQ) 
     {
         if (new.target === ISimpleController)
             throw new TypeError('IController no se puede instanciar. ');
 
         super(model);
         this._loading = false;
-        this._panes = $(panesQ);
+        this._box = $(boxQ);
     }
 
     getModel()
@@ -17,16 +17,16 @@ export class ISimpleController extends IController
         return this._model;
     }
 
-    getPane()
+    getBox()
     {
-        return this._panes;
+        return this._box;
     }
 
-    removePane()
+    removeBox()
     {
         if(model === undefined)
             throw new TypeError('Falta un modelo para el controlador.');
-        throw new TypeError('Operacion removePane no soportada.');
+        throw new TypeError('Operacion removeBox no soportada.');
     }
 
     isLoading(val)

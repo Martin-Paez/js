@@ -2,17 +2,17 @@ import { IModel } from "./IModel.mjs";
 
 export class IController extends IModel
 {
-    constructor(model, panesQ) 
+    constructor(model, boxQ) 
     {
         if (new.target === IController)
             throw new TypeError('IController no se puede instanciar. ');
 
         super(model);
         this._loading = {};
-        this._panes = {}; 
-        $(panesQ).toArray().forEach((elem) => {
+        this._box = {}; 
+        $(boxQ).toArray().forEach((elem) => {
             if ( elem.id !== "" )
-                this._panes[elem.id] = $(elem);
+                this._box[elem.id] = $(elem);
         });
     }
 
@@ -55,14 +55,14 @@ export class IController extends IModel
         return this._model[id];
     }
 
-    getPane(id)
+    getBox(id)
     {
-        return this._panes[id];
+        return this._box[id];
     }
 
-    removePane(id) 
+    removeBox(id) 
     {
-        delete this._$panes[id];
+        delete this._box[id];
     }
 
     isLoading(id, val)
@@ -73,7 +73,7 @@ export class IController extends IModel
     }
 
     /**
-     * Carga los datos en $pane. Retorna una promesa.
+     * Carga los datos en $box. Retorna una promesa.
      * 
      * Emite eventp onReady
      *
@@ -84,34 +84,35 @@ export class IController extends IModel
             throw new TypeError("Ya se ha solicitado la carga de los datos");
 
         let model = this.getModel(id);
-        let $pane = this.getPane(id);
+        let $box = this.getBox(id);
 
         if(model !== undefined) 
         {
             this.isLoading(id, true);
             model.on('loaded', () => 
             { 
-                $btn.on('click', () => { this.reload(model, $pane, ...args); });
+                $btn.off('click');
+                $btn.on('click', () => { this.reload(model, $box, ...args); });
                 this.isLoading(id, false);
             });   
-            model.load($pane, ...args);
+            model.load($box, ...args);
         } else
-            if ( $pane.length === 0)
+            if ( $box.length === 0)
                 throw new TypeError("Id no encontrado");
             else
-                this.removePane(id);
+                this.removeBox(id);
     }
 
     /**
-     * Actualiza la informacion previamente cargada con load() en $pane. Retorna
+     * Actualiza la informacion previamente cargada con load() en $box. Retorna
      * una promesa.
      *
      * Emite eventp onReady
      * 
      */
-    reload(model, $pane, ...args)
+    reload(model, $box, ...args)
     {
-        model.reload($pane, ...args);
+        model.reload($box, ...args);
     }
 
     /**

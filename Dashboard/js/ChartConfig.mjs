@@ -6,26 +6,23 @@ export class ChartConfig extends IController
     constructor() 
     {
         super({});        
-        this._$tabs = new TabsController();
+        
     }
-
-    onReady(callback) 
-    {
-
-    }
-    
     
     modelName()
     {
 
     }
 
-    load()
+    load($window)
     {
-        let $add = $(this._$window.find('#add-source-btn'));
+        let $add = $($window.find('#add-source-btn'));
         $add.on('click', () => {
             this._createSource();
         });
+
+        
+
     }
 
     reload()
@@ -33,9 +30,9 @@ export class ChartConfig extends IController
 
     }
 
-    addChart()
+    addChart(chart, id)
     {
-
+        this._model[id] = {chart: chart, sources: []};
     }
 
     _createSource()

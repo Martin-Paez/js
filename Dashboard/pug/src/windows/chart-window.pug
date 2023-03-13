@@ -1,4 +1,4 @@
-div#chart-window(class="pop-window closeByDefault hide") 
+div#chart-window(class="pop-window closeByDefault") 
 
     div.head-pop-window
         include btns-window.pug
@@ -6,7 +6,6 @@ div#chart-window(class="pop-window closeByDefault hide")
     div.window-content
         div
             div#chart-preview
-                img(src="https://i.stack.imgur.com/Xrx2q.png")
             div#chart-config
                 +bs-accordion("sources")
                     +bs-accordion-item("Fuente de datos", "source-1", "sources")

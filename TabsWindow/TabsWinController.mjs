@@ -135,7 +135,7 @@ export class TabWinController
      * @param {query} btnQ
      *      Selector css del boton.
      */
-    addOpenBtn(btnQ) 
+    addOpenWidget(btnQ) 
     {
         let $btn = $(btnQ);
         this._window.addOpenWidget($btn);

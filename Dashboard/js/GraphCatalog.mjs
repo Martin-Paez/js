@@ -23,11 +23,6 @@ export class GraphCatalog extends IModel
             chart.series[0].setData(serie[0].data, false);
             chart.redraw(true);
         }*/
-        this._grid.off('added', this._onGridAdded);
-        this._onGridAdded = () => {
-            this._setUpGridChart($pane, $(this._grid.lastAdded()));
-        }
-        this._grid.on('added', this._onGridAdded);
         for (let key in this._charts)
             this._charts[key].reflow(); // Adaptar size al contenedor 
         this._emit('loaded');
@@ -61,11 +56,22 @@ export class GraphCatalog extends IModel
             GridStack.setupDragIn('.newWidget');
         }, 500); // Para que los reemplazos sean dragables sin cerrar la ventana
 
-        let $item = $pane.children().last(); 
+        let $item = $pane.children().last().find('.dynamicLoad'); 
+        
+        let widgetAdded = () => {
+            this._grid.off('added', widgetAdded); 
+            $item.off('mousedown');
+            $item.off('mousedown');
+            this._setUpGridChart($pane, $(this._grid.lastAdded()));
+        };
         $item.on('mousedown', () => 
-        { 
-            $item.trigger('catalog-item-selected');
-        });   
+        {
+            this._grid.on('added', widgetAdded);
+        });
+        $item.on('mouseup', () => 
+        {   // Se si solto fuera de la ventana este evento no se ejecuta
+            this._grid.off('added', widgetAdded);
+        });
     }
 
     _setUpGridChart($pane, $widget) {
@@ -93,10 +99,8 @@ export class GraphCatalog extends IModel
             opts.pane = { size : '180%' };
         chart.update(opts);
 
-        this._grid.on('widget-for-remove', (e) => {
-            let key = $(e.target).attr('id');
-            delete this._charts[key];
-        });
+        delete this._charts[id];
+        
         this._grid.initLastAdded(chart, id, this._model.gridCols(), this._model.gridRows());
         this._restock($pane, type); //Repongo widget en catalogo
     }

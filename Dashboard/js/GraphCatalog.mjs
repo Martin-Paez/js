@@ -101,7 +101,8 @@ export class GraphCatalog extends IModel
 
         delete this._charts[id];
         
-        this._grid.initLastAdded(chart, id, this._model.gridCols(), this._model.gridRows());
+        this._grid.initLastAdded(chart, id);
+        this._grid.resizeWidget(this._model.gridCols(), this._model.gridRows());
         this._restock($pane, type); //Repongo widget en catalogo
     }
 

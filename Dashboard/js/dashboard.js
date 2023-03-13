@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function() {
     };
 
     // Grid
-    let grid = new WidgetsGrid();
+    let grid = new WidgetsGrid({w:3, h:4});
 
     // Configuracion general de los graficos
     let opts = GraphFactory.defaultOpts(function()
@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function() {
     ctgw.addOpenWidget('.open-widget');
 
     // Vinculo grid/ventana. Se oculta al mover widgets
-    toggleSame(grid.getGridstack(), ctgw.isOpen.bind(ctgw), ctgw.hide.bind(ctgw),
+    toggleSame(grid, ctgw.isOpen.bind(ctgw), ctgw.hide.bind(ctgw),
                ctgw.show.bind(ctgw), 'dragstart', 'dragstop');
 });
 

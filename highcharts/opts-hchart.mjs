@@ -73,7 +73,7 @@ export function genericChart(type, graph)
             title:    { text:               g.title()    ,   // Titulo del grafico
                         style:{
                             fontSize: '1.5rem',
-                            color: getCssVar('--grey-opacity-ww'),
+                            color: getCssVar('--grey-smooth-ww'),
                             whiteSpace:     'nowrap'     ,   // Siempre en una linea
                             }},   // Texto responsivo
             legend:   { enabled:            g.colorRef()},   // Quita el Label de "Colores del Eje Y"
@@ -165,6 +165,7 @@ export function gauge(gauge)
         exporting:                      g.btns()        ,
         title:    { text:               g.title()       ,
             style:{
+                color: getCssVar('--grey-smooth-ww'),
             whiteSpace:     'nowrap'     ,   // Siempre en una linea
             }},   // Texto responsivo
         credits:  { enabled:            false           },
@@ -225,6 +226,7 @@ export function speedometer(gauge)
                         backgroundColor:    opacity         ,},
             exporting:                      g.btns()        ,
             title:    { text:               g.title()       ,style:{
+                color: getCssVar('--grey-smooth-ww'),
                 whiteSpace:     'nowrap'     ,   // Siempre en una linea
                 }},   // Texto responsivo
             credits:  { enabled:            false           },
@@ -296,6 +298,7 @@ export function speedometer2(gauge)
                         backgroundColor:    opacity         ,},
             exporting:                      g.btns()        ,
             title:    { text:               g.title()       ,style:{
+                color: getCssVar('--grey-smooth-ww'),
                 whiteSpace:     'nowrap'     ,   // Siempre en una linea
                 }},   // Texto responsivo
             credits:  { enabled:            false           },

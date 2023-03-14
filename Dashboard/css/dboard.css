@@ -1,8 +1,9 @@
 @import url("web-window.css");
-@import url("ww-dboard.css");
+@import url("catalog-ww.css");
 @import url('tabs-ww.css');
 @import url('dropdown-ww.css');
 @import url('widget-ww.css');
+@import url('chart-config.css');
 
 html {
     font-size: calc(0.625*(12px + 3.5 * ((100vw - 700px) / 700))) !important;

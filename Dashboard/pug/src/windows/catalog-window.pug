@@ -9,7 +9,7 @@ div#catalog-window(class="pop-window closeByDefault open")
             +bs-navLink('#dbw_config'      , 'bi-gear-fill'            )
         include btns-window.pug
 
-    div.tab-content.panes-ww
+    div.tab-content.window-content
         +bs-tabPane("dbw_hist" , 'charts-catalog active')
         +bs-tabPane("dbw_met"  , 'charts-catalog' )
         +bs-tabPane("dbw_comp" , 'charts-catalog' )

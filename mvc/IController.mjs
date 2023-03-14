@@ -4,16 +4,41 @@ export class IController extends IModel
 {
     constructor(model, boxQ) 
     {
-        if (new.target === IController)
-            throw new TypeError('IController no se puede instanciar. ');
-
         super(model);
+
         this._loading = {};
-        this._box = {}; 
-        $(boxQ).toArray().forEach((elem) => {
-            if ( elem.id !== "" )
-                this._box[elem.id] = $(elem);
-        });
+        this._box     = {}; 
+        let $box      = $(boxQ);
+
+        if($box.length === 1)
+            this._setUpSingleModel($box[0]);
+        else {
+            $box.toArray().forEach((elem) => {
+                if ( elem.id !== "" )
+                    this._box[elem.id] = $(elem);
+            });
+        }
+    }
+
+    _setUpSingleModel(boxElem) 
+    {
+        let id;
+        if(boxElem.id === "")
+            id = `id-${now()}`;
+        else if (this._model[boxElem.id] === undefined)
+            id = boxElem.id;
+        else
+            return
+        
+        this._formatModel(id);
+        this._box[id] = $(boxElem);
+    }
+
+    _formatModel(id)
+    {
+        let model = {};
+        model[id] = this._model;
+        this._model = model;
     }
 
     /**
@@ -23,7 +48,7 @@ export class IController extends IModel
      */
     _initElems(namespace) 
     {
-        throw new TypeError('_initElems() de IController no implementado');
+        
     }
 
     /**
@@ -35,9 +60,10 @@ export class IController extends IModel
      * 
      * @param {jquery} $btn 
      */
-    addOpenBtn($btn)
+    addOpenBtn($open)
     {
-        throw new TypeError('addBtn() de IController no implementado');
+        $open = $($open);
+        $open.one('click', () => {this.load($open)});
     }
 
     /**

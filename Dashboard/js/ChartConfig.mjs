@@ -1,17 +1,52 @@
 import { TabsController } from './TabsController.mjs';
 import { IController } from './IController.mjs';
 
+class Source {
+    constructor(name)
+    {
+
+    }
+    name() 
+    {
+
+    }
+}
+
+class SourceSelector extends IController
+{
+    constructor() 
+    {
+        super({});  
+        let src = new Source('dht11');
+        this._model[src.name] = src;
+    }
+    
+    modelName()
+    {
+        return 'Seleccionar fuente';
+    }
+
+    load($window)
+    {
+        let $add = $($window.find('#acept-source-btn'));
+        $add.on('click', () => {
+            this._addSource();
+        });
+    }
+
+}
+
 export class ChartConfig extends IController
 {
     constructor() 
     {
-        super({});        
+        super({});  
         
     }
     
     modelName()
     {
-
+        return "Fuentes de datos";
     }
 
     load($window)
@@ -20,9 +55,6 @@ export class ChartConfig extends IController
         $add.on('click', () => {
             this._createSource();
         });
-
-        
-
     }
 
     reload()

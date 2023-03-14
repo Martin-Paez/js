@@ -50,11 +50,11 @@ textarea {
 
 /* Catalog Tabs */
 
-.panes-ww {
+.window-content {
     padding: var(--chart-margin);
 }
 
-.panes-ww > .tab-pane > div {
+.window-content > .tab-pane > div {
     margin: var(--chart-margin);
     margin-bottom: 0;
     display: inline-block;

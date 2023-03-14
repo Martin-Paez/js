@@ -21,7 +21,7 @@ export class TabWinController
     constructor(paneModels, windowQ = "") 
     {
         windowQ      = `${windowQ}.pop-window`;
-        let panes    = windowQ + ` > .panes-ww`;
+        let panes    = windowQ + ` > .window-content`;
         let tabsQ    = windowQ + ` .tabs-ww`;
         let tabs     = new TabsController(tabsQ, panes, paneModels);
         this._window = new WebWindow(windowQ, tabs);

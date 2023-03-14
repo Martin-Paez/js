@@ -1,0 +1,63 @@
+div(class="pop-window closeByDefault") 
+
+    div.head-pop-window
+        include ../btns-window.pug
+    
+    div.window-content
+        div
+            div#chart-preview
+            div#chart-config
+            div#source-selection
+                +bs-accordion("sources")
+                    +bs-accordion-item("Fuente de datos", "source-1", "sources")
+                        +bs-select("Fuente", "sources-list")
+                            +bs-option("new-source-config", "Crear nueva fuente de datos")
+                            +bs-option("dht11", "DHT11")
+                        div.sel-content.sources-list
+                            div.sel-pane(id='new-source-config')
+                                include create-source.pug 
+
+div#select-source(class="pop-window closeByDefault open") 
+
+    div.head-pop-window
+        include ../btns-window.pug
+    
+    div.window-content
+        div
+            div#source-selection
+                // Este div permite que el select quede dentro de la ventana
+                div
+                    +bs-select("Fuente", "sources-list")
+                        +bs-option("new-source-config", "Crear nueva fuente")
+                        +bs-option("dht11", "DHT11")
+                div.sel-content.sources-list
+                    div.sel-pane(id='new-source-config')
+                        include create-source.pug 
+                +bs-button("Agregar", "", "acept-source-btn")
+
+div#chart-window(class="pop-window closeByDefault open") 
+
+    div.head-pop-window
+        include ../btns-window.pug
+
+    div.window-content
+
+    div#sources-list
+        a#add-source-btn(href="#")
+                i.bi-plus-circle
+            
+        table.table(class="table table-dark table-striped")
+            tbody
+                tr
+                    td LDR
+                    td 
+                        i.bi-pencil
+                    td 
+                        i.bi-x-circle
+                tr
+                    td DHT 11
+                    td 
+                        i.bi-pencil
+                    td 
+                        i.bi-x-circle
+    

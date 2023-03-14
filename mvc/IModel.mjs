@@ -1,3 +1,5 @@
+import { EventMgr } from './EventMgr.mjs';
+
 export class IModel {
     constructor(model) 
     {
@@ -5,7 +7,7 @@ export class IModel {
             throw new TypeError('IModel es abstracta, no se puede instanciar. ');
 
         this._model = model;
-        this._on = {};
+        this._eventMgr = new EventMgr();
     }
 
     /**
@@ -41,30 +43,17 @@ export class IModel {
      */
     on(event, callback, ...args) 
     {
-        if(this._on[event] === undefined)
-            this._on[event] = [];
-        this._on[event].push({f: callback, args: [...args]});
+        this._eventMgr.on(event, callback, ...args);
     }
     
     off(event, callback)
     {
-        let handlers = this._on[event] 
-
-        if(handlers === undefined)
-            return;
-
-        let i=-1;
-        while(++i < handlers.length && callback !== handlers[i]);
-        if(i < handlers.length) 
-            handlers.splice(i, 1);
+        this._eventMgr.off(event, callback);
     }
 
     _emit(event) 
     {
-        (this._on[event] || []).forEach(handler => 
-        {
-            handler.f(...handler.args);
-        });
+        this._eventMgr.emit(event);
     }
 
 }

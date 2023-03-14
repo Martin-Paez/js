@@ -6,6 +6,11 @@
     --grey-ww: rgba(106, 108, 113, 1);
     --grey-opacity-ww: rgba(138, 143, 173, 1);
     --grey-secondary-ww: rgba(149, 149, 172, 1);
+    --grey-smooth-ww: rgba(138, 143, 173, 0.7);
+}
+
+:root {
+    --open-widget-color: rgb(215, 175, 57);
 }
 
 /* HCharts */
@@ -51,7 +56,7 @@
 
 .title-pop-window,
 .pop-window a {
-    color: var(--grey-opacity-ww);
+    color: var(--grey-secondary-ww);
 }
 
 .pop-window a:hover {

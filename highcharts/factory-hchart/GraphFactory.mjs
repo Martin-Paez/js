@@ -11,7 +11,7 @@ export class GraphFactory
         this._opts   = opts; 
     }
 
-    static defaultOpts(closeCallback = () => {})
+    static defaultOpts(closeCallback = () => {}, btnCloseStyle)
     {
         let opts = {
             tooltip     : {enabled: true} ,
@@ -22,7 +22,7 @@ export class GraphFactory
             gridRows    : 4    , 
         };
 
-        let crossIcon = '<i class="bi-x-circle"></i>'; 
+        let crossIcon = `<i style='${btnCloseStyle}' class="bi-x-circle"></i>`; 
         GraphFactory.mergeBtn(opts, crossIcon, 'closeBtn', closeCallback);
         opts.btns.enabled = false;
         opts.btns.buttons.contextButton = { enabled : false };

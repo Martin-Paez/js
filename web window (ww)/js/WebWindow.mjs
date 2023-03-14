@@ -1,6 +1,6 @@
 import { animate, getCssVar, cssSecondsToMillis }   from './cssAnimate.mjs';
 import { initPopUp, setPopUpEvent } from './popUpAnimation.mjs';
-import { ISimpleController } from './ISimpleController.mjs';
+import { IController } from './IController.mjs';
 import { printf } from './dashboard.js';
 
 class WindowState {
@@ -14,24 +14,27 @@ class WindowState {
     }
 }
 
-export class WebWindow extends ISimpleController
+export class WebWindow extends IController
 {
     constructor(windowQ, model)
     {
         super(model, windowQ);
-        this._$closeBtn = this._box.find('.close-pop-window');
-        this._$move     = this._box.find('.move-pop-window');
+
+        let id          = Object.keys(this._box)[0];
+        this._$window   = this._box[id];
+        this._$closeBtn = this._$window.find('.close-pop-window');
+        this._$move     = this._$window.find('.move-pop-window');
         this._history   = [];
 
-        this.title(this._model.modelName());
+        this.title(this._model[id].modelName());
 
         this._initResizable();
         this.enableDrag();
-        this._setUpResponsive(this._box);
+        this._setUpResponsive(this._$window);
         this._setUpMaxWindow();
 
-        if(this._box.hasClass('open'))
-            this._model.load();
+        if(this._$window.hasClass('open'))
+            this._model[id].load(this._$window);
     }
 
     modelName() 
@@ -41,12 +44,12 @@ export class WebWindow extends ISimpleController
 
     isOpen()
     {
-        return this._box.hasClass('open');
+        return this._$window.hasClass('open');
     }
     
     title(title)
     {
-        let $title = this._box.find('.title-label-pop-window');
+        let $title = this._$window.find('.title-label-pop-window');
         
         if (title === null)
             return $title.html();
@@ -62,23 +65,22 @@ export class WebWindow extends ISimpleController
     addOpenBtn(openBtnQ)
     {
         let $open = $(openBtnQ);
-        setPopUpEvent($open, this._box, 'opening', false);
-        $open.one('click', () => {this.load($open)});
+        super.addOpenBtn($open);
+        setPopUpEvent($open, this._$window, 'opening', false);
     }
 
     setDefaultCloseBtn()
     {
-        setPopUpEvent(this._$closeBtn, this._box, 'closing');
+        setPopUpEvent(this._$closeBtn, this._$window, 'closing');
     }
 
     // Idem addOpenBtn, pero desaparece el boton y reaparece al cerrar la ventana
     addOpenToggleBtn($open, openBtnContainerQ)
     {
-        $open = $($open);
+        super.addOpenBtn($open);
         let $widget = $(openBtnContainerQ);
-        initPopUp($open, this._$closeBtn, this._box);
+        initPopUp($open, this._$closeBtn, this._$window);
         initPopUp(this._$closeBtn, $open, $widget, 'leaving', 'coming');
-        $open.one('click', () => {this.load($open)});
     }
 
     // Idem addOpenToggleBtn, y ademas, setea drag al wiget que contiene al boton
@@ -98,7 +100,7 @@ export class WebWindow extends ISimpleController
     }
 
 
-    /**********  Abrir y cerrar la ventana Sin animacion *****************/
+    /**********  Abrir y cerrar la ventana Sin animacion ni load *****************/
 
 
     hide()
@@ -106,9 +108,10 @@ export class WebWindow extends ISimpleController
         if (! this.isOpen())
             return;
         
-        this._box.removeClass('open');
         let seconds = getCssVar('--anim-duration');
-        animate(this._box, 'closing', cssSecondsToMillis(seconds));
+        animate(this._$window, 'closing', cssSecondsToMillis(seconds));
+        
+        this._$window.removeClass('open');
     }
     
     show()
@@ -116,9 +119,11 @@ export class WebWindow extends ISimpleController
         if (this.isOpen())
             return;
 
-        this._box.addClass('open');
-        let seconds = getCssVar('--anim-duration');
-        animate(this._box, 'opening', cssSecondsToMillis(seconds));
+        let time = getCssVar('--anim-duration');
+        time = cssSecondsToMillis(time)
+        animate(this._$window, 'opening', time);
+        
+        this._$window.addClass('open');
     }
 
 
@@ -128,16 +133,16 @@ export class WebWindow extends ISimpleController
     {
         // Se harcodean por jquery resizable (no sirven las clases css)
         let $window  = $(window);
-        let position = this._box.position();
+        let position = this._$window.position();
         let top      = position.top;  
         let left     = position.left;
-        let width    = this._box.width();
-        let height   = this._box.height();  
+        let width    = this._$window.width();
+        let height   = this._$window.height();  
         
         top    = `${position.top           / $window.height() * 100 }%`;  
         left   = `${position.left          / $window.width()  * 100 }%`;
-        width  = `${this._box.width()  / $window.width()  * 100 }%`;
-        height = `${this._box.height() / $window.height() * 100 }%`;  
+        width  = `${this._$window.width()  / $window.width()  * 100 }%`;
+        height = `${this._$window.height() / $window.height() * 100 }%`;  
         
         this._history.push(new WindowState(btn, left, top, width, height));
     }
@@ -179,19 +184,19 @@ export class WebWindow extends ISimpleController
 
     _move(left, top) 
     {
-        this._box.css('left',left);
-        this._box.css('top',top);
+        this._$window.css('left',left);
+        this._$window.css('top',top);
     }
 
     _resize(width, height)
     {
-        this._box.css('width',width);
-        this._box.css('height',height);
+        this._$window.css('width',width);
+        this._$window.css('height',height);
     }
 
     _initResizable()
     {
-        this._box.resizable({
+        this._$window.resizable({
             handles: "all",
             stop: (e) =>
             {
@@ -208,7 +213,7 @@ export class WebWindow extends ISimpleController
                 $target.css('width', `${width}%`);
                 
                 this._initAutoBtn();
-                this._bringBackOnY(this._box, this._box.position());
+                this._bringBackOnY(this._$window, this._$window.position());
             }
         });
     }
@@ -219,18 +224,18 @@ export class WebWindow extends ISimpleController
 
     _initAutoBtn() 
     {
-        let pinBtn = this._box.find('.auto-pop-window');
+        let pinBtn = this._$window.find('.auto-pop-window');
         pinBtn.removeClass('hide');
         pinBtn.on('click', () => {
             pinBtn.addClass('hide');
             // Np se usa clases por jquery resizable
-            this._box.css('height', 'auto'); 
+            this._$window.css('height', 'auto'); 
         });
     }
 
     _resetAutoBtn() 
     {
-        let pinBtn = this._box.find('.auto-pop-window');
+        let pinBtn = this._$window.find('.auto-pop-window');
         pinBtn.trigger('click');
     }
 
@@ -245,9 +250,9 @@ export class WebWindow extends ISimpleController
 
     showPinPreview(sideClass)
     {
-        this._box.removeClass(this._previewPinnedSide);
-        this._box.removeClass(this._pinnedSide);
-        this._box.addClass(sideClass);
+        this._$window.removeClass(this._previewPinnedSide);
+        this._$window.removeClass(this._pinnedSide);
+        this._$window.addClass(sideClass);
         this._previewPinnedSide = sideClass;
     }
 
@@ -268,7 +273,7 @@ export class WebWindow extends ISimpleController
 
     unPin()
     {
-        this._box.removeClass(this._pinnedSide);
+        this._$window.removeClass(this._pinnedSide);
         this._pinnedSide = undefined;
     }
 
@@ -298,7 +303,7 @@ export class WebWindow extends ISimpleController
         this._$move.one('mousedown', (e) =>
         {
             let drag;
-            this._box.draggable({
+            this._$window.draggable({
                 start: (e) => 
                 { 
                     drag = this._onDragStart(e);
@@ -320,7 +325,7 @@ export class WebWindow extends ISimpleController
             if (e.pageY <= err && ! this.isPreviewOn("top-pop-window")) 
             {
                 this.showPinPreview('top-pop-window');
-                this._box.toggleClass('fix-preview');
+                this._$window.toggleClass('fix-preview');
             }
         };
 
@@ -330,7 +335,7 @@ export class WebWindow extends ISimpleController
             if (e.pageY >= err && this.isPreviewOn("top-pop-window")) 
             {
                 this.hidePinPreview();
-                this._box.toggleClass('fix-preview');
+                this._$window.toggleClass('fix-preview');
             }
         };
     }
@@ -347,7 +352,7 @@ export class WebWindow extends ISimpleController
         if ( wasMaximized ) // Antes de guardar el estado
             onDrag = (e, ui) => { 
                 ui.position.top = e.pageY ;
-                ui.position.left = e.pageX - this._box.outerWidth() / 2;
+                ui.position.left = e.pageX - this._$window.outerWidth() / 2;
                 this._onDrag(e);
             };
         else
@@ -371,18 +376,18 @@ export class WebWindow extends ISimpleController
         if (e.pageX <= err && ! prevL && yOk)
         {
             this.showPinPreview('left-pop-window');
-            this._box.addClass('fix-preview');
+            this._$window.addClass('fix-preview');
         }
         if (e.pageX > max && ! prevR && yOk)
         {
             this.showPinPreview('right-pop-window');
-            this._box.addClass('fix-preview');
+            this._$window.addClass('fix-preview');
         }
         else if (e.pageX > err && prevL ||
                  e.pageX < max && prevR )
         {
             this.hidePinPreview();
-            this._box.removeClass('fix-preview');
+            this._$window.removeClass('fix-preview');
         }
     }
 
@@ -391,17 +396,17 @@ export class WebWindow extends ISimpleController
         $('body').off("mouseleave", this._onWindowOut);
         $('body').off("mouseenter", this._onWindowEnter);
 
-        this._posToPercentage(this._box);
+        this._posToPercentage(this._$window);
 
         if (this.isPinnedChanged())
         {
             this._checkPinedWindow(e.pageX, e.pageY);
-            this._box.removeClass('fix-preview');
+            this._$window.removeClass('fix-preview');
         }
         else
-            this._bringBack(this._box);
+            this._bringBack(this._$window);
 
-        this._box.draggable('destroy');
+        this._$window.draggable('destroy');
         this.enableDrag();
     }
 
@@ -427,16 +432,16 @@ export class WebWindow extends ISimpleController
         else if (mouseY < err)
             this.pinWindow('top-pop-window');
         else
-            this._bringBack(this._box);
+            this._bringBack(this._$window);
     }
 
     pinWindow(sideClass)
     {
         let width  = getCssVar('--min-width-pop-window');
-        this._box.css('width', width);
-        this._box.css('height', 'auto');
+        this._$window.css('width', width);
+        this._$window.css('height', 'auto');
 
-        let $icon = this._box.find('.pin-pop-window');
+        let $icon = this._$window.find('.pin-pop-window');
         $icon.removeClass('hide');
         this._resetAutoBtn();
 
@@ -446,14 +451,14 @@ export class WebWindow extends ISimpleController
             this.unPin();
             this._loadState('pin');
             this._initAutoBtn();
-            this._bringBack(this._box);
-            this._box.trigger(sideClass);
+            this._bringBack(this._$window);
+            this._$window.trigger(sideClass);
             if( ! this.isDraggable())
                 this.enableDrag();
         });
 
         this._pinnedSide = sideClass;
-        this._box.trigger(sideClass);
+        this._$window.trigger(sideClass);
     }
 
 
@@ -511,7 +516,7 @@ export class WebWindow extends ISimpleController
 
             if (pos.top + height > max)
                 if(height > max)
-                    this._box.css('height', max - pos.top); 
+                    this._$window.css('height', max - pos.top); 
                 else
                     $moved.css('top', `${(max - height) / max * 100}%`);
         }
@@ -523,7 +528,7 @@ export class WebWindow extends ISimpleController
 
     _setUpMaxWindow() 
     {
-        let $max = this._box.find('.maxmin-pop-window');
+        let $max = this._$window.find('.maxmin-pop-window');
         $max.one('click', () => 
         {
             if( this.isPinned() ) 
@@ -546,16 +551,16 @@ export class WebWindow extends ISimpleController
     {   
         $max.find('.max-pop-window').toggleClass('hide');
         $max.find('.min-pop-window').toggleClass('hide');
-        this._box.toggleClass('maximized-pop-window');
-        this._box.trigger('maxmin-pop-window');
-        this._bringBack(this._box);
+        this._$window.toggleClass('maximized-pop-window');
+        this._$window.trigger('maxmin-pop-window');
+        this._bringBack(this._$window);
     }
 
     exitMaximize() 
     {
-        if(this._box.hasClass('maximized-pop-window')) 
+        if(this._$window.hasClass('maximized-pop-window')) 
         {
-            let $max = this._box.find('.maxmin-pop-window'); 
+            let $max = this._$window.find('.maxmin-pop-window'); 
             $max.off('click');
             this._loadState('max');
             this._toggleMaxMin($max);

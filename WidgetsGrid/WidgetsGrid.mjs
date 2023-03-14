@@ -1,3 +1,5 @@
+import { EventMgr } from './EventMgr.mjs';
+
 /*
  * Crea un grid de widgets, los cuales pueden reminensionarse y reacomodarse con el 
  * mouse. El grid se coloca dentro del primer tag html con class="grid-stack".
@@ -17,9 +19,11 @@ export class WidgetsGrid
      */
     constructor(defaultOpts = { w: 4, h: 4 }, rowHeight = 58) 
     {
-        this.widgets = [];
+        this.widgets      = [];
+        this._handlers    = {};
+        this._eventMgr    = new EventMgr();
         this._defaultOpts = defaultOpts;
-        this.gridstack = GridStack.init({
+        this.gridstack    = GridStack.init({
             cellHeight: rowHeight,
             acceptWidgets: true,
             float: true,
@@ -48,7 +52,10 @@ export class WidgetsGrid
      */
     on(event, callback)
     {
-        $(this.gridstack.el).on(event, callback);
+        this._eventMgr.on(event, callback);
+        this.gridstack.on(event, () => {
+            this._eventMgr.emit(event);
+        });
     }
 
     /**
@@ -63,7 +70,8 @@ export class WidgetsGrid
      */
     off(event, callback)
     {
-        $(this.gridstack.el).off(event, callback);
+        this._eventMgr.off(event, callback);
+        this.gridstack.off(event, callback);
     }
 
     /**

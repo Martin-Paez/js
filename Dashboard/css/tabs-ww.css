@@ -12,11 +12,11 @@
     /* Saca pequena linea negra de bootstrap */
 }
 
-.panes-ww {
+.window-content {
     overflow-y: auto;
     height: 100%;
 }
 
-.panes-ww > .tab-pane {
+.window-content > .tab-pane {
     text-align: center;
 }

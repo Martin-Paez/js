@@ -26,10 +26,9 @@ export class TabWinController
         let tabs     = new TabsController(tabsQ, panes, paneModels);
         this._window = new WebWindow(windowQ, tabs);
 
-        tabs.on('loaded ', () => {
+        tabs.on('loaded', () => { 
             this._window.title(tabs.modelName());
-        });
-
+        });        
         this._setUpTabsResponsive(windowQ);
     }
 

@@ -7,13 +7,15 @@ export class EventMgr
 
     on(event, callback, ...args) 
     {
+        event = event.trim();
         if(this._on[event] === undefined)
             this._on[event] = [];
         this._on[event].push({f: callback, args: [...args]});
     }
     
     off(event, callback)
-    {
+    {        
+        event = event.trim();
         let handlers = this._on[event] 
 
         if(handlers === undefined)
@@ -27,6 +29,7 @@ export class EventMgr
 
     emit(event) 
     {
+        event = event.trim();
         (this._on[event] || []).forEach(handler => 
         {
             handler.f(...handler.args);

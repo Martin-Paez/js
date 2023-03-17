@@ -1,6 +1,6 @@
 .closeByDefault {
     transform: translateX(-100vw);
-    /*opacity: 30%;*/
+    opacity: 20%;
 }
 
 :root {

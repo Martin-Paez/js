@@ -23,7 +23,7 @@ export class IModel {
      * Actualiza la informacion previamente cargada con load() en $pane
      *
      */
-    reload($pane, ...args)
+    reload($pane, $btn, ...args)
     {
         throw new TypeError('Metodo abstracto load() de IModel no implementado');
     }

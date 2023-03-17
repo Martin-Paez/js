@@ -33,50 +33,56 @@ export class TabsController extends IController {
     {
         super(paneModels, `${tabContentQ} > *`);
 
-        this._initElems(navTabsQ);
-        
-        this._active = this._findActive();
+        this._initElems($(`${navTabsQ} .nav-link`));
     }
 
     // Setea onclick a cada pestana cargar los tab-pane bajo demanda por UNICA vez.
-    _initElems(navTabsQ) 
-    {
-        this._$links = $(`${navTabsQ} .nav-link`);
-
-        this._$links.on('click', (e) => {
-            this._loadModel($(e.currentTarget));
+    _initElems($tabs) 
+    {   $tabs.each( (i, btn) => {
+            let $btn = $(btn);
+            if ( $btn.hasClass('active') )
+                if (this._active !== undefined)
+                    $btn.removeClass('active');
+                else
+                    this._$active = $btn;
+            this.addOpenBtn(this._targetId($btn), $btn);
         });
     }
 
-    modelName() 
+    _targetId($tab)
     {
-        let paneId = this._active.data('bs-target').slice(1);
-        let model = this._model[paneId];
-        return model.modelName();
+        return $tab.data('bs-target').slice(1);
     }
 
-    load() 
-    {
-        this._active.trigger('click');
+    load(id, $btn, ...args) 
+    {   
+        if(! $btn)
+            this._$active.trigger('click');
+        else
+        {
+            this._$active = $btn;
+            super.load(id, $btn, ...args);
+        }
     }
 
-    /**
-     * Carga el pane de una pestana.
-     * 
-     * @param {jQuery} $tab 
-     *  Pestana cuyo contenido ah de ser cargado.
-     */
-    _loadModel($tab) 
+    reload(model, $box, $btn, ...args)
     {
-        this._active = $tab;
-        let paneId = this._active.data('bs-target').slice(1);
-        super.load($tab, paneId);
+        this._$active = $btn;
+        super.reload(model, $box, $btn, ...args)
     }
 
-    // Encuentra la pestana activa. Si hay varias solo deja activa la primera.
-    _findActive() 
+    modelName()
     {
-        let active = this._$links.filter(function () {
+        let id = this._targetId(this._$active);
+        return this._model[id].modelName();
+    }
+
+}
+
+/*
+_findActive() 
+    {
+        let active = this._$tabs.filter(function () {
             return $(this).hasClass('active');
         });
         
@@ -87,4 +93,4 @@ export class TabsController extends IController {
 
         return active;
     }
-}
+*/

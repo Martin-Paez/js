@@ -32,6 +32,10 @@ export class TabWinController
         this._setUpTabsResponsive(windowQ);
     }
 
+    setDefaultCloseBtn() {
+        this._window.setDefaultCloseBtn();;
+    }
+
     hide() {
         this._window.hide();
     }
@@ -134,10 +138,9 @@ export class TabWinController
      * @param {query} btnQ
      *      Selector css del boton.
      */
-    addOpenWidget(btnQ) 
+    addOpenWidget(widgetQ, openQ) 
     {
-        let $btn = $(btnQ);
-        this._window.addOpenWidget($btn);
+        this._window.addOpenWidget(widgetQ, openQ);
     }
 
 }

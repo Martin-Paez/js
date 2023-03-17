@@ -15,7 +15,7 @@ export class GraphCatalog extends IModel
         this._count  = 0;
     }
 
-    reload($pane) 
+    reload() 
     {/*
         for (let chart in this._charts) { 
             chart = this._charts[chart];

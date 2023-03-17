@@ -33,13 +33,8 @@ export class WebWindow extends IController
         this._setUpResponsive(this._$window);
         this._setUpMaxWindow();
 
-        if(this._$window.hasClass('open'))
-            this._model[id].load(this._$window);
-    }
-
-    modelName() 
-    {
-        return this._model.modelName();
+        if(this.isOpen())
+            this._model[id].load();
     }
 
     isOpen()
@@ -62,10 +57,10 @@ export class WebWindow extends IController
 
     // No es necesario remover el boton si el tag es eliminado
     // SetUp un boton para abrir la ventana
-    addOpenBtn(openBtnQ)
+    addOpenBtn(openBtnQ, modelId)
     {
         let $open = $(openBtnQ);
-        super.addOpenBtn($open);
+        super.addOpenBtn($open, modelId);
         setPopUpEvent($open, this._$window, 'opening', false);
     }
 
@@ -75,26 +70,29 @@ export class WebWindow extends IController
     }
 
     // Idem addOpenBtn, pero desaparece el boton y reaparece al cerrar la ventana
-    addOpenToggleBtn($open, openBtnContainerQ)
+    addOpenToggleBtn($open, modelId, openBtnContainerQ)
     {
-        super.addOpenBtn($open);
-        let $widget = $(openBtnContainerQ);
+        super.addOpenBtn($open, modelId);
+        //let $widget = $(openBtnContainerQ);
         initPopUp($open, this._$closeBtn, this._$window);
-        initPopUp(this._$closeBtn, $open, $widget, 'leaving', 'coming');
+        initPopUp(this._$closeBtn, $open, $open, 'leaving', 'coming');
     }
 
     // Idem addOpenToggleBtn, y ademas, setea drag al wiget que contiene al boton
-    addOpenWidget(widgetQ)
+    addOpenWidget(widgetQ, btnOpenQ, modelId)
     {
         let $widget = $(widgetQ);
-        let $open = $widget.find('#open');
+        let $open = $(btnOpenQ);
         let $move = $widget.find('.move-open-widget');
         this._setUpResponsive($widget);
-        this.addOpenToggleBtn($open, $widget);
-        $move.one('mousedown', (e) =>
+        this.addOpenToggleBtn($open, modelId, $widget);
+        $move.on('mousedown', (e) =>
         {
             $widget.draggable({
-                stop:  (e) => { this._posToPercentage($widget); }
+                stop:  (e) => { 
+                    this._posToPercentage($widget); 
+                    $widget.draggable('destroy');
+                }
             });
         });
     }

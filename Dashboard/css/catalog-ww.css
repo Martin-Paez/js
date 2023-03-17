@@ -33,7 +33,7 @@
 }
 
 #chart-window > .window-content > div {
-    display: flex;
+    /*display: flex;*/
 }
 
 #chart-config {

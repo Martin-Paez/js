@@ -7,6 +7,7 @@ export class IController extends IModel
         super(model);
 
         this._loading = {};
+        this._loaded  = {};
         this._box     = {}; 
         let $box      = $(boxQ);
 
@@ -17,6 +18,7 @@ export class IController extends IModel
                 if ( elem.id !== "" )
                     this._box[elem.id] = $(elem);
             });
+            this._model = model;
         }
     }
 
@@ -60,10 +62,12 @@ export class IController extends IModel
      * 
      * @param {jquery} $btn 
      */
-    addOpenBtn($open)
+    addOpenBtn(id, $open, ...args)
     {
         $open = $($open);
-        $open.one('click', () => {this.load($open)});
+        if(id === undefined)
+            id = Object.keys(this._model)[0];
+        $open.one('click', () => {this.load(id, $open, ...args)});
     }
 
     /**
@@ -71,9 +75,9 @@ export class IController extends IModel
      * proviene la informacion. 
      *
      */
-    modelName()
+    modelName(id)
     {
-        this._model.modelName();
+        this._model[id].modelName();
     }
 
     getModel(id)
@@ -86,8 +90,9 @@ export class IController extends IModel
         return this._box[id];
     }
 
-    removeBox(id) 
+    _removeEmptyBox(id) 
     {
+        console.warn(`Se remueve el contendor ${id} porque no tiene un modelo.`);
         delete this._box[id];
     }
 
@@ -98,35 +103,77 @@ export class IController extends IModel
         this._loading[id] = val;
     }
 
+    isNotLoaded(id, val)
+    {
+        if(val === undefined)
+            return this._loaded[id] === undefined;
+        this._loaded[id] = val;
+    }
+
     /**
-     * Carga los datos en $box. Retorna una promesa.
+     * Carga un modelo dentro de su contenedor, ambos identificados por id. 
+     * Si se provee, se vincula un boton al reload del modelo.
      * 
-     * Emite eventp onReady
+     * Si ya se solicito una carga que aun no se a completado lanza Excepcion.
+     * Se puede usar forcedLoad() si se desea hacerlo adrede.
+     * 
+     * Si no se encontro un contenedor se lanza excepcion.
+     * 
+     * Si no hay modelo pero si contenedor, se emite un warning y se remueve el
+     * contenedor (ver metodo _removeEmptyBox).
+     * 
+     * Es posible que el modelo emita un evento al cargarlo, dependiendo del
+     * modelo que se halla provisto en el constructor.
      *
      */
-    load($btn, id, ...args) 
+    load(id, $btn = undefined, ...args) 
     {
         if( this.isLoading(id) ) 
-            throw new TypeError("Ya se ha solicitado la carga de los datos");
+            throw new TypeError("Reintenta antes de completar. Pruebe forcedLoad()");
 
         let model = this.getModel(id);
-        let $box = this.getBox(id);
+        let $box  = this.getBox(id);
 
-        if(model !== undefined) 
+        if($box.lenght === 0)
+            throw new TypeError(`No hay un contenedor para el id ${id}`);
+
+        if(model === undefined) 
+            this._removeEmptyBox(id);
+        else
+            this._accomplishLoad(model, $box, $btn, id, ...args);
+    }
+
+    _accomplishLoad(model, $box, $btn, id, ...args)
+    {
+        if( this.isNotLoaded(id) )
         {
             this.isLoading(id, true);
-            model.on('loaded', () => 
-            { 
-                $btn.off('click');
-                $btn.on('click', () => { this.reload(model, $box, ...args); });
+            model.on('loaded', () =>
+            {
+                this._setUpReloadBtn(model, $box, $btn, ...args); 
                 this.isLoading(id, false);
-            });   
-            model.load($box, ...args);
-        } else
-            if ( $box.length === 0)
-                throw new TypeError("Id no encontrado");
-            else
-                this.removeBox(id);
+                this.isNotLoaded(id, false);
+            });
+            model.load($box, $btn, ...args);
+        }
+        else
+            this._setUpReloadBtn(model, $box, $btn, ...args);
+    }
+
+    _setUpReloadBtn(model, $box, $btn, ...args)
+    {
+        if($btn === undefined || $btn.lenght == 0)
+            return;
+
+        $btn.off('click');
+        $btn.on('click', () => { this.reload(model, $box, $btn, ...args); });
+    }
+
+    forcedLoad($btn, id, ...args)
+    {
+        this._isLoaded[id] = undefined;
+        this._loading[id] = false;
+        this.load($btn, id, ...args);
     }
 
     /**
@@ -136,9 +183,9 @@ export class IController extends IModel
      * Emite eventp onReady
      * 
      */
-    reload(model, $box, ...args)
+    reload(model, $box, $btn, ...args)
     {
-        model.reload($box, ...args);
+        model.reload($box, $btn, ...args);
     }
 
     /**

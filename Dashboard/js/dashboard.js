@@ -17,14 +17,14 @@ import { history          } from "./categ-hchart.mjs";
  */
 document.addEventListener("DOMContentLoaded", function() {
     
+    // Grid
+    let grid = new WidgetsGrid({w:3, h:4});
+    
     // Fuente de datos
     let source    = {
         x: ()=>{return [ '1', '2', '3' ]}, 
         y: ()=>{return [{ name: 'Humedad', data: [80, 55, 90.4] }] }
     };
-
-    // Grid
-    let grid = new WidgetsGrid({w:3, h:4});
 
     // Configuracion general de los graficos
     let opts = GraphFactory.defaultOpts(function()
@@ -33,16 +33,19 @@ document.addEventListener("DOMContentLoaded", function() {
     }, 'color: var(--open-widget-color)');
 
     let chartConf = new ChartConfig();
-    let cconfw    = new WebWindow('#chart-window', chartConf);
+    
+    let selSource = new WebWindow('#select-source', chartConf);
+    selSource.setDefaultCloseBtn(); 
+    
+    let configTab = { cw_sources : chartConf };
+    let cconfw    = new TabWinController(configTab, '#chart-window');
     cconfw.setDefaultCloseBtn();
+    
     let configBtn = '<i style="color: var(--open-widget-color)" class="chartConfigBtn bi-gear"></i>';
     GraphFactory.mergeBtn(opts, configBtn, 'chartConfigBtn', (chart) => {
         let $btn = $(configBtn);
         cconfw.addOpenBtn($btn, chart.renderTo.getAttribute('id'));
     });
-    
-    let selSource = new WebWindow('#select-source', chartConf);
-    selSource.setDefaultCloseBtn(); 
 
     // Fabricas para graficos
     let graph  = new GraphFactory(source, 3, "Humedad", '%', opts);
@@ -55,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function() {
         dbw_comp : new GraphCatalog(comparision(), grid, graph),
     };
     let ctgw = new TabWinController(catalogs, '#catalog-window');
-    ctgw.addOpenWidget('.open-widget');
+    ctgw.addOpenWidget('.open-widget', '#open');
 
     // Vinculo grid/ventana. Se oculta al mover widgets
     hideWindowOnWidgetDrag(grid, ctgw);

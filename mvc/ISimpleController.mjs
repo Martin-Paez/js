@@ -7,7 +7,7 @@ export class ISimpleController extends IController
         if (new.target === ISimpleController)
             throw new TypeError('IController no se puede instanciar. ');
 
-        super(model);
+        super(model, boxQ);
         this._loading = false;
         this._box = $(boxQ);
     }

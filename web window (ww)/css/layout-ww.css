@@ -79,4 +79,5 @@
 
 .btns-pop-window .title-pop-window .title-label-pop-window { 
     padding-left: 2rem;  
+    white-space: nowrap;
 }

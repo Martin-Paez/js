@@ -3,28 +3,28 @@ import * as _ from './cssAnimate.mjs';
 export function initPopUp(openBtnQ, closeBtnQ, popupQ, animA = 'opening',
     animB = 'closing')
 {
-    setPopUpEvent(openBtnQ, popupQ, animA);
-    setPopUpEvent(closeBtnQ, popupQ, animB);
+    setPopUpEvent(openBtnQ, closeBtnQ, popupQ, animA);
+    setPopUpEvent(closeBtnQ, openBtnQ, popupQ, animB);
 }
 
-export function setPopUpEvent(btnQuery, windowQuery,
+export function setPopUpEvent(openQ, closeQ, windowQuery,
     animClass = 'opening',
     isToggleBtn = true,
-    opacity = 1,
     event = 'click',
     finalClass = 'open',
-    cssVarDuration = '--anim-duration',
-    cssVarFinalOpacity = '--final-opacity')
+    cssVarDuration = '--anim-duration')
 {
     let $window = $(windowQuery);
-    let $btn = $(btnQuery);
+    let $open = $(openQ);
+    let $close = $(closeQ);
 
-    $btn.on(event, function ()
+    $open.on(event, function ()
     {
-        _.setCssVar(cssVarFinalOpacity, String(opacity));
-
         if (isToggleBtn)
+        {
             $window.toggleClass(finalClass);
+            $close.toggleClass(finalClass);
+        }
         else if ($window.hasClass(finalClass))
             $window.addClass(finalClass);
         else
